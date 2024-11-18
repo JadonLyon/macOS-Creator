@@ -4,8 +4,9 @@
 #This is where the script code is located
 #Caution: Modifying the script may cause it to break!
 
-#Version 1.0
+#Version 1.1
 #Release notes:
+#V1.1 This version adds troubleshooting steps if drive creation fails
 
 
 
@@ -17,7 +18,7 @@
 clear
 
 echo "Encore Platforms"
-echo "Version 1.0"
+echo "Version 1.1"
 echo ""
 
 echo "Welcome to the macOS Creator"
@@ -59,8 +60,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -108,8 +133,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -157,8 +206,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -206,8 +279,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -255,8 +352,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -304,8 +425,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -353,8 +498,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -402,8 +571,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -451,8 +644,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -500,8 +717,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -549,8 +790,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
@@ -598,8 +863,32 @@ if [[ $prompt == 'y' ]]; then
 				else
 					echo "Operation failed"
 					echo ""
-					exit
+					read -p "Would you like to review troubleshooting steps?... " prompt
+					if [[ $prompt == 'y' ]]; then
+						clear
+						echo "1) Make sure the drive name is only one word long"
+						echo "2) Make sure Terminal has access to your external drive (Security and Privacy Settings)"
+						echo "3) Format the drive using Disk Utility (Use macOS Extended with a GUID Partition map)"
+						echo "4) Try using a different drive"
+						echo "5) Try redownloading the macOS Installer"
+						echo "6) Restart your Mac"
+						echo ""
+						echo echo "Once you have found a solution, run this script again..."
+						echo ""
+						exit
 
+					elif [[ $prompt == '' ]]; then
+						echo ""
+						exit
+
+					else
+						clear
+						echo ""
+						echo "Error. '$prompt' is not a valid command, please run this script again..."
+						echo ""
+						exit
+
+					fi
 				fi
 			fi
 				
