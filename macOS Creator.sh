@@ -8,11 +8,11 @@
 #Release notes:
 #              V2.0 This new updates adds exciting new features to the macOS Creator
 #                   All-new UI. The UI has been completely redesigned to make drive creation easier than ever.
-#                   Tools right from the start. You can now download macOS or reveiew steps as soon as you launch the script.
+#                   Tools right from the start. You can now download macOS or review steps as soon as you launch the script.
 #                   Provide installer path. You can now provide the installer path if it is not inside your Applications folder (BETA).
 #                   Fixes an issue where your drive name could only be one word long.
 #                   Fixes an issue where when downloading macOS, the script would report succeeded even if failed.
-#                   Fixes an issue where captial (Y) would not respond.
+#                   Fixes an issue where capital (Y) would not respond.
 #
 #              V1.1 This version adds troubleshooting steps if drive creation fails
 
