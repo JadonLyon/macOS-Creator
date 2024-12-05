@@ -4,8 +4,12 @@
 #This is where the script code is located
 #Caution: Modifying the script may cause it to break!
 
-#Version 2.2
+#Version 2.3
 #Release notes:
+#              V2.3 Adds more support for macOS Versions.
+#                   Fixed an issue where script would report macOS Sonoma detected with macOS Sequoia.
+#                   Fixes a few bugs.
+#
 #              V2.2 Providing the macOS Installer is now much easier and more reliable (BETA).
 #                   OS X Mavericks can now be downloaded from the Internet Archive.
 #                   Fixes multiple issues overall.
@@ -33,10 +37,27 @@
 #Script:
 #####################################################
 
-os_version=$(sw_vers -productVersion)
+os_version=$(sw_vers -productVersion | cut -d '.' -f 1,2)
+
+if [[ "$(printf "$os_version")" == '10.5.8' || "$(printf "$os_version")" == '10.5.7' || "$(printf "$os_version")" == '10.5.6' || "$(printf "$os_version")" == '10.5.5' || "$(printf "$os_version")" == '10.5.4' || "$(printf "$os_version")" == '10.5.3' || "$(printf "$os_version")" == '10.5.2' || "$(printf "$os_version")" == '10.5.1' || "$(printf "$os_version")" == '10.5' ]]; then
+echo ""
+echo "You are running Mac OS X Leopard."
+echo "This script requires Mac OS X Snow Leopard or newer."
+echo ""
+exit
+
+elif [[ "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.5' ]]; then
+echo ""
+echo "This script requires Mac OS X Snow Leopard 10.6.8"
+echo "You are running version "$(printf "$os_version")""
+echo "Please update this version of Mac OS X."
+echo ""
+exit
+
+else
 
 clear
-echo "                               macOS Creator V2.2"
+echo "                               macOS Creator V2.3"
 echo "********************************************************************************"
 echo "Welcome to the macOS Creator by Encore Platforms"
 echo "This script will make a bootable USB drive for macOS"
@@ -55,7 +76,7 @@ if [[ $prompt == '1' ]]; then
 	echo "Checking for valid macOS Installers..."
 	if [  -d /Applications/Install\ OS\ X\ Mavericks.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "OS X Mavericks was detected"
 		echo "Do you wish to use this macOS Installer? (Y=Yes, return=No)"
@@ -63,7 +84,7 @@ if [[ $prompt == '1' ]]; then
 		read -p "Enter your option here... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -79,14 +100,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ OS\ X\ Mavericks.app/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ OS\ X\ Mavericks/Install\ OS\ X\ Mavericks.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -98,7 +119,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -142,13 +163,13 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ OS\ X\ Yosemite.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "OS X Yosemite was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -164,14 +185,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath /Applications/Install\ OS\ X\ Yosemite.app --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ OS\ X\ Yosemite/Install\ OS\ X\ Yosemite.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -183,7 +204,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -227,13 +248,13 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ OS\ X\ El\ Capitan.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "OS X El Capitan was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -249,14 +270,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ OS\ X\ El\ Capitan/Install\ OS\ X\ El\ Capitan.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -268,7 +289,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -312,13 +333,30 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ macOS\ Sierra.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "macOS Sierra was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
+		if [[ "$(printf "$os_version")" == '10.7.7' || "$(printf "$os_version")" == '10.7.6' || "$(printf "$os_version")" == '10.7.5' || "$(printf "$os_version")" == '10.7.4' || "$(printf "$os_version")" == '10.7.3' || "$(printf "$os_version")" == '10.7.2' || "$(printf "$os_version")" == '10.7.1' || "$(printf "$os_version")" == '10.7'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Lion."
+		echo "macOS Sierra can only be installed using OS X Mountain Lion or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.6.8' || "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.6'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Snow Leopard."
+		echo "macOS Sierra can only be installed using OS X Mountain Lion or newer."
+		echo ""
+		exit
+
+		else
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -334,14 +372,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath /Applications/Install\ OS\ X\ Sierra.app --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ macOS\ Sierra/Install\ macOS\ Sierra.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -353,7 +391,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -379,6 +417,7 @@ if [[ $prompt == '1' ]]; then
 					fi
 				fi
 			fi
+		fi
 				
 		elif [[ $prompt == '' ]]; then
 			clear
@@ -397,13 +436,30 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ macOS\ High\ Sierra.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "macOS High Sierra was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
+		if [[ "$(printf "$os_version")" == '10.7.7' || "$(printf "$os_version")" == '10.7.6' || "$(printf "$os_version")" == '10.7.5' || "$(printf "$os_version")" == '10.7.4' || "$(printf "$os_version")" == '10.7.3' || "$(printf "$os_version")" == '10.7.2' || "$(printf "$os_version")" == '10.7.1' || "$(printf "$os_version")" == '10.7'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Lion."
+		echo "macOS High Sierra can only be installed using OS X Mountain Lion or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.6.8' || "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.6'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Snow Leopard."
+		echo "macOS High Sierra can only be installed using OS X Mountain Lion or newer."
+		echo ""
+		exit
+
+		else
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -419,14 +475,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ macOS\ High\ Sierra/Install\ macOS\ High\ Sierra.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -438,7 +494,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -464,6 +520,7 @@ if [[ $prompt == '1' ]]; then
 					fi
 				fi
 			fi
+		fi
 				
 		elif [[ $prompt == '' ]]; then
 			clear
@@ -482,13 +539,30 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ macOS\ Mojave.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "macOS Mojave was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
+		if [[ "$(printf "$os_version")" == '10.7.7' || "$(printf "$os_version")" == '10.7.6' || "$(printf "$os_version")" == '10.7.5' || "$(printf "$os_version")" == '10.7.4' || "$(printf "$os_version")" == '10.7.3' || "$(printf "$os_version")" == '10.7.2' || "$(printf "$os_version")" == '10.7.1' || "$(printf "$os_version")" == '10.7'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Lion."
+		echo "macOS Mojave can only be installed using OS X Mountain Lion or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.6.8' || "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.6'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Snow Leopard."
+		echo "macOS Mojave can only be installed using OS X Mountain Lion or newer."
+		echo ""
+		exit
+
+		else
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -504,14 +578,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ macOS\ Mojave.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ macOS\ Mojave/Install\ macOS\ Mojave.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -523,7 +597,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -549,6 +623,7 @@ if [[ $prompt == '1' ]]; then
 					fi
 				fi
 			fi
+		fi
 				
 		elif [[ $prompt == '' ]]; then
 			clear
@@ -567,13 +642,38 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ macOS\ Catalina.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "macOS Catalina was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
+		if [[ "$(printf "$os_version")" == '10.8.7' || "$(printf "$os_version")" == '10.8.6' || "$(printf "$os_version")" == '10.8.5' || "$(printf "$os_version")" == '10.8.4' || "$(printf "$os_version")" == '10.8.3' || "$(printf "$os_version")" == '10.8.2' || "$(printf "$os_version")" == '10.8.1' || "$(printf "$os_version")" == '10.8'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Mountain Lion."
+		echo "macOS Catalina can only be installed using OS X Mavericks or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.7.7' || "$(printf "$os_version")" == '10.7.6' || "$(printf "$os_version")" == '10.7.5' || "$(printf "$os_version")" == '10.7.4' || "$(printf "$os_version")" == '10.7.3' || "$(printf "$os_version")" == '10.7.2' || "$(printf "$os_version")" == '10.7.1' || "$(printf "$os_version")" == '10.7'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Lion."
+		echo "macOS Catalina can only be installed using OS X Mavericks or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.6.8' || "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.6'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Snow Leopard."
+		echo "macOS Catalina can only be installed using OS X Mavericks or newer."
+		echo ""
+		exit
+
+		else
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -589,14 +689,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ macOS\ Catalina/Install\ macOS\ Catalina.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -608,7 +708,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -634,6 +734,7 @@ if [[ $prompt == '1' ]]; then
 					fi
 				fi
 			fi
+		fi
 				
 		elif [[ $prompt == '' ]]; then
 			clear
@@ -652,13 +753,38 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ macOS\ Big\ Sur.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "macOS Big Sur was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
+		if [[ "$(printf "$os_version")" == '10.8.7' || "$(printf "$os_version")" == '10.8.6' || "$(printf "$os_version")" == '10.8.5' || "$(printf "$os_version")" == '10.8.4' || "$(printf "$os_version")" == '10.8.3' || "$(printf "$os_version")" == '10.8.2' || "$(printf "$os_version")" == '10.8.1' || "$(printf "$os_version")" == '10.8'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Mountain Lion."
+		echo "macOS Big Sur can only be installed using OS X Mavericks or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.7.7' || "$(printf "$os_version")" == '10.7.6' || "$(printf "$os_version")" == '10.7.5' || "$(printf "$os_version")" == '10.7.4' || "$(printf "$os_version")" == '10.7.3' || "$(printf "$os_version")" == '10.7.2' || "$(printf "$os_version")" == '10.7.1' || "$(printf "$os_version")" == '10.7'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Lion."
+		echo "macOS Big Sur can only be installed using OS X Mavericks or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.6.8' || "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.6'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Snow Leopard."
+		echo "macOS Big Sur can only be installed using OS X Mavericks or newer."
+		echo ""
+		exit
+
+		else
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -674,14 +800,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ macOS\ Big\ Sur/Install\ macOS\ Big\ Sur.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -693,7 +819,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -719,6 +845,7 @@ if [[ $prompt == '1' ]]; then
 					fi
 				fi
 			fi
+		fi
 				
 		elif [[ $prompt == '' ]]; then
 			clear
@@ -737,13 +864,39 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ macOS\ Monterey.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "macOS Monterey was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
+		if [[ "$(printf "$os_version")" == '10.8.7' || "$(printf "$os_version")" == '10.8.6' || "$(printf "$os_version")" == '10.8.5' || "$(printf "$os_version")" == '10.8.4' || "$(printf "$os_version")" == '10.8.3' || "$(printf "$os_version")" == '10.8.2' || "$(printf "$os_version")" == '10.8.1' || "$(printf "$os_version")" == '10.8'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Mountain Lion."
+		echo "macOS Monterey can only be installed using OS X Mavericks or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.7.7' || "$(printf "$os_version")" == '10.7.6' || "$(printf "$os_version")" == '10.7.5' || "$(printf "$os_version")" == '10.7.4' || "$(printf "$os_version")" == '10.7.3' || "$(printf "$os_version")" == '10.7.2' || "$(printf "$os_version")" == '10.7.1' || "$(printf "$os_version")" == '10.7'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Lion."
+		echo "macOS Monterey can only be installed using OS X Mavericks or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.6.8' || "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.6'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Snow Leopard."
+		echo "macOS Monterey can only be installed using OS X Mavericks or newer."
+		echo ""
+		exit
+
+		else
+
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -759,14 +912,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ macOS\ Monterey.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ macOS\ Monterey/Install\ macOS\ Monterey.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -778,7 +931,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -804,6 +957,7 @@ if [[ $prompt == '1' ]]; then
 					fi
 				fi
 			fi
+		fi
 				
 		elif [[ $prompt == '' ]]; then
 			clear
@@ -822,13 +976,62 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ macOS\ Ventura.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "macOS Ventura was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
 		if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
+		if [[ "$(printf "$os_version")" == '10.11.6' || "$(printf "$os_version")" == '10.11.5' || "$(printf "$os_version")" == '10.11.4' || "$(printf "$os_version")" == '10.11.3' || "$(printf "$os_version")" == '10.11.2' || "$(printf "$os_version")" == '10.11.1' || "$(printf "$os_version")" == '10.11'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X El Capitan."
+		echo "macOS Ventura can only be installed using macOS Sierra or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.10.7' || "$(printf "$os_version")" == '10.10.6' || "$(printf "$os_version")" == '10.10.5' || "$(printf "$os_version")" == '10.10.4' || "$(printf "$os_version")" == '10.10.3' || "$(printf "$os_version")" == '10.10.2' || "$(printf "$os_version")" == '10.10.1' || "$(printf "$os_version")" == '10.10'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Yosemite."
+		echo "macOS Ventura can only be installed using macOS Sierra or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.9.7' || "$(printf "$os_version")" == '10.9.6' || "$(printf "$os_version")" == '10.9.5' || "$(printf "$os_version")" == '10.9.4' || "$(printf "$os_version")" == '10.9.3' || "$(printf "$os_version")" == '10.9.2' || "$(printf "$os_version")" == '10.9.1' || "$(printf "$os_version")" == '10.9'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Mavericks."
+		echo "macOS Ventura can only be installed using macOS Sierra or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.8.7' || "$(printf "$os_version")" == '10.8.6' || "$(printf "$os_version")" == '10.8.5' || "$(printf "$os_version")" == '10.8.4' || "$(printf "$os_version")" == '10.8.3' || "$(printf "$os_version")" == '10.8.2' || "$(printf "$os_version")" == '10.8.1' || "$(printf "$os_version")" == '10.8'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Mountain Lion."
+		echo "macOS Ventura can only be installed using macOS Sierra or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.7.7' || "$(printf "$os_version")" == '10.7.6' || "$(printf "$os_version")" == '10.7.5' || "$(printf "$os_version")" == '10.7.4' || "$(printf "$os_version")" == '10.7.3' || "$(printf "$os_version")" == '10.7.2' || "$(printf "$os_version")" == '10.7.1' || "$(printf "$os_version")" == '10.7'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Lion."
+		echo "macOS Ventura can only be installed using macOS Sierra or newer."
+		echo ""
+		exit
+
+		elif [[ "$(printf "$os_version")" == '10.6.8' || "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.6'  ]]; then
+		clear
+		echo ""
+		echo "You are running on OS X Snow Leopard."
+		echo "macOS Ventura can only be installed using macOS Sierra or newer."
+		echo ""
+		exit
+
+		else
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -844,14 +1047,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ macOS\ Ventura.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ macOS\ Ventura/Install\ macOS\ Ventura.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -863,7 +1066,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -889,6 +1092,7 @@ if [[ $prompt == '1' ]]; then
 					fi
 				fi
 			fi
+		fi
 				
 		elif [[ $prompt == '' ]]; then
 			clear
@@ -907,7 +1111,7 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ macOS\ Sonoma.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "macOS Sonoma was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
@@ -960,7 +1164,7 @@ if [[ $prompt == '1' ]]; then
 		echo ""
 		exit
 
-		elif [[ "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.6'  ]]; then
+		elif [[ "$(printf "$os_version")" == '10.6.8' || "$(printf "$os_version")" == '10.6.7' || "$(printf "$os_version")" == '10.6.6' || "$(printf "$os_version")" == '10.6.5' || "$(printf "$os_version")" == '10.6.4' || "$(printf "$os_version")" == '10.6.3' || "$(printf "$os_version")" == '10.6.2' || "$(printf "$os_version")" == '10.6.1' || "$(printf "$os_version")" == '10.6'  ]]; then
 		clear
 		echo ""
 		echo "You are running on OS X Snow Leopard."
@@ -968,17 +1172,9 @@ if [[ $prompt == '1' ]]; then
 		echo ""
 		exit
 
-		elif [[ "$(printf "$os_version")" == '10.5.7' || "$(printf "$os_version")" == '10.5.6' || "$(printf "$os_version")" == '10.5.5' || "$(printf "$os_version")" == '10.5.4' || "$(printf "$os_version")" == '10.5.3' || "$(printf "$os_version")" == '10.5.2' || "$(printf "$os_version")" == '10.5.1' || "$(printf "$os_version")" == '10.5'  ]]; then
-		clear
-		echo ""
-		echo "You are running on OS X Leopard."
-		echo "macOS Sonoma can only be installed using macOS High Sierra or newer."
-		echo ""
-		exit
-
 		else
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -994,14 +1190,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ macOS\ Sonoma/Install\ macOS\ Sonoma.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -1013,7 +1209,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1058,7 +1254,7 @@ if [[ $prompt == '1' ]]; then
 
 	elif [ -d /Applications/Install\ macOS\ Sequoia.app ]; then
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "macOS Sequoia was detected"
 		read -p "Do you wish to use this macOS Installer? (Y=Yes, return=No)... " prompt
@@ -1067,7 +1263,7 @@ if [[ $prompt == '1' ]]; then
 		clear
 		echo ""
 		echo "You are running on macOS Sierra."
-		echo "macOS Sonoma can only be installed using macOS High Sierra or newer."
+		echo "macOS Sequoia can only be installed using macOS High Sierra or newer."
 		echo ""
 		exit
 
@@ -1075,7 +1271,7 @@ if [[ $prompt == '1' ]]; then
 		clear
 		echo ""
 		echo "You are running on OS X El Capitan."
-		echo "macOS Sonoma can only be installed using macOS High Sierra or newer."
+		echo "macOS Sequoia can only be installed using macOS High Sierra or newer."
 		echo ""
 		exit
 
@@ -1083,7 +1279,7 @@ if [[ $prompt == '1' ]]; then
 		clear
 		echo ""
 		echo "You are running on OS X Yosemite."
-		echo "macOS Sonoma can only be installed using macOS High Sierra or newer."
+		echo "macOS Sequoia can only be installed using macOS High Sierra or newer."
 		echo ""
 		exit
 
@@ -1091,7 +1287,7 @@ if [[ $prompt == '1' ]]; then
 		clear
 		echo ""
 		echo "You are running on OS X Mavericks."
-		echo "macOS Sonoma can only be installed using macOS High Sierra or newer."
+		echo "macOS Sequoia can only be installed using macOS High Sierra or newer."
 		echo ""
 		exit
 
@@ -1099,7 +1295,7 @@ if [[ $prompt == '1' ]]; then
 		clear
 		echo ""
 		echo "You are running on OS X Mountain Lion."
-		echo "macOS Sonoma can only be installed using macOS High Sierra or newer."
+		echo "macOS Sequoia can only be installed using macOS High Sierra or newer."
 		echo ""
 		exit
 
@@ -1107,7 +1303,7 @@ if [[ $prompt == '1' ]]; then
 		clear
 		echo ""
 		echo "You are running on OS X Lion."
-		echo "macOS Sonoma can only be installed using macOS High Sierra or newer."
+		echo "macOS Sequoia can only be installed using macOS High Sierra or newer."
 		echo ""
 		exit
 
@@ -1115,21 +1311,13 @@ if [[ $prompt == '1' ]]; then
 		clear
 		echo ""
 		echo "You are running on OS X Snow Leopard."
-		echo "macOS Sonoma can only be installed using macOS High Sierra or newer."
-		echo ""
-		exit
-
-		elif [[ "$(printf "$os_version")" == '10.5.7' || "$(printf "$os_version")" == '10.5.6' || "$(printf "$os_version")" == '10.5.5' || "$(printf "$os_version")" == '10.5.4' || "$(printf "$os_version")" == '10.5.3' || "$(printf "$os_version")" == '10.5.2' || "$(printf "$os_version")" == '10.5.1' || "$(printf "$os_version")" == '10.5'  ]]; then
-		clear
-		echo ""
-		echo "You are running on OS X Leopard."
-		echo "macOS Sonoma can only be installed using macOS High Sierra or newer."
+		echo "macOS Sequoia can only be installed using macOS High Sierra or newer."
 		echo ""
 		exit
 
 		else
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "You must provide a drive to create the installer"
 			echo "Drag the drive from the Finder into this window"
@@ -1145,14 +1333,14 @@ if [[ $prompt == '1' ]]; then
 
 			else
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Creating the drive..."
 				sudo /Applications/Install\ macOS\ Sequoia.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
 				echo ""
 				if [ -d /Volumes/Install\ macOS\ Sequoia/Install\ macOS\ Sequoia.app ]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "The drive has been created successfully. Thank you for using the macOS Creator."
 					echo ""
@@ -1164,7 +1352,7 @@ if [[ $prompt == '1' ]]; then
 					read -p "Would you like to review troubleshooting steps?... " prompt
 					if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 						clear
-						echo "                               macOS Creator V2.2"
+						echo "                               macOS Creator V2.3"
 						echo "********************************************************************************"
 						echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 						echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map)"
@@ -1225,7 +1413,7 @@ if [[ $prompt == '1' ]]; then
 
 	else
 		clear
-		echo "                               macOS Creator V2.2"
+		echo "                               macOS Creator V2.3"
 		echo "********************************************************************************"
 		echo "No versions of macOS detected..."
 		echo ""
@@ -1240,7 +1428,7 @@ if [[ $prompt == '1' ]]; then
 		read -p "Enter your option here... " prompt
 		if [[ $prompt == '1' ]]; then
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "Here are some troubleshoting steps:"
 			echo ""
@@ -1255,7 +1443,7 @@ if [[ $prompt == '1' ]]; then
 
 		elif [[ $prompt == '2' ]]; then
 			clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "Choose the macOS Version you wish to download:"
 			echo "(To cancel, press the return key)"
@@ -1273,7 +1461,7 @@ if [[ $prompt == '1' ]]; then
 			read -p "Enter your option here... " prompt
 			if [[ $prompt == '1' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading OS X Mavericks..."
 				sudo curl https://ia801805.us.archive.org/35/items/os-x-mavericks/Install%20OS%20X%20Mavericks.zip -o /private/tmp/InstallmacOS.zip
@@ -1292,7 +1480,7 @@ if [[ $prompt == '1' ]]; then
 
 			elif [[ $prompt == '2' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading OS X Yosemite..."
 				sudo curl http://updates-http.cdn-apple.com/2019/cert/061-41343-20191023-02465f92-3ab5-4c92-bfe2-b725447a070d/InstallMacOSX.dmg -o /private/tmp/InstallmacOS.dmg
@@ -1311,7 +1499,7 @@ if [[ $prompt == '1' ]]; then
 
 			elif [[ $prompt == '3' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading OS X El Capitan..."
 				sudo curl http://updates-http.cdn-apple.com/2019/cert/061-41424-20191024-218af9ec-cf50-4516-9011-228c78eda3d2/InstallMacOSX.dmg -o /private/tmp/InstallmacOS.dmg
@@ -1330,7 +1518,7 @@ if [[ $prompt == '1' ]]; then
 
 			elif [[ $prompt == '4' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS Sierra..."
 				sudo curl http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg -o /private/tmp/InstallmacOS.dmg
@@ -1349,7 +1537,7 @@ if [[ $prompt == '1' ]]; then
 
 			elif [[ $prompt == '5' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS High Sierra..."
 				sudo curl https://archive.org/download/mac-os-high-sierra-10.13.5/macOS%20High%20Sierra%2010.13.5.iso -o /private/tmp/InstallmacOS.iso
@@ -1368,7 +1556,7 @@ if [[ $prompt == '1' ]]; then
 
 			elif [[ $prompt == '6' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS Mojave..."
 				sudo curl https://archive.org/download/mac-os-mojave-10.14/macOS%20Mojave%2010.14.iso -o /private/tmp/InstallmacOS.iso
@@ -1387,7 +1575,7 @@ if [[ $prompt == '1' ]]; then
 
 			elif [[ $prompt == '7' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS Catalina..."
 				sudo curl https://archive.org/download/macOS-Catalina-IOS/macOSCatalina.iso -o /private/tmp/InstallmacOS.iso
@@ -1406,7 +1594,7 @@ if [[ $prompt == '1' ]]; then
 
 			elif [[ $prompt == '8' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS Big Sur..."
 				sudo curl https://swcdn.apple.com/content/downloads/14/38/042-45246-A_NLFOFLCJFZ/jk992zbv98sdzz3rgc7mrccjl3l22ruk1c/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -1425,7 +1613,7 @@ if [[ $prompt == '1' ]]; then
 									
 			elif [[ $prompt == '9' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Choose the macOS Version you wish to download:"
 				echo "(To cancel, press the return key)"
@@ -1439,7 +1627,7 @@ if [[ $prompt == '1' ]]; then
 				read -p "Enter your option here... " prompt
 				if [[ $prompt == '1' ]]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "Downloading macOS Monterey..."
 					sudo curl https://swcdn.apple.com/content/downloads/46/57/052-60131-A_KM2RH04C2D/9yzvba1uvpem2wuo95r459qno57qaizwf2/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -1458,7 +1646,7 @@ if [[ $prompt == '1' ]]; then
 
 				elif [[ $prompt == '2' ]]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "Downloading macOS Ventura..."
 					sudo curl https://swcdn.apple.com/content/downloads/29/47/072-09024-A_8G5EY3SPX2/l6ecgngkrhhbc6q4mae5cwe42pxp49co7w/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -1477,7 +1665,7 @@ if [[ $prompt == '1' ]]; then
 
 				elif [[ $prompt == '3' ]]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "Downloading macOS Sonoma..."
 					sudo curl https://swcdn.apple.com/content/downloads/16/03/072-24524-A_BOQKY5YAFR/x086vnjdghnpudh3dv11jbce398n0alxtl/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -1496,7 +1684,7 @@ if [[ $prompt == '1' ]]; then
 
 				elif [[ $prompt == '4' ]]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "Downloading macOS Sequoia..."
 					sudo curl https://swcdn.apple.com/content/downloads/08/08/072-12353-A_IUBHH68MQT/sv48ma68gmhl96fa9anqfj3i2fnb1ur2wh/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -1546,7 +1734,7 @@ if [[ $prompt == '1' ]]; then
 				
 		elif [[ $prompt == '3' ]]; then
 			clear
-	echo "                               macOS Creator V2.2"
+	echo "                               macOS Creator V2.3"
 	echo "********************************************************************************"
 	echo "WARNING: THIS IS A BETA BUILD!"
 	echo "BETA builds may not work as expected!"
@@ -1558,7 +1746,7 @@ if [[ $prompt == '1' ]]; then
 	read -p "Enter your option here... " prompt
 	if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 		clear
-		echo "                             macOS Creator V2.2 BETA"
+		echo "                             macOS Creator V2.3 BETA"
 		echo "********************************************************************************"
 		echo "Which version of macOS will you be using?"
 		echo "macOS Sierra or older..................(1)"
@@ -1568,7 +1756,7 @@ if [[ $prompt == '1' ]]; then
 		read -p "Enter your option here... " prompt
 		if [[ $prompt == '1' ]]; then
 			clear
-			echo "                             macOS Creator V2.2 BETA"
+			echo "                             macOS Creator V2.3 BETA"
 			echo "********************************************************************************"
 			echo "Please provide the Installer path..."
 			echo "In order to do this, drag the Installer from the Finder into this window"
@@ -1583,7 +1771,7 @@ if [[ $prompt == '1' ]]; then
 				exit
 			else
 				clear
-				echo "                             macOS Creator V2.2 BETA"
+				echo "                             macOS Creator V2.3 BETA"
 				echo "********************************************************************************"
 				echo "Now please provide the drive path..."
 				echo "In order to do this, drag the Drive from the Finder into this window"
@@ -1598,7 +1786,7 @@ if [[ $prompt == '1' ]]; then
 					exit
 				else
 					clear
-					echo "                             macOS Creator V2.2 BETA"
+					echo "                             macOS Creator V2.3 BETA"
 					echo "********************************************************************************"
 					echo "Creating the drive..."
 					sudo "$app_path"/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath "$app_path" --nointeraction
@@ -1609,7 +1797,7 @@ if [[ $prompt == '1' ]]; then
 
 		elif [[ $prompt == '2' ]]; then
 			clear
-			echo "                             macOS Creator V2.2 BETA"
+			echo "                             macOS Creator V2.3 BETA"
 			echo "********************************************************************************"
 			echo "Please provide the Installer path..."
 			echo "In order to do this, drag the Installer from the Finder into this window"
@@ -1623,7 +1811,7 @@ if [[ $prompt == '1' ]]; then
 				exit
 			else
 				clear
-				echo "                             macOS Creator V2.2 BETA"
+				echo "                             macOS Creator V2.3 BETA"
 				echo "********************************************************************************"
 				echo "Now please provide the drive path..."
 				echo "In order to do this, drag the Drive from the Finder into this window"
@@ -1637,7 +1825,7 @@ if [[ $prompt == '1' ]]; then
 					exit
 				else
 					clear
-					echo "                             macOS Creator V2.2 BETA"
+					echo "                             macOS Creator V2.3 BETA"
 					echo "********************************************************************************"
 					echo "Creating the drive..."
 					sudo "$app_path"/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -1648,7 +1836,7 @@ if [[ $prompt == '1' ]]; then
 
 		elif [[ $prompt == '3' ]]; then
 			clear
-			echo "                             macOS Creator V2.2 BETA"
+			echo "                             macOS Creator V2.3 BETA"
 			echo "********************************************************************************"
 			echo "Order of macOS Versions..."
 			echo ""
@@ -1710,7 +1898,7 @@ if [[ $prompt == '1' ]]; then
 
 elif [[ $prompt == '2' ]]; then
 	clear
-	echo "                               macOS Creator V2.2"
+	echo "                               macOS Creator V2.3"
 	echo "********************************************************************************"
 	echo "WARNING: THIS IS A BETA BUILD!"
 	echo "BETA builds may not work as expected!"
@@ -1722,7 +1910,7 @@ elif [[ $prompt == '2' ]]; then
 	read -p "Enter your option here... " prompt
 	if [[ $prompt == 'y' || $prompt == 'Y' ]]; then
 		clear
-		echo "                             macOS Creator V2.2 BETA"
+		echo "                             macOS Creator V2.3 BETA"
 		echo "********************************************************************************"
 		echo "Which version of macOS will you be using?"
 		echo "macOS Sierra or older..................(1)"
@@ -1732,7 +1920,7 @@ elif [[ $prompt == '2' ]]; then
 		read -p "Enter your option here... " prompt
 		if [[ $prompt == '1' ]]; then
 			clear
-			echo "                             macOS Creator V2.2 BETA"
+			echo "                             macOS Creator V2.3 BETA"
 			echo "********************************************************************************"
 			echo "Please provide the Installer path..."
 			echo "In order to do this, drag the Installer from the Finder into this window"
@@ -1746,7 +1934,7 @@ elif [[ $prompt == '2' ]]; then
 				exit
 			else
 				clear
-				echo "                             macOS Creator V2.2 BETA"
+				echo "                             macOS Creator V2.3 BETA"
 				echo "********************************************************************************"
 				echo "Now please provide the drive path..."
 				echo "In order to do this, drag the Drive from the Finder into this window"
@@ -1761,7 +1949,7 @@ elif [[ $prompt == '2' ]]; then
 					exit
 				else
 					clear
-					echo "                             macOS Creator V2.2 BETA"
+					echo "                             macOS Creator V2.3 BETA"
 					echo "********************************************************************************"
 					echo "Creating the drive..."
 					sudo "$app_path"/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath "$app_path" --nointeraction
@@ -1772,7 +1960,7 @@ elif [[ $prompt == '2' ]]; then
 
 		elif [[ $prompt == '2' ]]; then
 			clear
-			echo "                             macOS Creator V2.2 BETA"
+			echo "                             macOS Creator V2.3 BETA"
 			echo "********************************************************************************"
 			echo "Please provide the Installer path..."
 			echo "In order to do this, drag the Installer from the Finder into this window"
@@ -1786,7 +1974,7 @@ elif [[ $prompt == '2' ]]; then
 				exit
 			else
 				clear
-				echo "                             macOS Creator V2.2 BETA"
+				echo "                             macOS Creator V2.3 BETA"
 				echo "********************************************************************************"
 				echo "Now please provide the drive path..."
 				echo "In order to do this, drag the Drive from the Finder into this window"
@@ -1801,7 +1989,7 @@ elif [[ $prompt == '2' ]]; then
 					exit
 				else
 					clear
-					echo "                             macOS Creator V2.2 BETA"
+					echo "                             macOS Creator V2.3 BETA"
 					echo "********************************************************************************"
 					echo "Creating the drive..."
 					sudo "$app_path"/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -1812,7 +2000,7 @@ elif [[ $prompt == '2' ]]; then
 
 		elif [[ $prompt == '3' ]]; then
 			clear
-			echo "                             macOS Creator V2.2 BETA"
+			echo "                             macOS Creator V2.3 BETA"
 			echo "********************************************************************************"
 			echo "Order of macOS Versions..."
 			echo ""
@@ -1860,7 +2048,7 @@ elif [[ $prompt == '2' ]]; then
 
 elif [[ $prompt == '3' ]]; then
 		clear
-			echo "                               macOS Creator V2.2"
+			echo "                               macOS Creator V2.3"
 			echo "********************************************************************************"
 			echo "Choose the macOS Version you wish to download:"
 			echo "(To cancel, press the return key)"
@@ -1878,7 +2066,7 @@ elif [[ $prompt == '3' ]]; then
 			read -p "Enter your option here... " prompt
 			if [[ $prompt == '1' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading OS X Mavericks..."
 				sudo curl https://ia801805.us.archive.org/35/items/os-x-mavericks/Install%20OS%20X%20Mavericks.zip -o /private/tmp/InstallmacOS.zip
@@ -1897,7 +2085,7 @@ elif [[ $prompt == '3' ]]; then
 
 			elif [[ $prompt == '2' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading OS X Yosemite..."
 				sudo curl http://updates-http.cdn-apple.com/2019/cert/061-41343-20191023-02465f92-3ab5-4c92-bfe2-b725447a070d/InstallMacOSX.dmg -o /private/tmp/InstallmacOS.dmg
@@ -1916,7 +2104,7 @@ elif [[ $prompt == '3' ]]; then
 
 			elif [[ $prompt == '3' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading OS X El Capitan..."
 				sudo curl http://updates-http.cdn-apple.com/2019/cert/061-41424-20191024-218af9ec-cf50-4516-9011-228c78eda3d2/InstallMacOSX.dmg -o /private/tmp/InstallmacOS.dmg
@@ -1935,7 +2123,7 @@ elif [[ $prompt == '3' ]]; then
 
 			elif [[ $prompt == '4' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS Sierra..."
 				sudo curl http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg -o /private/tmp/InstallmacOS.dmg
@@ -1954,7 +2142,7 @@ elif [[ $prompt == '3' ]]; then
 
 			elif [[ $prompt == '5' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS High Sierra..."
 				sudo curl https://archive.org/download/mac-os-high-sierra-10.13.5/macOS%20High%20Sierra%2010.13.5.iso -o /private/tmp/InstallmacOS.iso
@@ -1973,7 +2161,7 @@ elif [[ $prompt == '3' ]]; then
 
 			elif [[ $prompt == '6' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS Mojave..."
 				sudo curl https://archive.org/download/mac-os-mojave-10.14/macOS%20Mojave%2010.14.iso -o /private/tmp/InstallmacOS.iso
@@ -1992,7 +2180,7 @@ elif [[ $prompt == '3' ]]; then
 
 			elif [[ $prompt == '7' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS Catalina..."
 				sudo curl https://archive.org/download/macOS-Catalina-IOS/macOSCatalina.iso -o /private/tmp/InstallmacOS.iso
@@ -2011,7 +2199,7 @@ elif [[ $prompt == '3' ]]; then
 
 			elif [[ $prompt == '8' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Downloading macOS Big Sur..."
 				sudo curl https://swcdn.apple.com/content/downloads/14/38/042-45246-A_NLFOFLCJFZ/jk992zbv98sdzz3rgc7mrccjl3l22ruk1c/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -2030,7 +2218,7 @@ elif [[ $prompt == '3' ]]; then
 									
 			elif [[ $prompt == '9' ]]; then
 				clear
-				echo "                               macOS Creator V2.2"
+				echo "                               macOS Creator V2.3"
 				echo "********************************************************************************"
 				echo "Choose the macOS Version you wish to download:"
 				echo "(To cancel, press the return key)"
@@ -2044,7 +2232,7 @@ elif [[ $prompt == '3' ]]; then
 				read -p "Enter your option here... " prompt
 				if [[ $prompt == '1' ]]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "Downloading macOS Monterey..."
 					sudo curl https://swcdn.apple.com/content/downloads/46/57/052-60131-A_KM2RH04C2D/9yzvba1uvpem2wuo95r459qno57qaizwf2/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -2063,7 +2251,7 @@ elif [[ $prompt == '3' ]]; then
 
 				elif [[ $prompt == '2' ]]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "Downloading macOS Ventura..."
 					sudo curl https://swcdn.apple.com/content/downloads/29/47/072-09024-A_8G5EY3SPX2/l6ecgngkrhhbc6q4mae5cwe42pxp49co7w/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -2082,7 +2270,7 @@ elif [[ $prompt == '3' ]]; then
 
 				elif [[ $prompt == '3' ]]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "Downloading macOS Sonoma..."
 					sudo curl https://swcdn.apple.com/content/downloads/16/03/072-24524-A_BOQKY5YAFR/x086vnjdghnpudh3dv11jbce398n0alxtl/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -2101,7 +2289,7 @@ elif [[ $prompt == '3' ]]; then
 
 				elif [[ $prompt == '4' ]]; then
 					clear
-					echo "                               macOS Creator V2.2"
+					echo "                               macOS Creator V2.3"
 					echo "********************************************************************************"
 					echo "Downloading macOS Sequoia..."
 					sudo curl https://swcdn.apple.com/content/downloads/08/08/072-12353-A_IUBHH68MQT/sv48ma68gmhl96fa9anqfj3i2fnb1ur2wh/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -2151,7 +2339,7 @@ elif [[ $prompt == '3' ]]; then
 
 elif [[ $prompt == '4' ]]; then
 	clear
-	echo "                               macOS Creator V2.2"
+	echo "                               macOS Creator V2.3"
 	echo "********************************************************************************"
 	echo "1) Make sure Terminal has access to your external drive (Security and Privacy)"
 	echo "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map)"
@@ -2178,6 +2366,8 @@ else
 	echo "Error. If you wish to conintue, type out the number instead of ($prompt)" 
 	echo ""
 	exit
+fi
+
 fi
 
 
