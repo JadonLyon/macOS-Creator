@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #Welcome to the macOS Creator Script
 #This is where the script code is located
 #Caution: Modifying the script may cause it to break!
