@@ -13,3 +13,6 @@ Pre-Run Commands are invisible commands that the script will use throughout the 
 For example, if you try to create macOS High Sierra on OS X Lion, the script will give you an error.
 This is because Pre-Run checked your Mac before you even see the home screen in order to determine which versions of macOS will work.
 There are several other examples where Pre-Run checks your Mac in order to prevent any major issues while script is running.
+
+UI Color Settings in V4.1
+In order to change the UI colors, the script must rewrite itself while running. In order for this funcion to work, aviod all modifications to the script (i.e. Script name change, script line modification, etc.). You also must make sure that the script location is not in a read-only folder or drive. This will not allow change in the script.
