@@ -4,8 +4,12 @@
 #This is where the script code is located
 #Caution: Modifying the script may cause it to break!
 
-#Version 4.0
+#Version 4.1
 #Release notes:
+#              V4.1 Introduces a brand new color settings feature. You can now configure the UI colors and personalize it to your liking.
+#                   Introduces a new feature called Help. At any point in the script you can type ? and a help page will appear.
+#                   Fixed an issue where when using the identify Mac tool, script would not return back to home screen if Q is pressed.
+#
 #              V4.0 This update focuses primarily on the UI of the macOS Creator, making drive creation easier and smoother than ever before.
 #                   Now offers a new tool that shows user how to use the macOS Creator with step by step instructions.
 #                   Now allows user to continue without pressing the return key after every command.
@@ -70,6 +74,13 @@
 #This step will save temporary commands that will be used later throughout the script
 #These commands run in the background and will not be seen while script is running
 
+#Sets parameters
+parameters="${1}${2}${3}${4}${5}${6}${7}${8}${9}"
+
+#Sets Script Path
+script_path="${0}"
+script_path_main="${0%/*}"
+
 #Check Mac model
 MACVERSION=$(sysctl hw.model | awk '{ print $2 }')
 
@@ -78,47 +89,211 @@ os_version=$(sw_vers -productVersion | cut -d '.' -f 1,2)
 
 #Sets UI Colors
 if [[ "$os_version" == 10.5 || "$os_version" == 10.6 || "$os_version" == 10.7 || "$os_version" == 10.8 || "$os_version" == 10.9 || "$os_version" == 10.10 || "$os_version" == 10.11 || "$os_version" == 10.12 || "$os_version" == 10.13 ]]; then
-	APP='\033[38;5;23m'
-	TITLE='\033[38;5;30m'
-	BODY='\033[38;5;23m'
-	PROMPTSTYLE='\033[38;5;65m'
-	OSFOUND='\033[38;5;67m'
-	WARNING='\033[38;5;160m'
-	ERROR='\033[38;5;9m'
-	CANCEL='\033[38;5;132m'
+	APP='\033["38;5;23m'
+	TITLE='\033["38;5;30m'
+	BODY='\033["38;5;23m'
+	PROMPTSTYLE='\033["38;5;65m'
+	OSFOUND='\033["38;5;67m'
+	WARNING='\033["38;5;160m'
+	ERROR='\033["38;5;9m'
+	CANCEL='\033["38;5;132m'
 	BOLD='\033[1m'
 	RESET='\033[0m'
 else
 	UIAPPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
 	if [[ "$UIAPPEARANCE" == "Dark" ]]; then
-		APP='\033[38;5;158m'
-		TITLE='\033[38;5;159m'
-		BODY='\033[38;5;158m'
-		PROMPTSTYLE='\033[38;5;150m'
-		OSFOUND='\033[38;5;67m'
-		WARNING='\033[38;5;160m'
-		ERROR='\033[38;5;196m'
-		CANCEL='\033[38;5;175m'
+		APP='\033["38;5;158m'
+		TITLE='\033["38;5;159m'
+		BODY='\033["38;5;158m'
+		PROMPTSTYLE='\033["38;5;150m'
+		OSFOUND='\033["38;5;67m'
+		WARNING='\033["38;5;160m'
+		ERROR='\033["38;5;196m'
+		CANCEL='\033["38;5;175m'
 		BOLD='\033[1m'
 		RESET='\033[0m'
 	else
-		APP='\033[38;5;23m'
-		TITLE='\033[38;5;30m'
-		BODY='\033[38;5;23m'
-		PROMPTSTYLE='\033[38;5;65m'
-		OSFOUND='\033[38;5;67m'
-		WARNING='\033[38;5;160m'
-		ERROR='\033[38;5;9m'
-		CANCEL='\033[38;5;132m'
+		APP='\033["38;5;23m'
+		TITLE='\033["38;5;30m'
+		BODY='\033["38;5;23m'
+		PROMPTSTYLE='\033["38;5;65m'
+		OSFOUND='\033["38;5;67m'
+		WARNING='\033["38;5;160m'
+		ERROR='\033["38;5;9m'
+		CANCEL='\033["38;5;132m'
 		BOLD='\033[1m'
 		RESET='\033[0m'
 	fi
+fi
+
+#Settings Preview
+if [[ "$os_version" == 10.5 || "$os_version" == 10.6 || "$os_version" == 10.7 || "$os_version" == 10.8 || "$os_version" == 10.9 || "$os_version" == 10.10 || "$os_version" == 10.11 || "$os_version" == 10.12 || "$os_version" == 10.13 ]]; then
+	DEFAULTBLUE='\033[38;5;23m'
+	DESERT='\033[38;5;130m'
+	CLASSICBLACK='\033[38;5;0m'
+	CLASSICBLACKBW="Classic Black...................(3)"
+else
+	if [[ "$UIAPPEARANCE" == "Dark" ]]; then
+		DEFAULTBLUE='\033[38;5;158m'
+		DESERT='\033[38;5;180m'
+		CLASSICBLACK='\033[38;5;255m'
+		CLASSICBLACKBW="Classic White...................(3)"
+	else
+		DEFAULTBLUE='\033[38;5;23m'
+		DESERT='\033[38;5;130m'
+		CLASSICBLACK='\033[38;5;0m'
+		CLASSICBLACKBW="Classic Black...................(3)"
+	fi
+fi
+if [[ "$APP" == '\033["38;5;23m' || "$APP" == '\033["38;5;158m' ]]; then
+	SETTINGCOLOR="Default Blue"
+elif [[ "$APP" == '\033["38;5;130m' || "$APP" == '\033["38;5;180m' ]]; then
+	SETTINGCOLOR="Desert Sands"
+elif [[ "$APP" == '\033["38;5;0m' || "$APP" == '\033["38;5;255m' ]]; then
+	if [[ "$os_version" == 10.5 || "$os_version" == 10.6 || "$os_version" == 10.7 || "$os_version" == 10.8 || "$os_version" == 10.9 || "$os_version" == 10.10 || "$os_version" == 10.11 || "$os_version" == 10.12 || "$os_version" == 10.13 ]]; then
+		SETTINGCOLOR="Classic Black"
+	else
+		if [[ "$UIAPPEARANCE" == "Dark" ]]; then
+			SETTINGCOLOR="Classic White"
+		else
+			SETTINGCOLOR="Classic Black"
+		fi
+	fi
+else
+	SETTINGCOLOR="Unknown Configuration. This feature will not work!"
 fi
 
 #Text in UI
 LINES='********************************************************************************'
 CANCELED='Operation Canceled.'
 FAIL='Invalid command. Press any key to try again... '
+HELPAPPLICATIONS()
+{
+	clear
+	echo -e "${APP}${BOLD}                               macOS Creator V4.1"
+	echo -e "$LINES"
+	echo -e "${RESET}${TITLE}Press (Y) to continue with the drive creation process"
+	echo -e "Press (Q) to return back home"
+	echo -e "Press the return key to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
+HELPPROVIDEDRIVE()
+{
+	clear
+	echo -e "${APP}${BOLD}                               macOS Creator V4.1"
+	echo -e "$LINES"
+	echo -e "${RESET}${TITLE}1)Plug in the USB Drive and wait for it to appear in the Finder"
+	echo -e "2)Drag the drive icon into this window"
+	echo -e "3)Press the return key when finished dragging to create the drive"
+	echo -e ""
+	echo -e "Press (Q) and then the return key to return back home"
+	echo -e "Press the return key now to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
+MANUALLYPROVIDEINSTALLHELP()
+{
+	clear
+	echo -e "${APP}${BOLD}                               macOS Creator V4.1"
+	echo -e "$LINES"
+	echo -e "${RESET}${TITLE}Drag the macOS Installer from the Finder into this window"
+	echo -e "i.e. Install macOS Sequoia"
+	echo -e ""
+	echo -e "Press (Q) and then the return key to return back home"
+	echo -e "Press the return key now to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
+MANUALLYPROVIDEDRIVEHELP()
+{
+	clear
+	echo -e "${APP}${BOLD}                               macOS Creator V4.1"
+	echo -e "$LINES"
+	echo -e "${RESET}${TITLE}1)Plug in the USB Drive and wait for it to appear in the Finder"
+	echo -e "2)Drag the drive icon into this window"
+	echo -e "3)Press the return key when finished"
+	echo -e ""
+	echo -e "Press (Q) and then the return key to return back home"
+	echo -e "Press the return key now to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
+HELPDOWNLOAD()
+{
+	clear
+	echo -e "${APP}${BOLD}                               macOS Creator V4.1"
+	echo -e "$LINES"
+	echo -e "${RESET}${TITLE}Choose the macOS Version you wish to download and then press the return key"
+	echo -e "You can also type the macOS Version number:"
+	echo -e "(macOS Sierra = 10.12 - macOS Sequoia = 15)"
+	echo -e ""
+	echo -e "You can also type the macOS Version name:"
+	echo -e "(macOS Sierra = Sierra - macOS Sequoia = Sequoia)"
+	echo -e ""
+	echo -e "Make sure you have an interent connection in order to download!"
+	echo -e ""
+	echo -e "Press (Q) and then the return key to return back home"
+	echo -e "Press the return key now to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
+BETAHELP()
+{
+	clear
+	echo -e "${APP}${BOLD}                               macOS Creator V4.1"
+	echo -e "$LINES"
+	echo -e "${RESET}${TITLE}BETA builds are tools that are typically still undergoing tests"
+	echo -e "You may or may not notice issues with performance and reliablity"
+	echo -e "If you use this tool and do notice issues, you may report them at GitHub.com"
+	echo -e ""
+	echo -e "Press (Y) to continue"
+	echo -e "Press (Q) to return back home"
+	echo -e "Press the return key to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
+HELPID()
+{
+	clear
+	echo -e "${APP}${BOLD}                               macOS Creator V4.1"
+	echo -e "$LINES"
+	echo -e "${RESET}${TITLE}If you are going to install macOS onto this Mac, choose option 1"
+	echo -e "If you are going to install macOS onto another Mac, choose option 2"
+	echo -e ""
+	echo -e "Press (Q) to return back home"
+	echo -e "Press the return key to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
+HELPIDMAC()
+{
+	clear
+	echo -e "${APP}${BOLD}                               macOS Creator V4.1"
+	echo -e "$LINES"
+	echo -e "${RESET}${TITLE}Choose the option that is equivalent to the Mac"
+	echo -e ""
+	echo -e "Press (Q) to return back home"
+	echo -e "Press the return key to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
 
 #Script
 if [[ "$os_version" == 10.6 ]]; then
@@ -126,32 +301,21 @@ if [[ "$os_version" == 10.6 ]]; then
 	echo "This Mac is running Mac OS X Snow Leopard"
 	echo "This script requires Mac OS X Lion or later"
 	echo "You can use V2.3 if you wish to use this script."
-	echo ""
-	read -p "Press the return key to cancel... " prompt
-		if [[ "$prompt" == '' ]]; then
-			clear
-			exit
-		else
-			clear
-			exit
-		fi
+	echo "Press any key to cancel... "
+	read -n 1
+	exit
 elif [[ "$os_version" == 10.5 ]]; then
 	echo ""
 	echo "This Mac is running Mac OS X Leopard"
 	echo "This script requires Mac OS X Lion or later"
 	echo ""
-	read -p "Press the return key to cancel... " prompt
-		if [[ "$prompt" == '' ]]; then
-			clear
-			exit
-		else
-			clear
-			exit
-		fi
+	echo "Press any key to cancel... "
+	read -n 1
+	exit
 else
 while true; do
 	clear
-	echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+	echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 	echo -e "$LINES"
 	echo -e "${RESET}${TITLE}${BOLD}Welcome to the macOS Creator${RESET}"
 	echo -e "${RESET}${TITLE}${BOLD}Script made by Encore Platforms${RESET}"
@@ -165,7 +329,8 @@ while true; do
 	echo -e "Download macOS...........................................................(3)"
 	echo -e "Identify your Mac model..................................................(4)"
 	echo -e "Review troubleshooting options...........................................(5)"
-	echo -e "Show macOS Creator Guide.................................................(6)${RESET}"
+	echo -e "Change Script Colors.....................................................(6)"
+	echo -e "Show macOS Creator Guide.................................................(?)${RESET}"
 	echo -e "${PROMPTSTYLE}"
 	echo -n "Enter your option here... "
 	read -n 1 prompt
@@ -176,16 +341,16 @@ while true; do
 		if [[ -d /Applications/Install\ OS\ X\ Mavericks.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}OS X Mavericks was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 				if [[ -d /Volumes/Untitled ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}Creating the installer for OS X Mavericks...${BODY}"
 					sudo /Applications/Install\ OS\ X\ Mavericks.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction
@@ -220,7 +385,7 @@ while true; do
 						echo -e ""
 						if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 							echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -267,7 +432,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 					echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -281,12 +446,14 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$prompt" == '?' ]]; then
+						HELPPROVIDEDRIVE
 					elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 						break 3
 					else
 						if [[ "$prompt" == *'Volumes'* ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Creating the installer for OS X Mavericks...${BODY}"
 							sudo /Applications/Install\ OS\ X\ Mavericks.app/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction
@@ -321,7 +488,7 @@ while true; do
 								echo -e ""
 								if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 									echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -374,6 +541,8 @@ while true; do
 					fi
 					done
 				fi
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == '' ]]; then
 				echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
 				echo -e "${RESET}${APP}${BOLD}"
@@ -391,16 +560,16 @@ while true; do
 		elif [[ -d /Applications/Install\ OS\ X\ Yosemite.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}OS X Yosemite was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 				if [[ -d /Volumes/Untitled ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}Creating the installer for OS X Yosemite...${BODY}"
 					sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ Yosemite.app --nointeraction
@@ -435,7 +604,7 @@ while true; do
 						echo -e ""
 						if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 							echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -482,7 +651,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 					echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -496,12 +665,14 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$prompt" == '?' ]]; then
+						HELPPROVIDEDRIVE
 					elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 						break 3
 					else
 						if [[ "$prompt" == *'Volumes'* ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Creating the installer for OS X Yosemite...${BODY}"
 							sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath /Applications/Install\ OS\ X\ Yosemite.app --nointeraction
@@ -536,7 +707,7 @@ while true; do
 								echo -e ""
 								if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 									echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -589,6 +760,8 @@ while true; do
 					fi
 					done
 				fi
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == '' ]]; then
 				echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
 				echo -e "${RESET}${APP}${BOLD}"
@@ -606,16 +779,16 @@ while true; do
 		elif [[ -d /Applications/Install\ OS\ X\ El\ Capitan.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}OS X El Capitan was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 				if [[ -d /Volumes/Untitled ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}Creating the installer for OS X El Capitan...${BODY}"
 					sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app --nointeraction
@@ -650,7 +823,7 @@ while true; do
 						echo -e ""
 						if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 							echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -697,7 +870,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 					echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -711,12 +884,14 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$prompt" == '?' ]]; then
+						HELPPROVIDEDRIVE
 					elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 						break 3
 					else
 						if [[ "$prompt" == *'Volumes'* ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Creating the installer for OS X El Capitan...${BODY}"
 							sudo /Applications/Install\ OS\ X\ El\ Capitan.app/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app --nointeraction
@@ -751,7 +926,7 @@ while true; do
 								echo -e ""
 								if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 									echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -810,6 +985,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -821,10 +998,10 @@ while true; do
 		elif [[ -d /Applications/Install\ macOS\ Sierra.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}macOS Sierra was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
@@ -839,7 +1016,7 @@ while true; do
 				else
 					if [[ -d /Volumes/Untitled ]]; then
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Creating the installer for macOS Sierra...${BODY}"
 						sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction
@@ -874,7 +1051,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 								echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -921,7 +1098,7 @@ while true; do
 					else
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 						echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -935,12 +1112,14 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPPROVIDEDRIVE
 						elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 							break 3
 						else
 							if [[ "$prompt" == *'Volumes'* ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Sierra...${BODY}"
 								sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume "$prompt" --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction
@@ -975,7 +1154,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1035,6 +1214,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -1046,10 +1227,10 @@ while true; do
 		elif [[ -d /Applications/Install\ macOS\ High\ Sierra.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}macOS High Sierra was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
@@ -1064,7 +1245,7 @@ while true; do
 				else
 					if [[ -d /Volumes/Untitled ]]; then
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Creating the installer for macOS High Sierra...${BODY}"
 						sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction
@@ -1099,7 +1280,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 								echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1146,7 +1327,7 @@ while true; do
 					else
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 						echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -1160,12 +1341,14 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPPROVIDEDRIVE
 						elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 							break 3
 						else
 							if [[ "$prompt" == *'Volumes'* ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS High Sierra...${BODY}"
 								sudo /Applications/Install\ macOS\ High\ Sierra.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -1200,7 +1383,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1260,6 +1443,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -1271,10 +1456,10 @@ while true; do
 		elif [[ -d /Applications/Install\ macOS\ Mojave.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}macOS Mojave was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
@@ -1289,7 +1474,7 @@ while true; do
 				else
 					if [[ -d /Volumes/Untitled ]]; then
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Creating the installer for macOS Mojave...${BODY}"
 						sudo /Applications/Install\ macOS\ Mojave.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction
@@ -1324,7 +1509,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 								echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1371,7 +1556,7 @@ while true; do
 					else
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 						echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -1385,12 +1570,14 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPPROVIDEDRIVE
 						elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 							break 3
 						else
 							if [[ "$prompt" == *'Volumes'* ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Mojave...${BODY}"
 								sudo /Applications/Install\ macOS\ Mojave.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -1425,7 +1612,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1485,6 +1672,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -1496,10 +1685,10 @@ while true; do
 		elif [[ -d /Applications/Install\ macOS\ Catalina.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}macOS Catalina was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
@@ -1522,7 +1711,7 @@ while true; do
 				else
 					if [[ -d /Volumes/Untitled ]]; then
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Creating the installer for macOS Catalina...${BODY}"
 						sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction
@@ -1557,7 +1746,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 								echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1604,7 +1793,7 @@ while true; do
 					else
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 						echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -1618,12 +1807,14 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPPROVIDEDRIVE
 						elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 							break 3
 						else
 							if [[ "$prompt" == *'Volumes'* ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Catalina...${BODY}"
 								sudo /Applications/Install\ macOS\ Catalina.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -1658,7 +1849,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1718,6 +1909,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -1729,10 +1922,10 @@ while true; do
 		elif [[ -d /Applications/Install\ macOS\ Big\ Sur.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}macOS Big Sur was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
@@ -1755,7 +1948,7 @@ while true; do
 				else
 					if [[ -d /Volumes/Untitled ]]; then
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Creating the installer for macOS Big Sur...${BODY}"
 						sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction
@@ -1790,7 +1983,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 								echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1837,7 +2030,7 @@ while true; do
 					else
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 						echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -1851,12 +2044,14 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPPROVIDEDRIVE
 						elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 							break 3
 						else
 							if [[ "$prompt" == *'Volumes'* ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Big Sur...${BODY}"
 								sudo /Applications/Install\ macOS\ Big\ Sur.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -1891,7 +2086,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -1951,6 +2146,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -1962,10 +2159,10 @@ while true; do
 		elif [[ -d /Applications/Install\ macOS\ Monterey.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}macOS Monterey was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
@@ -1988,7 +2185,7 @@ while true; do
 				else
 					if [[ -d /Volumes/Untitled ]]; then
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Creating the installer for macOS Monterey...${BODY}"
 						sudo /Applications/Install\ macOS\ Monterey.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction
@@ -2023,7 +2220,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 								echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -2070,7 +2267,7 @@ while true; do
 					else
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 						echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -2084,12 +2281,14 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPPROVIDEDRIVE
 						elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 							break 3
 						else
 							if [[ "$prompt" == *'Volumes'* ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Monterey...${BODY}"
 								sudo /Applications/Install\ macOS\ Monterey.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -2124,7 +2323,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -2184,6 +2383,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -2195,10 +2396,10 @@ while true; do
 		elif [[ -d /Applications/Install\ macOS\ Ventura.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}macOS Ventura was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
@@ -2245,7 +2446,7 @@ while true; do
 				else
 					if [[ -d /Volumes/Untitled ]]; then
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Creating the installer for macOS Ventura...${BODY}"
 						sudo /Applications/Install\ macOS\ Ventura.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction
@@ -2280,7 +2481,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 								echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -2327,7 +2528,7 @@ while true; do
 					else
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 						echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -2341,12 +2542,14 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPPROVIDEDRIVE
 						elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 							break 3
 						else
 							if [[ "$prompt" == *'Volumes'* ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Ventura...${BODY}"
 								sudo /Applications/Install\ macOS\ Ventura.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -2381,7 +2584,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -2441,6 +2644,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -2452,10 +2657,10 @@ while true; do
 		elif [[ -d /Applications/Install\ macOS\ Sonoma.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}macOS Sonoma was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
@@ -2510,7 +2715,7 @@ while true; do
 				else
 					if [[ -d /Volumes/Untitled ]]; then
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Creating the installer for macOS Sonoma...${BODY}"
 						sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction
@@ -2545,7 +2750,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 								echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -2592,7 +2797,7 @@ while true; do
 					else
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 						echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -2606,12 +2811,14 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPPROVIDEDRIVE
 						elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 							break 3
 						else
 							if [[ "$prompt" == *'Volumes'* ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Sonoma...${BODY}"
 								sudo /Applications/Install\ macOS\ Sonoma.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -2646,7 +2853,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -2706,6 +2913,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -2717,10 +2926,10 @@ while true; do
 		elif [[ -d /Applications/Install\ macOS\ Sequoia.app ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}macOS Sequoia was found...${RESET}${PROMPTSTYLE}"
-			echo -n "Would you like to use this installer? (Y=Yes;return=No)... "
+			echo -n "Would you like to use this installer?... "
 			read -n 1 prompt
 			echo -e ""
 			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
@@ -2775,7 +2984,7 @@ while true; do
 				else
 					if [[ -d /Volumes/Untitled ]]; then
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Creating the installer for macOS Sequoia...${BODY}"
 						sudo /Applications/Install\ macOS\ Sequoia.app/Contents/Resources/createinstallmedia --volume /Volumes/Untitled --nointeraction
@@ -2810,7 +3019,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 								echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -2857,7 +3066,7 @@ while true; do
 					else
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}You must provide a drive to create the installer"
 						echo -e "Drag the drive from the Finder into this window${RESET}"
@@ -2871,12 +3080,14 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPPROVIDEDRIVE
 						elif [[ "$prompt" == 'q' ||"$prompt" == 'Q' ]]; then
 							break 3
 						else
 							if [[ "$prompt" == *'Volumes'* ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Sequoia...${BODY}"
 								sudo /Applications/Install\ macOS\ Sequoia.app/Contents/Resources/createinstallmedia --volume "$prompt" --nointeraction
@@ -2911,7 +3122,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -2971,6 +3182,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPAPPLICATIONS
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -2981,7 +3194,7 @@ while true; do
 			done
 		elif [[ -d /Applications/Install\ OS\ X\ Mountain\ Lion.app ]]; then
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}OS X Mountain Lion was found...${RESET}"
 			echo -e "${ERROR}OS X Mountain Lion is not compatible with this script.${RESET}${PROMPTSTYLE}"
@@ -3007,7 +3220,7 @@ while true; do
 			fi
 		elif [[ -d /Applications/Install\ Mac\ OS\ X\ Lion.app ]]; then
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${OSFOUND}Mac OS X Lion was found...${RESET}"
 			echo -e "${ERROR}Mac OS X Lion is not compatible with this script.${RESET}${PROMPTSTYLE}"
@@ -3033,7 +3246,7 @@ while true; do
 			fi
 		else
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${OSFOUND}${BOLD}No versions of macOS were found..."
 			echo -e "${RESET}${PROMPTSTYLE}"
@@ -3063,7 +3276,7 @@ while true; do
 	elif [[ "$prompt" == '2' ]]; then
 		while true; do
 		clear
-		echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+		echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 		echo -e "$LINES"
 		echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 		echo -e ""
@@ -3079,11 +3292,13 @@ while true; do
 			exit
 		elif [[ "$AppPath" == 'q' || "$AppPath" == 'Q' ]]; then
 			break
+		elif [[ "$AppPath" == '?' ]]; then
+			MANUALLYPROVIDEINSTALLHELP
 		else
 			if [[ "$AppPath" == *'Mavericks.app'* ]]; then
 				while true; do
 				clear
-				echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+				echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 				echo -e "$LINES"
 				echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 				echo -e ""
@@ -3099,11 +3314,13 @@ while true; do
 					exit
 				elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 					break 2
+				elif [[ "$DrivePath" == '?' ]]; then
+					MANUALLYPROVIDEDRIVEHELP
 				else
 					if [[ "$DrivePath" == *'Volumes'* ]]; then
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks"
 						echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -3116,7 +3333,7 @@ while true; do
 						echo -e ""
 						if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Creating the installer for OS X Mavericks...${BODY}"
 							sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --applicationpath "$AppPath" --nointeraction
@@ -3135,7 +3352,7 @@ while true; do
 								echo -e ""
 								if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 									echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -3206,7 +3423,7 @@ while true; do
 			elif [[ "$AppPath" == *'Yosemite.app'* ]]; then
 				while true; do
 				clear
-				echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+				echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 				echo -e "$LINES"
 				echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 				echo -e ""
@@ -3220,13 +3437,15 @@ while true; do
 					echo -e "$LINES"
 					echo -e "${RESET}"
 					exit
+				elif [[ "$DrivePath" == '?' ]]; then
+					MANUALLYPROVIDEDRIVEHELP
 				elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 					break 2
 				else
 					if [[ "$DrivePath" == *'Volumes'* ]]; then
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${OSFOUND}${BOLD}OS X Yosemite"
 						echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -3239,7 +3458,7 @@ while true; do
 						echo -e ""
 						if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Creating the installer for OS X Yosemite...${BODY}"
 							sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --applicationpath "$AppPath" --nointeraction
@@ -3258,7 +3477,7 @@ while true; do
 								echo -e ""
 								if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 									echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -3329,7 +3548,7 @@ while true; do
 			elif [[ "$AppPath" == *'Capitan.app'* ]]; then
 				while true; do
 				clear
-				echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+				echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 				echo -e "$LINES"
 				echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 				echo -e ""
@@ -3343,13 +3562,15 @@ while true; do
 					echo -e "$LINES"
 					echo -e "${RESET}"
 					exit
+				elif [[ "$DrivePath" == '?' ]]; then
+					MANUALLYPROVIDEDRIVEHELP
 				elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 					break 2
 				else
 					if [[ "$DrivePath" == *'Volumes'* ]]; then
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${OSFOUND}${BOLD}OS X El Capitan"
 						echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -3362,7 +3583,7 @@ while true; do
 						echo -e ""
 						if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Creating the installer for OS X El Capitan...${BODY}"
 							sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --applicationpath "$AppPath" --nointeraction
@@ -3381,7 +3602,7 @@ while true; do
 								echo -e ""
 								if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 									echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -3461,7 +3682,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 					echo -e ""
@@ -3475,13 +3696,15 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$DrivePath" == '?' ]]; then
+						MANUALLYPROVIDEDRIVEHELP
 					elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 						break 2
 					else
 						if [[ "$DrivePath" == *'Volumes'* ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra"
 							echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -3494,7 +3717,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Sierra...${BODY}"
 								sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --applicationpath "$AppPath" --nointeraction
@@ -3513,7 +3736,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -3594,7 +3817,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 					echo -e ""
@@ -3608,13 +3831,15 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$DrivePath" == '?' ]]; then
+						MANUALLYPROVIDEDRIVEHELP
 					elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 						break 2
 					else
 						if [[ "$DrivePath" == *'Volumes'* ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}macOS High Sierra"
 							echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -3627,7 +3852,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS High Sierra...${BODY}"
 								sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --nointeraction
@@ -3646,7 +3871,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -3727,7 +3952,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 					echo -e ""
@@ -3741,13 +3966,15 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$DrivePath" == '?' ]]; then
+						MANUALLYPROVIDEDRIVEHELP
 					elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 						break 2
 					else
 						if [[ "$DrivePath" == *'Volumes'* ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}macOS Mojave"
 							echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -3760,7 +3987,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Mojave...${BODY}"
 								sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --nointeraction
@@ -3779,7 +4006,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -3868,7 +4095,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 					echo -e ""
@@ -3882,13 +4109,15 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$DrivePath" == '?' ]]; then
+						MANUALLYPROVIDEDRIVEHELP
 					elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 						break 2
 					else
 						if [[ "$DrivePath" == *'Volumes'* ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}macOS Catalina"
 							echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -3901,7 +4130,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Catalina...${BODY}"
 								sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --nointeraction
@@ -3920,7 +4149,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -4009,7 +4238,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 					echo -e ""
@@ -4023,13 +4252,15 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$DrivePath" == '?' ]]; then
+						MANUALLYPROVIDEDRIVEHELP
 					elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 						break 2
 					else
 						if [[ "$DrivePath" == *'Volumes'* ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}macOS Big Sur"
 							echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -4042,7 +4273,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Big Sur...${BODY}"
 								sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --nointeraction
@@ -4061,7 +4292,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -4150,7 +4381,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 					echo -e ""
@@ -4164,13 +4395,15 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$DrivePath" == '?' ]]; then
+						MANUALLYPROVIDEDRIVEHELP
 					elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 						break 2
 					else
 						if [[ "$DrivePath" == *'Volumes'* ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey"
 							echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -4183,7 +4416,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Monterey...${BODY}"
 								sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --nointeraction
@@ -4202,7 +4435,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -4315,7 +4548,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 					echo -e ""
@@ -4329,13 +4562,15 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$DrivePath" == '?' ]]; then
+						MANUALLYPROVIDEDRIVEHELP
 					elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 						break 2
 					else
 						if [[ "$DrivePath" == *'Volumes'* ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura"
 							echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -4348,7 +4583,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Ventura...${BODY}"
 								sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --nointeraction
@@ -4367,7 +4602,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -4488,7 +4723,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 					echo -e ""
@@ -4502,13 +4737,15 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$DrivePath" == '?' ]]; then
+						MANUALLYPROVIDEDRIVEHELP
 					elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 						break 2
 					else
 						if [[ "$DrivePath" == *'Volumes'* ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma"
 							echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -4521,7 +4758,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Sonoma...${BODY}"
 								sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --nointeraction
@@ -4540,7 +4777,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -4661,7 +4898,7 @@ while true; do
 				else
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer and drive path:"
 					echo -e ""
@@ -4675,13 +4912,15 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$DrivePath" == '?' ]]; then
+						MANUALLYPROVIDEDRIVEHELP
 					elif [[ "$DrivePath" == 'q' || "$DrivePath" == 'Q' ]]; then
 						break 2
 					else
 						if [[ "$DrivePath" == *'Volumes'* ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia"
 							echo -e "${RESET}${TITLE}${BOLD}Please confirm: (Press S to start over)"
@@ -4694,7 +4933,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Creating the installer for macOS Sequoia...${BODY}"
 								sudo "$AppPath"/Contents/Resources/createinstallmedia --volume "$DrivePath" --nointeraction
@@ -4713,7 +4952,7 @@ while true; do
 									echo -e ""
 									if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 										clear
-										echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+										echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 										echo -e "$LINES"
 										echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 										echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map))"
@@ -4792,7 +5031,7 @@ while true; do
 	elif [[ "$prompt" == '3' ]]; then
 		while true; do
 		clear
-		echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+		echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 		echo -e "$LINES"
 		echo -e "${RESET}${TITLE}${BOLD}Choose the version of macOS you wish to download..."
 		echo -e "${RESET}${TITLE}You can also type the macOS version number (i.e. 10.13)"
@@ -4813,7 +5052,7 @@ while true; do
 		if [[ "$prompt" == '1' || "$prompt" == '10.9' || "$prompt" == 'Mavericks' || "$prompt" == 'mavericks' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading OS X Mavericks...${RESET}${BODY}"
 			sudo curl https://ia801805.us.archive.org/35/items/os-x-mavericks/Install%20OS%20X%20Mavericks.zip -o /private/tmp/InstallmacOS.zip
@@ -4864,7 +5103,7 @@ while true; do
 		elif [[ "$prompt" == '2' || "$prompt" == '10.10' || "$prompt" == 'Yosemite' || "$prompt" == 'yosemite' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading OS X Yosemite...${RESET}${BODY}"
 			sudo curl http://updates-http.cdn-apple.com/2019/cert/061-41343-20191023-02465f92-3ab5-4c92-bfe2-b725447a070d/InstallMacOSX.dmg -o /private/tmp/InstallmacOS.dmg
@@ -4915,7 +5154,7 @@ while true; do
 		elif [[ "$prompt" == '3' || "$prompt" == '10.11' || "$prompt" == 'El Capitan' || "$prompt" == 'el capitan' || "$prompt" == 'El capitan' || "$prompt" == 'el Capitan' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading OS X El Capitan...${RESET}${BODY}"
 			sudo curl http://updates-http.cdn-apple.com/2019/cert/061-41424-20191024-218af9ec-cf50-4516-9011-228c78eda3d2/InstallMacOSX.dmg -o /private/tmp/InstallmacOS.dmg
@@ -4966,7 +5205,7 @@ while true; do
 		elif [[ "$prompt" == '4' || "$prompt" == '10.12' || "$prompt" == 'Sierra' || "$prompt" == 'sierra' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading macOS Sierra...${RESET}${BODY}"
 			sudo curl http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg -o /private/tmp/InstallmacOS.dmg
@@ -5017,7 +5256,7 @@ while true; do
 		elif [[ "$prompt" == '5' || "$prompt" == '10.13' || "$prompt" == 'High Sierra' || "$prompt" == 'high sierra' || "$prompt" == 'High sierra' || "$prompt" == 'high Sierra' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading macOS High Sierra...${RESET}${BODY}"
 			sudo curl https://dn720208.ca.archive.org/0/items/mac-os-high-sierra-10.13.5/macOS%20High%20Sierra%2010.13.5.iso -o /private/tmp/InstallmacOS.iso
@@ -5068,7 +5307,7 @@ while true; do
 		elif [[ "$prompt" == '6' || "$prompt" == '10.14' || "$prompt" == 'Mojave' || "$prompt" == 'mojave' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading macOS Mojave...${RESET}${BODY}"
 			sudo curl https://dn720002.ca.archive.org/0/items/mac-os-mojave-10.14/macOS%20Mojave%2010.14.iso -o /private/tmp/InstallmacOS.iso
@@ -5119,7 +5358,7 @@ while true; do
 		elif [[ "$prompt" == '7' || "$prompt" == '10.15' || "$prompt" == 'Catalina' || "$prompt" == 'catalina' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading macOS Catalina...${RESET}${BODY}"
 			sudo curl https://dn720003.ca.archive.org/0/items/macOS-Catalina-IOS/macOSCatalina.iso -o /private/tmp/InstallmacOS.iso
@@ -5170,7 +5409,7 @@ while true; do
 		elif [[ "$prompt" == '8' || "$prompt" == '11' || "$prompt" == 'Big Sur' || "$prompt" == 'big sur' || "$prompt" == 'Big sur' || "$prompt" == 'big Sur' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading macOS Big Sur...${RESET}${BODY}"
 			sudo curl https://swcdn.apple.com/content/downloads/14/38/042-45246-A_NLFOFLCJFZ/jk992zbv98sdzz3rgc7mrccjl3l22ruk1c/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -5221,7 +5460,7 @@ while true; do
 		elif [[ "$prompt" == '12' || "$prompt" == 'Monterey' || "$prompt" == 'monterey' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading macOS Monterey...${RESET}${BODY}"
 			sudo curl https://swcdn.apple.com/content/downloads/46/57/052-60131-A_KM2RH04C2D/9yzvba1uvpem2wuo95r459qno57qaizwf2/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -5272,7 +5511,7 @@ while true; do
 		elif [[ "$prompt" == '13' || "$prompt" == 'Ventura' || "$prompt" == 'ventura' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading macOS Ventura...${RESET}${BODY}"
 			sudo curl https://swcdn.apple.com/content/downloads/29/47/072-09024-A_8G5EY3SPX2/l6ecgngkrhhbc6q4mae5cwe42pxp49co7w/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -5323,7 +5562,7 @@ while true; do
 		elif [[ "$prompt" == '14' || "$prompt" == 'Sonoma' || "$prompt" == 'sonoma' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading macOS Sonoma...${RESET}${BODY}"
 			sudo curl https://swcdn.apple.com/content/downloads/32/08/072-50992-A_NAOEP6G8YN/jatjaz74cw9eeyq40ztu46ox58mywvoi1j/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -5374,7 +5613,7 @@ while true; do
 		elif [[ "$prompt" == '15' || "$prompt" == 'Sequoia' || "$prompt" == 'sequoia' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Downloading macOS Sequoia...${RESET}${BODY}"
 			sudo curl https://swcdn.apple.com/content/downloads/08/08/072-12353-A_IUBHH68MQT/sv48ma68gmhl96fa9anqfj3i2fnb1ur2wh/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -5425,7 +5664,7 @@ while true; do
 		elif [[ "$prompt" == '9' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}Choose the version of macOS you wish to download..."
 			echo -e "${RESET}${BODY}"
@@ -5438,7 +5677,7 @@ while true; do
 			if [[ "$prompt" == '1' ]]; then
 				while true; do
 				clear
-				echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+				echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 				echo -e "$LINES"
 				echo -e "${RESET}${TITLE}Downloading macOS Monterey...${RESET}${BODY}"
 				sudo curl https://swcdn.apple.com/content/downloads/46/57/052-60131-A_KM2RH04C2D/9yzvba1uvpem2wuo95r459qno57qaizwf2/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -5489,7 +5728,7 @@ while true; do
 			elif [[ "$prompt" == '2' ]]; then
 				while true; do
 				clear
-				echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+				echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 				echo -e "$LINES"
 				echo -e "${RESET}${TITLE}Downloading macOS Ventura...${RESET}${BODY}"
 				sudo curl https://swcdn.apple.com/content/downloads/29/47/072-09024-A_8G5EY3SPX2/l6ecgngkrhhbc6q4mae5cwe42pxp49co7w/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -5540,7 +5779,7 @@ while true; do
 			elif [[ "$prompt" == '3' ]]; then
 				while true; do
 				clear
-				echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+				echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 				echo -e "$LINES"
 				echo -e "${RESET}${TITLE}Downloading macOS Sonoma...${RESET}${BODY}"
 				sudo curl https://swcdn.apple.com/content/downloads/32/08/072-50992-A_NAOEP6G8YN/jatjaz74cw9eeyq40ztu46ox58mywvoi1j/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -5591,7 +5830,7 @@ while true; do
 			elif [[ "$prompt" == '4' ]]; then
 				while true; do
 				clear
-				echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+				echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 				echo -e "$LINES"
 				echo -e "${RESET}${TITLE}Downloading macOS Sequoia...${RESET}${BODY}"
 				sudo curl https://swcdn.apple.com/content/downloads/08/08/072-12353-A_IUBHH68MQT/sv48ma68gmhl96fa9anqfj3i2fnb1ur2wh/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
@@ -5646,6 +5885,8 @@ while true; do
 				echo -e "$LINES"
 				echo -e "${RESET}"
 				exit
+			elif [[ "$prompt" == '?' ]]; then
+				HELPDOWNLOAD
 			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 				break 2
 			else
@@ -5661,6 +5902,8 @@ while true; do
 			echo -e "$LINES"
 			echo -e "${RESET}"
 			exit
+		elif [[ "$prompt" == '?' ]]; then
+			HELPDOWNLOAD
 		elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
 			break
 		else
@@ -5672,7 +5915,7 @@ while true; do
 	elif [[ "$prompt" == '4' ]]; then
 		while true; do
 		clear
-		echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+		echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 		echo -e "$LINES"
 		echo -e "${RESET}${WARNING}${BOLD}WARNING: This is a BETA build!"
 		echo -e "${RESET}${WARNING}BETA builds may not work as expected."
@@ -5685,7 +5928,7 @@ while true; do
 		if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}What would you like to do?"
 			echo -e "${BODY}Identify this Mac........................................................(1)"
@@ -5697,7 +5940,7 @@ while true; do
 			if [[ "$prompt" == '1' ]]; then
 				if [[ $MACVERSION == 'MacBook5,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Aluminum, Late 2008)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -5716,7 +5959,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBook5,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Early 2009) + (13-inch, Mid 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -5735,7 +5978,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBook6,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Late 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -5754,7 +5997,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBook7,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Mid 2010)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -5773,7 +6016,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBook8,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (Retina, 12-inch, Early 2015)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -5792,7 +6035,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBook9,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (Retina, 12-inch, Early 2016)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -5811,7 +6054,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBook10,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (Retina, 12-inch, 2017)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -5830,7 +6073,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir1,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Original)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}Mac OS X Lion ${RESET}"
@@ -5849,7 +6092,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir2,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Mid 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -5868,7 +6111,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir3,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Late 2010)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -5887,7 +6130,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir3,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Late 2010)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -5906,7 +6149,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir4,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Mid 2011)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -5925,7 +6168,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir4,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Mid 2011)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -5944,7 +6187,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir5,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Mid 2012)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -5963,7 +6206,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir5,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Mid 2012)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -5982,7 +6225,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir6,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Mid 2013) + (11-inch, Early 2014)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -6001,7 +6244,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir6,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Mid 2013) + (13-inch, Early 2014)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -6020,7 +6263,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir7,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Early 2015)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -6039,7 +6282,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir7,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Early 2015) + MacBook Air (13-inch, 2017)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -6058,7 +6301,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir8,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Retina, 13-inch, 2018)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sonoma ${RESET}"
@@ -6077,7 +6320,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir8,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Retina, 13-inch, 2019)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sonoma ${RESET}"
@@ -6096,7 +6339,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir9,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Retina, 13-inch, 2020)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6115,7 +6358,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookAir10,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (M1, 2020)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6134,7 +6377,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac14,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (M2, 2020)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6153,7 +6396,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac14,15' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (15-inch, M2, 2023)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6172,7 +6415,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac15,12' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, M3, 2024)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6191,7 +6434,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac15,13' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (15-inch, M3, 2024)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6210,7 +6453,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro4,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch/17-inch, Early 2008)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -6229,7 +6472,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro5,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Late 2008)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -6248,7 +6491,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro5,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (17-inch, Early/Mid 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -6267,7 +6510,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro5,5' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Mid 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -6286,7 +6529,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro5,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Mid 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -6305,7 +6548,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro7,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Mid 2010)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -6324,7 +6567,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro6,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Mid 2010)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -6343,7 +6586,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro6,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (17-inch, Mid 2010)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -6362,7 +6605,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro8,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Early/Late 2011)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -6381,7 +6624,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro8,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Early/Late 2011)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -6400,7 +6643,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro8,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (17-inch, Early/Late 2011)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -6419,7 +6662,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro9,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Mid 2012)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -6438,7 +6681,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro9,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Mid 2012)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -6457,7 +6700,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro10,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 15-inch, Mid 2012/Early 2013)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -6476,7 +6719,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro10,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 13-inch, Late 2012/Early 2013)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -6495,7 +6738,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro11,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 13-inch, Late 2013/Mid 2014)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -6514,7 +6757,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro11,2' || $MACVERSION == 'MacBookPro11,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 15-inch, Late 2013/Mid 2014)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -6533,7 +6776,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro12,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 13-inch, Early 2015)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -6552,7 +6795,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro11,4' || $MACVERSION == 'MacBookPro11,5' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 15-inch, Mid 2015)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -6571,7 +6814,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro13,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2016, Two Thunderbolt 3 ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -6590,7 +6833,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro13,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2016, Four Thunderbolt 3 ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -6609,7 +6852,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro13,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2016)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -6628,7 +6871,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro14,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2017, Two Thunderbolt 3 ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -6647,7 +6890,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro14,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2017, Four Thunderbolt 3 ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -6666,7 +6909,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro14,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2017)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -6685,7 +6928,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro15,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2018/2019, Four Thunderbolt 3 ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6704,7 +6947,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro15,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2018)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6723,7 +6966,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro15,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2019)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6742,7 +6985,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro15,4' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2019, Two Thunderbolt 3 ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6761,7 +7004,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro16,1' || $MACVERSION == 'MacBookPro16,4' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2019)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6780,7 +7023,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro16,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2020, Four Thunderbolt 3 ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6799,7 +7042,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro16,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2020, Two Thunderbolt 3 ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6818,7 +7061,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro17,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, M1, 2020)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6837,7 +7080,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro18,1' || $MACVERSION == 'MacBookPro18,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2021)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6856,7 +7099,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacBookPro18,3' || $MACVERSION == 'MacBookPro18,4' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, 2021)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6875,7 +7118,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac14,7' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, M2, 2022)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6894,7 +7137,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac14,6' || $MACVERSION == 'Mac14,10' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2023)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6913,7 +7156,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac14,5' || $MACVERSION == 'Mac14,9' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, 2023)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6932,7 +7175,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac15,7' || $MACVERSION == 'Mac15,9' || $MACVERSION == 'Mac15,11' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, Nov 2023)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6951,7 +7194,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac15,6' || $MACVERSION == 'Mac15,8' || $MACVERSION == 'Mac15,10' || $MACVERSION == 'Mac15,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, Nov 2023)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6970,7 +7213,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac16,7' || $MACVERSION == 'Mac16,5' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2024)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -6989,7 +7232,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac16,6' || $MACVERSION == 'Mac16,8' || $MACVERSION == 'Mac16,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, 2024)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7008,7 +7251,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac9,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Early 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -7027,7 +7270,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac10,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Late 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -7046,7 +7289,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac11,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Mid 2010)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -7065,7 +7308,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac11,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Mid 2010)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -7084,7 +7327,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac12,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Mid 2011)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -7103,7 +7346,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac12,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Mid 2011)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -7122,7 +7365,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac13,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Late 2012)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -7141,7 +7384,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac13,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Late 2012)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -7160,7 +7403,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac14,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Late 2013)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -7179,7 +7422,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac14,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Late 2013)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -7198,7 +7441,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac14,4' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Mid 2014)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -7217,7 +7460,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac15,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, Late 2014/Mid 2015)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -7236,7 +7479,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac16,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Late 2015)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -7255,7 +7498,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac16,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 4K, 21.5-inch, Late 2015)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -7274,7 +7517,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac17,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, Late 2015)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -7293,7 +7536,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac18,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, 2017)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -7312,7 +7555,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac18,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 4K, 21.5-inch, 2017)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -7331,7 +7574,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac18,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, 2017)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -7350,7 +7593,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMacPro1,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac Pro (2017)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7369,7 +7612,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac19,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 4K, 21.5-inch, 2019)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7388,7 +7631,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac19,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, 2019)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7407,7 +7650,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac20,1' || $MACVERSION == 'iMac20,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, 2020)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7426,7 +7669,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'iMac21,2' || $MACVERSION == 'iMac21,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, M1, 2021)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7445,7 +7688,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac15,4' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2023, Two ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7464,7 +7707,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac15,5' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2023, Four ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7483,7 +7726,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac16,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2024, Two ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7502,7 +7745,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac16,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2024, Four ports)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7521,7 +7764,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Macmini3,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Early/Late 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -7540,7 +7783,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Macmini4,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Mid 2010)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -7559,7 +7802,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Macmini5,1' || $MACVERSION == 'Macmini5,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Mid 2011)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -7578,7 +7821,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Macmini6,1' || $MACVERSION == 'Macmini6,2' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Late 2012)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -7597,7 +7840,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Macmini7,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Late 2014)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -7616,7 +7859,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Macmini8,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (2018)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7635,7 +7878,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Macmini9,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (M1, 2020)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7654,7 +7897,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac14,12' || $MACVERSION == 'Mac14,3' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (2023)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7673,7 +7916,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac16,15' || $MACVERSION == 'Mac16,10' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (2024)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7693,7 +7936,7 @@ while true; do
 				
 				elif [[ $MACVERSION == 'MacPro4,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (Early 2009)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -7712,7 +7955,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacPro5,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (Server) (Mid 2010/Mid 2012)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -7732,7 +7975,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacPro6,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (Late 2013)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -7751,7 +7994,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'MacPro7,1' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (2019)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7770,7 +8013,7 @@ while true; do
 					fi
 				elif [[ $MACVERSION == 'Mac14,8' ]]; then
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (2023)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -7789,7 +8032,7 @@ while true; do
 					fi
 				else 
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${ERROR}Cannot detect Mac model."
 					echo -e "You may have a model that is not compatible with this script..."
@@ -7810,7 +8053,7 @@ while true; do
 			elif [[ "$prompt" == '2' ]]; then
 				while true; do
 				clear
-				echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+				echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 				echo -e "$LINES"
 				echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 				echo -e "${BODY}Laptop...................................................................(1)"
@@ -7822,7 +8065,7 @@ while true; do
 				if [[ "$prompt" == '1' ]]; then
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 					echo -e "${BODY}MacBook..................................................................(1)"
@@ -7835,7 +8078,7 @@ while true; do
 					if [[ "$prompt" == '1' ]]; then
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 						echo -e "${BODY}MacBook (Polycarbonate)..................................................(1)"
@@ -7848,7 +8091,7 @@ while true; do
 						if [[ "$prompt" == '1' ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 							echo -e "${BODY}Early 2009 / Mid 2009....................................................(1)"
@@ -7859,7 +8102,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == '1' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Early 2009/Mid 2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -7878,7 +8121,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '2' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Late 2009/Mid 2010)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -7910,6 +8153,10 @@ while true; do
 								else
 									break 6
 								fi
+							elif [[ "$prompt" == '?' ]]; then
+								HELPIDMAC
+							elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+								break 6
 							else
 								echo -e "${RESET}${ERROR}"
 								echo -e "$FAIL"
@@ -7918,7 +8165,7 @@ while true; do
 							done
 						elif [[ "$prompt" == '2' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Aluminum, Late 2008)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -7938,7 +8185,7 @@ while true; do
 						elif [[ "$prompt" == '3' ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 							echo -e "${BODY}2015.....................................................................(1)"
@@ -7950,7 +8197,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == '1' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Retina, 2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -7969,7 +8216,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '2' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Retina, 2016)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -7988,7 +8235,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '3' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Retina, 2017)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -8011,12 +8258,20 @@ while true; do
 								echo -e "$LINES"
 								echo -e "${RESET}"
 								exit
+							elif [[ "$prompt" == '?' ]]; then
+								HELPIDMAC
+							elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+								break 6
 							else
 								echo -e "${RESET}${ERROR}"
 								echo -e "$FAIL"
 								read -n 1
 							fi
 							done
+						elif [[ "$prompt" == '?' ]]; then
+							HELPIDMAC
+						elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+							break 5
 						elif [[ "$prompt" == '' ]]; then
 							echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
 							echo -e "${RESET}${APP}${BOLD}"
@@ -8032,7 +8287,7 @@ while true; do
 					elif [[ "$prompt" == '2' ]]; then
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 						echo -e "${BODY}13-inch Display..........................................................(1)"
@@ -8047,7 +8302,7 @@ while true; do
 						if [[ "$prompt" == '1' ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 							echo -e "${BODY}LCD Display..............................................................(1)"
@@ -8059,7 +8314,7 @@ while true; do
 							if [[ "$prompt" == '1' ]]; then
 								while true; do
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 								echo -e "${BODY}2009.....................................................................(1)"
@@ -8071,7 +8326,7 @@ while true; do
 								echo -e ""
 								if [[ "$prompt" == '1' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2009)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -8090,7 +8345,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '2' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2010-2011)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -8109,7 +8364,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '3' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -8132,6 +8387,10 @@ while true; do
 									echo -e "$LINES"
 									echo -e "${RESET}"
 									exit
+								elif [[ "$prompt" == '?' ]]; then
+									HELPIDMAC
+								elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+									break 7
 								else
 									echo -e "${RESET}${ERROR}"
 									echo -e "$FAIL"
@@ -8141,7 +8400,7 @@ while true; do
 							elif [[ "$prompt" == '2' ]]; then
 								while true; do
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 								echo -e "${BODY}2012-Early 2013..........................................................(1)"
@@ -8153,9 +8412,9 @@ while true; do
 								echo -n "Enter your option here... "
 								read -n 1 prompt
 								echo -e ""
-									if [[ "$prompt" == '1' ]]; then
+								if [[ "$prompt" == '1' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012-2013)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -8174,7 +8433,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '2' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2013-2014)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -8193,7 +8452,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '3' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2015-2016)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -8212,7 +8471,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '4' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2017)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -8231,7 +8490,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '5' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2018 or later)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -8254,6 +8513,10 @@ while true; do
 									echo -e "$LINES"
 									echo -e "${RESET}"
 									exit
+								elif [[ "$prompt" == '?' ]]; then
+									HELPIDMAC
+								elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+									break 7
 								else
 									echo -e "${RESET}${ERROR}"
 									echo -e "$FAIL"
@@ -8266,6 +8529,10 @@ while true; do
 								echo -e "$LINES"
 								echo -e "${RESET}"
 								exit
+							elif [[ "$prompt" == '?' ]]; then
+								HELPIDMAC
+							elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+								break 6
 							else
 								echo -e "${RESET}${ERROR}"
 								echo -e "$FAIL"
@@ -8274,7 +8541,7 @@ while true; do
 							done
 						elif [[ "$prompt" == '2' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro 14-inch"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -8294,7 +8561,7 @@ while true; do
 						elif [[ "$prompt" == '3' ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 							echo -e "${BODY}LCD Display..............................................................(1)"
@@ -8306,7 +8573,7 @@ while true; do
 							if [[ "$prompt" == '1' ]]; then
 								while true; do
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 								echo -e "${BODY}2008-2009................................................................(1)"
@@ -8318,7 +8585,7 @@ while true; do
 								echo -e ""
 								if [[ "$prompt" == '1' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2008-2009)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -8337,7 +8604,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '2' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2010-2011)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -8356,7 +8623,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '3' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -8379,6 +8646,10 @@ while true; do
 									echo -e "$LINES"
 									echo -e "${RESET}"
 									exit
+								elif [[ "$prompt" == '?' ]]; then
+									HELPIDMAC
+								elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+									break 7
 								else
 									echo -e "${RESET}${ERROR}"
 									echo -e "$FAIL"
@@ -8388,7 +8659,7 @@ while true; do
 							elif [[ "$prompt" == '2' ]]; then
 								while true; do
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 								echo -e "${BODY}2012-Early 2013..........................................................(1)"
@@ -8402,7 +8673,7 @@ while true; do
 								echo -e ""
 									if [[ "$prompt" == '1' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012-2013)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -8421,7 +8692,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '2' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2013-2014)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -8440,7 +8711,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '3' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2015-2016)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -8459,7 +8730,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '4' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2017)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -8478,7 +8749,7 @@ while true; do
 									fi								
 								elif [[ "$prompt" == '5' ]]; then
 									clear
-									echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+									echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 									echo -e "$LINES"
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2018 or later)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -8501,6 +8772,10 @@ while true; do
 									echo -e "$LINES"
 									echo -e "${RESET}"
 									exit
+								elif [[ "$prompt" == '?' ]]; then
+									HELPIDMAC
+								elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+									break 7
 								else
 									echo -e "${RESET}${ERROR}"
 									echo -e "$FAIL"
@@ -8513,6 +8788,10 @@ while true; do
 								echo -e "$LINES"
 								echo -e "${RESET}"
 								exit
+							elif [[ "$prompt" == '?' ]]; then
+								HELPIDMAC
+							elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+								break 6
 							else
 								echo -e "${RESET}${ERROR}"
 								echo -e "$FAIL"
@@ -8521,7 +8800,7 @@ while true; do
 							done
 						elif [[ "$prompt" == '4' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro 16-inch"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -8541,7 +8820,7 @@ while true; do
 						elif [[ "$prompt" == '5' ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 							echo -e "${BODY}2008-2009................................................................(1)"
@@ -8552,7 +8831,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == '1' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2008-2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -8571,7 +8850,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '2' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2010-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -8594,12 +8873,20 @@ while true; do
 								echo -e "$LINES"
 								echo -e "${RESET}"
 								exit
+							elif [[ "$prompt" == '?' ]]; then
+								HELPIDMAC
+							elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+								break 6
 							else
 								echo -e "${RESET}${ERROR}"
 								echo -e "$FAIL"
 								read -n 1
 							fi
 							done
+						elif [[ "$prompt" == '?' ]]; then
+							HELPIDMAC
+						elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+							break 5
 						elif [[ "$prompt" == '' ]]; then
 							echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
 							echo -e "${RESET}${APP}${BOLD}"
@@ -8615,7 +8902,7 @@ while true; do
 					elif [[ "$prompt" == '3' ]]; then
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 						echo -e "${BODY}11-inch Display..........................................................(1)"
@@ -8628,7 +8915,7 @@ while true; do
 						if [[ "$prompt" == '1' ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 							echo -e "${BODY}2010-2011................................................................(1)"
@@ -8641,7 +8928,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == '1' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2010-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -8660,7 +8947,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '2' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2012)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -8679,7 +8966,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '3' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2013-2014)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -8698,7 +8985,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '4' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -8715,6 +9002,10 @@ while true; do
 								else
 									break 6
 								fi
+							elif [[ "$prompt" == '?' ]]; then
+								HELPIDMAC
+							elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+								break 6
 							elif [[ "$prompt" == '' ]]; then
 								echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
 								echo -e "${RESET}${APP}${BOLD}"
@@ -8730,7 +9021,7 @@ while true; do
 						elif [[ "$prompt" == '2' ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 							echo -e "${BODY}2009.....................................................................(1)"
@@ -8746,7 +9037,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == '1' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -8765,7 +9056,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '2' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2010-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -8784,7 +9075,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '3' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2012)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -8803,7 +9094,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '4' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2013-2014)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -8822,7 +9113,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '5' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2015 or 2017)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -8841,7 +9132,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '6' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2018-2019)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sonoma ${RESET}"
@@ -8860,7 +9151,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '7' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2020 or later)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -8883,6 +9174,10 @@ while true; do
 								echo -e "$LINES"
 								echo -e "${RESET}"
 								exit
+							elif [[ "$prompt" == '?' ]]; then
+								HELPIDMAC
+							elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+								break 6
 							else
 								echo -e "${RESET}${ERROR}"
 								echo -e "$FAIL"
@@ -8891,7 +9186,7 @@ while true; do
 							done
 						elif [[ "$prompt" == '3' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air 15-inch"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -8914,12 +9209,20 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPIDMAC
+						elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+							break 5
 						else
 							echo -e "${RESET}${ERROR}"
 							echo -e "$FAIL"
 							read -n 1
 						fi
 						done
+					elif [[ "$prompt" == '?' ]]; then
+						HELPIDMAC
+					elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+						break 4
 					elif [[ "$prompt" == '' ]]; then
 						echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
 						echo -e "${RESET}${APP}${BOLD}"
@@ -8935,7 +9238,7 @@ while true; do
 				elif [[ "$prompt" == '2' ]]; then
 					while true; do
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 					echo -e "${BODY}iMac.....................................................................(1)"
@@ -8948,7 +9251,7 @@ while true; do
 					if [[ "$prompt" == '1' ]]; then
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 						echo -e "${BODY}iMac.....................................................................(1)"
@@ -8960,7 +9263,7 @@ while true; do
 						if [[ "$prompt" == '1' ]]; then
 							while true; do
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 							echo -e "${BODY}Early 2009...............................................................(1)"
@@ -8976,7 +9279,7 @@ while true; do
 							echo -e ""
 							if [[ "$prompt" == '1' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -8995,7 +9298,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '2' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2009-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -9014,7 +9317,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '3' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2012-2013)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -9033,7 +9336,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '4' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2014-2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
@@ -9052,7 +9355,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '5' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -9071,7 +9374,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '6' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2017)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
@@ -9090,7 +9393,7 @@ while true; do
 								fi
 							elif [[ "$prompt" == '7' ]]; then
 								clear
-								echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+								echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 								echo -e "$LINES"
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2019 or later)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -9113,6 +9416,10 @@ while true; do
 								echo -e "$LINES"
 								echo -e "${RESET}"
 								exit
+							elif [[ "$prompt" == '?' ]]; then
+								HELPIDMAC
+							elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+								break 6
 							else
 								echo -e "${RESET}${ERROR}"
 								echo -e "$FAIL"
@@ -9121,7 +9428,7 @@ while true; do
 							done
 						elif [[ "$prompt" == '2' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac Pro"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -9144,6 +9451,10 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPIDMAC
+						elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+							break 5
 						else
 							echo -e "${RESET}${ERROR}"
 							echo -e "$FAIL"
@@ -9153,7 +9464,7 @@ while true; do
 					elif [[ "$prompt" == '2' ]]; then
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 						echo -e "${BODY}2009.....................................................................(1)"
@@ -9168,7 +9479,7 @@ while true; do
 						echo -e ""
 						if [[ "$prompt" == '1' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2009)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -9187,7 +9498,7 @@ while true; do
 							fi						
 						elif [[ "$prompt" == '2' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2010)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -9206,7 +9517,7 @@ while true; do
 							fi						
 						elif [[ "$prompt" == '3' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2011)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -9225,7 +9536,7 @@ while true; do
 							fi						
 						elif [[ "$prompt" == '4' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2012)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
@@ -9244,7 +9555,7 @@ while true; do
 							fi						
 						elif [[ "$prompt" == '5' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2014)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -9263,7 +9574,7 @@ while true; do
 							fi						
 						elif [[ "$prompt" == '6' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2018 or later)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -9286,6 +9597,10 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPIDMAC
+						elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+							break 5
 						else
 							echo -e "${RESET}${ERROR}"
 							echo -e "$FAIL"
@@ -9295,7 +9610,7 @@ while true; do
 					elif [[ "$prompt" == '3' ]]; then
 						while true; do
 						clear
-						echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+						echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 						echo -e "$LINES"
 						echo -e "${RESET}${TITLE}Please choose one of the following:${RESET}"
 						echo -e "${BODY}2009.....................................................................(1)"
@@ -9308,7 +9623,7 @@ while true; do
 						echo -e ""
 						if [[ "$prompt" == '1' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Pro (2009)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
@@ -9327,7 +9642,7 @@ while true; do
 							fi						
 						elif [[ "$prompt" == '2' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a Mac Pro (2010 or 2012)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
@@ -9347,7 +9662,7 @@ while true; do
 							fi						
 						elif [[ "$prompt" == '3' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Pro (2013)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
@@ -9366,7 +9681,7 @@ while true; do
 							fi						
 						elif [[ "$prompt" == '4' ]]; then
 							clear
-							echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+							echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 							echo -e "$LINES"
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2019 or later)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
@@ -9389,6 +9704,10 @@ while true; do
 							echo -e "$LINES"
 							echo -e "${RESET}"
 							exit
+						elif [[ "$prompt" == '?' ]]; then
+							HELPIDMAC
+						elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+							break 5
 						else
 							echo -e "${RESET}${ERROR}"
 							echo -e "$FAIL"
@@ -9401,12 +9720,22 @@ while true; do
 						echo -e "$LINES"
 						echo -e "${RESET}"
 						exit
+					elif [[ "$prompt" == '?' ]]; then
+						HELPIDMAC
+					elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+						break 4
 					else
 						echo -e "${RESET}${ERROR}"
 						echo -e "$FAIL"
 						read -n 1
 					fi
 					done
+				elif [[ "$prompt" == '?' ]]; then
+					HELPIDMAC
+				elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+					break 3
+				elif [[ "$prompt" == '?' ]]; then
+					HELPIDMAC
 				elif [[ "$prompt" == '' ]]; then
 					echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
 					echo -e "${RESET}${APP}${BOLD}"
@@ -9419,6 +9748,10 @@ while true; do
 					read -n 1
 				fi
 				done
+			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+				break 2
+			elif [[ "$prompt" == '?' ]]; then
+				HELPID
 			elif [[ "$prompt" == '' ]]; then
 				echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
 				echo -e "${RESET}${APP}${BOLD}"
@@ -9431,6 +9764,10 @@ while true; do
 				read -n 1
 			fi
 			done
+		elif [[ "$prompt" == '?' ]]; then
+			BETAHELP
+		elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+			break
 		elif [[ "$prompt" == '' ]]; then
 			echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
 			echo -e "${RESET}${APP}${BOLD}"
@@ -9445,7 +9782,7 @@ while true; do
 		done
 	elif [[ "$prompt" == '5' ]]; then
 		clear
-		echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+		echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 		echo -e "$LINES"
 		echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 		echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map)"
@@ -9470,7 +9807,182 @@ while true; do
 	elif [[ "$prompt" == '6' ]]; then
 		while true; do
 		clear
-		echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+		echo -e "${APP}${BOLD}                               macOS Creator V4.1"
+		echo -e "$LINES"
+		echo -e "${RESET}${TITLE}${BOLD}Choose the color style you like:"
+		echo -e ""
+		echo -e "${RESET}${DEFAULTBLUE}Default Blue....................(1)"
+		echo -e "${RESET}${DESERT}Desert Sands....................(2)"
+		echo -e "${RESET}${CLASSICBLACK}$CLASSICBLACKBW"
+		echo -e ""
+		echo -e "${RESET}${TITLE}Current color:${APP} $SETTINGCOLOR"
+		echo -e "${PROMPTSTYLE}"
+		echo -n "Enter your option here... "
+		read -n 1 prompt
+		echo -e ""
+		if [[ "$prompt" == '1' ]]; then
+			echo -e "${RESET}${WARNING}"
+			echo -n "The macOS Creator will now restart, is this okay? (Press any key to cancel)... "
+			read -n 1 prompt
+			echo -e ""
+			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
+				cd "$script_path_main"
+				sed -i '' '92s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '92s/"38;5;0m/"38;5;23m/' macOS\ Creator.command
+				sed -i '' '93s/"38;5;172m/"38;5;30m/' macOS\ Creator.command && sed -i '' '93s/"38;5;0m/"38;5;30m/' macOS\ Creator.command
+				sed -i '' '94s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '94s/"38;5;0m/"38;5;23m/' macOS\ Creator.command
+				sed -i '' '95s/"38;5;208m/"38;5;65m/' macOS\ Creator.command && sed -i '' '95s/"38;5;0m/"38;5;65m/' macOS\ Creator.command
+				sed -i '' '96s/"38;5;166m/"38;5;67m/' macOS\ Creator.command && sed -i '' '96s/"38;5;0m/"38;5;67m/' macOS\ Creator.command
+				sed -i '' '99s/"38;5;1m/"38;5;132m/' macOS\ Creator.command && sed -i '' '99s/"38;5;0m/"38;5;132m/' macOS\ Creator.command
+				sed -i '' '105s/"38;5;180m/"38;5;158m/' macOS\ Creator.command && sed -i '' '105s/"38;5;255m/"38;5;158m/' macOS\ Creator.command
+				sed -i '' '106s/"38;5;172m/"38;5;159m/' macOS\ Creator.command && sed -i '' '106s/"38;5;255m/"38;5;159m/' macOS\ Creator.command
+				sed -i '' '107s/"38;5;180m/"38;5;158m/' macOS\ Creator.command && sed -i '' '107s/"38;5;255m/"38;5;158m/' macOS\ Creator.command
+				sed -i '' '108s/"38;5;208m/"38;5;150m/' macOS\ Creator.command && sed -i '' '108s/"38;5;255m/"38;5;150m/' macOS\ Creator.command
+				sed -i '' '109s/"38;5;166m/"38;5;67m/' macOS\ Creator.command && sed -i '' '109s/"38;5;255m/"38;5;67m/' macOS\ Creator.command
+				sed -i '' '112s/"38;5;197m/"38;5;175m/' macOS\ Creator.command && sed -i '' '112s/"38;5;255m/"38;5;175m/' macOS\ Creator.command
+				sed -i '' '116s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '116s/"38;5;0m/"38;5;23m/' macOS\ Creator.command
+				sed -i '' '117s/"38;5;172m/"38;5;30m/' macOS\ Creator.command && sed -i '' '117s/"38;5;0m/"38;5;30m/' macOS\ Creator.command
+				sed -i '' '118s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '118s/"38;5;0m/"38;5;23m/' macOS\ Creator.command
+				sed -i '' '119s/"38;5;208m/"38;5;65m/' macOS\ Creator.command && sed -i '' '119s/"38;5;0m/"38;5;65m/' macOS\ Creator.command
+				sed -i '' '120s/"38;5;166m/"38;5;67m/' macOS\ Creator.command && sed -i '' '120s/"38;5;0m/"38;5;67m/' macOS\ Creator.command
+				sed -i '' '123s/"38;5;1m/"38;5;132m/' macOS\ Creator.command && sed -i '' '123s/"38;5;0m/"38;5;132m/' macOS\ Creator.command
+				sed -i '' '97s/"38;5;0m/"38;5;160m/' macOS\ Creator.command
+				sed -i '' '98s/"38;5;0m/"38;5;9m/' macOS\ Creator.command
+				sed -i '' '110s/"38;5;255m/"38;5;160m/' macOS\ Creator.command
+				sed -i '' '111s/"38;5;255m/"38;5;196m/' macOS\ Creator.command
+				sed -i '' '121s/"38;5;0m/"38;5;160m/' macOS\ Creator.command
+				sed -i '' '122s/"38;5;0m/"38;5;9m/' macOS\ Creator.command
+				"$script_path_main"/macOS\ Creator.command && exit
+			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+				break
+			elif [[ "$prompt" == '' ]]; then
+				echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
+				echo -e "${RESET}${APP}${BOLD}"
+				echo -e "$LINES"
+				echo -e "${RESET}"
+				exit
+			else
+				echo -e ""
+				echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
+				echo -e "${RESET}${APP}${BOLD}"
+				echo -e "$LINES"
+				echo -e "${RESET}"
+				exit
+			fi
+		elif [[ "$prompt" == '2' ]]; then
+			echo -e "${RESET}${WARNING}"
+			echo -n "The macOS Creator will now restart, is this okay? (Press any key to cancel)... "
+			read -n 1 prompt
+			echo -e ""
+			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
+				cd "$script_path_main"
+				sed -i '' '92s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '92s/"38;5;0m/"38;5;130m/' macOS\ Creator.command
+				sed -i '' '93s/"38;5;30m/"38;5;172m/' macOS\ Creator.command && sed -i '' '93s/"38;5;0m/"38;5;172m/' macOS\ Creator.command
+				sed -i '' '94s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '94s/"38;5;0m/"38;5;130m/' macOS\ Creator.command
+				sed -i '' '95s/"38;5;65m/"38;5;208m/' macOS\ Creator.command && sed -i '' '95s/"38;5;0m/"38;5;208m/' macOS\ Creator.command
+				sed -i '' '96s/"38;5;67m/"38;5;166m/' macOS\ Creator.command && sed -i '' '96s/"38;5;0m/"38;5;166m/' macOS\ Creator.command
+				sed -i '' '99s/"38;5;132m/"38;5;1m/' macOS\ Creator.command && sed -i '' '99s/"38;5;0m/"38;5;1m/' macOS\ Creator.command
+				sed -i '' '105s/"38;5;158m/"38;5;180m/' macOS\ Creator.command && sed -i '' '105s/"38;5;255m/"38;5;180m/' macOS\ Creator.command
+				sed -i '' '106s/"38;5;159m/"38;5;172m/' macOS\ Creator.command && sed -i '' '106s/"38;5;255m/"38;5;172m/' macOS\ Creator.command
+				sed -i '' '107s/"38;5;158m/"38;5;180m/' macOS\ Creator.command && sed -i '' '107s/"38;5;255m/"38;5;180m/' macOS\ Creator.command
+				sed -i '' '108s/"38;5;150m/"38;5;208m/' macOS\ Creator.command && sed -i '' '108s/"38;5;255m/"38;5;208m/' macOS\ Creator.command
+				sed -i '' '109s/"38;5;67m/"38;5;166m/' macOS\ Creator.command && sed -i '' '109s/"38;5;255m/"38;5;166m/' macOS\ Creator.command
+				sed -i '' '112s/"38;5;175m/"38;5;197m/' macOS\ Creator.command && sed -i '' '112s/"38;5;255m/"38;5;197m/' macOS\ Creator.command
+				sed -i '' '116s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '116s/"38;5;0m/"38;5;130m/' macOS\ Creator.command
+				sed -i '' '117s/"38;5;30m/"38;5;172m/' macOS\ Creator.command && sed -i '' '117s/"38;5;0m/"38;5;172m/' macOS\ Creator.command
+				sed -i '' '118s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '118s/"38;5;0m/"38;5;130m/' macOS\ Creator.command
+				sed -i '' '119s/"38;5;65m/"38;5;208m/' macOS\ Creator.command && sed -i '' '119s/"38;5;0m/"38;5;208m/' macOS\ Creator.command
+				sed -i '' '120s/"38;5;67m/"38;5;166m/' macOS\ Creator.command && sed -i '' '120s/"38;5;0m/"38;5;166m/' macOS\ Creator.command
+				sed -i '' '123s/"38;5;132m/"38;5;1m/' macOS\ Creator.command && sed -i '' '123s/"38;5;0m/"38;5;1m/' macOS\ Creator.command
+				sed -i '' '97s/"38;5;0m/"38;5;160m/' macOS\ Creator.command
+				sed -i '' '98s/"38;5;0m/"38;5;9m/' macOS\ Creator.command
+				sed -i '' '110s/"38;5;255m/"38;5;160m/' macOS\ Creator.command
+				sed -i '' '111s/"38;5;255m/"38;5;196m/' macOS\ Creator.command
+				sed -i '' '121s/"38;5;0m/"38;5;160m/' macOS\ Creator.command
+				sed -i '' '122s/"38;5;0m/"38;5;9m/' macOS\ Creator.command
+				"$script_path_main"/macOS\ Creator.command && exit
+			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+				break
+			elif [[ "$prompt" == '' ]]; then
+				echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
+				echo -e "${RESET}${APP}${BOLD}"
+				echo -e "$LINES"
+				echo -e "${RESET}"
+				exit
+			else
+				echo -e ""
+				echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
+				echo -e "${RESET}${APP}${BOLD}"
+				echo -e "$LINES"
+				echo -e "${RESET}"
+				exit
+			fi
+		elif [[ "$prompt" == '3' ]]; then
+			echo -e "${RESET}${WARNING}"
+			echo -n "The macOS Creator will now restart, is this okay? (Press any key to cancel)... "
+			read -n 1 prompt
+			echo -e ""
+			if [[ "$prompt" == 'y' || "$prompt" == 'Y' ]]; then
+				cd "$script_path_main"
+				sed -i '' '92s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '92s/"38;5;130m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '93s/"38;5;30m/"38;5;0m/' macOS\ Creator.command && sed -i '' '93s/"38;5;172m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '94s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '94s/"38;5;130m/"38;5;0m/' macOS\ Creator.command 
+				sed -i '' '95s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '95s/"38;5;208m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '96s/"38;5;67m/"38;5;0m/' macOS\ Creator.command && sed -i '' '96s/"38;5;166m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '97s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '97s/"38;5;160m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '98s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '98s/"38;5;9m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '99s/"38;5;132m/"38;5;0m/' macOS\ Creator.command && sed -i '' '99s/"38;5;1m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '105s/"38;5;158m/"38;5;255m/' macOS\ Creator.command && sed -i '' '105s/"38;5;180m/"38;5;255m/' macOS\ Creator.command
+				sed -i '' '106s/"38;5;159m/"38;5;255m/' macOS\ Creator.command && sed -i '' '106s/"38;5;172m/"38;5;255m/' macOS\ Creator.command
+				sed -i '' '107s/"38;5;158m/"38;5;255m/' macOS\ Creator.command && sed -i '' '107s/"38;5;180m/"38;5;255m/' macOS\ Creator.command
+				sed -i '' '108s/"38;5;150m/"38;5;255m/' macOS\ Creator.command && sed -i '' '108s/"38;5;208m/"38;5;255m/' macOS\ Creator.command
+				sed -i '' '109s/"38;5;67m/"38;5;255m/' macOS\ Creator.command && sed -i '' '109s/"38;5;166m/"38;5;255m/' macOS\ Creator.command
+				sed -i '' '110s/"38;5;160m/"38;5;255m/' macOS\ Creator.command && sed -i '' '110s/"38;5;160m/"38;5;255m/' macOS\ Creator.command
+				sed -i '' '111s/"38;5;196m/"38;5;255m/' macOS\ Creator.command && sed -i '' '111s/"38;5;196m/"38;5;255m/' macOS\ Creator.command
+				sed -i '' '112s/"38;5;175m/"38;5;255m/' macOS\ Creator.command && sed -i '' '112s/"38;5;197m/"38;5;255m/' macOS\ Creator.command
+				sed -i '' '116s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '116s/"38;5;130m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '117s/"38;5;30m/"38;5;0m/' macOS\ Creator.command && sed -i '' '117s/"38;5;172m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '118s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '118s/"38;5;130m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '119s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '119s/"38;5;208m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '120s/"38;5;67m/"38;5;0m/' macOS\ Creator.command && sed -i '' '120s/"38;5;166m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '121s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '121s/"38;5;160m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '122s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '122s/"38;5;9m/"38;5;0m/' macOS\ Creator.command
+				sed -i '' '123s/"38;5;132m/"38;5;0m/' macOS\ Creator.command && sed -i '' '123s/"38;5;1m/"38;5;0m/' macOS\ Creator.command
+				"$script_path_main"/macOS\ Creator.command && exit
+			elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+				break
+			elif [[ "$prompt" == '' ]]; then
+				echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
+				echo -e "${RESET}${APP}${BOLD}"
+				echo -e "$LINES"
+				echo -e "${RESET}"
+				exit
+			else
+				echo -e ""
+				echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
+				echo -e "${RESET}${APP}${BOLD}"
+				echo -e "$LINES"
+				echo -e "${RESET}"
+				exit
+			fi
+
+		elif [[ "$prompt" == 'q' || "$prompt" == 'Q' ]]; then
+			break
+		elif [[ "$prompt" == '' ]]; then
+			echo -e "${RESET}${CANCEL}${BOLD}$CANCELED"
+			echo -e "${RESET}${APP}${BOLD}"
+			echo -e "$LINES"
+			echo -e "${RESET}"
+			exit
+		else
+			echo -e "${RESET}${ERROR}"
+			echo -e "$FAIL"
+			read -n 1
+		fi
+		done
+	elif [[ "$prompt" == '?' ]]; then
+		while true; do
+		clear
+		echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 		echo -e "$LINES"
 		echo -e "${RESET}${TITLE}${BOLD}Welcome to the user guide."
 		echo -e "${RESET}${TITLE}This quick guide will show you how to use the macOS Creator."
@@ -9485,7 +9997,7 @@ while true; do
 		if [[ "$prompt" == '3' ]]; then
 			while true; do
 			clear
-			echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+			echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 			echo -e "$LINES"
 			echo -e "${RESET}${TITLE}${BOLD}Perfect"
 			echo -e "${RESET}${TITLE}If you wish to cancel at any point, press the return key."
@@ -9502,7 +10014,7 @@ while true; do
 				read -n 1
 				while true; do
 				clear
-				echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+				echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 				echo -e "$LINES"
 				echo -e "${RESET}${TITLE}If you wish to return to the home menu, press Q at any point:"
 				echo -e "${RESET}${PROMPTSTYLE}"
@@ -9516,7 +10028,7 @@ while true; do
 					echo -n "Press any key to continue: "
 					read -n 1
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${BODY}The script may ask you to drag a file or drive into this window."
 					echo -e "${RESET}${BODY}Simply drag the item from the Finder into this window."
@@ -9525,7 +10037,7 @@ while true; do
 					echo -n "Press any key to continue: "
 					read -n 1
 					clear
-					echo -e "${APP}${BOLD}                               macOS Creator V4.0"
+					echo -e "${APP}${BOLD}                               macOS Creator V4.1"
 					echo -e "$LINES"
 					echo -e "${RESET}${TITLE}This is all you need to know to use the macOS Creator."
 					echo -e "${RESET}${PROMPTSTYLE}"
