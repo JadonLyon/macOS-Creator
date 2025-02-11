@@ -14,16 +14,23 @@ echo -n "Are you ready to build the macOS Creator application?... "
 read -n 1 input
 if [[ $input == 'y' || $input == 'Y' ]]; then
 	echo -e ""
+	if [[ ! -d "$SCRIPTPATHMAIN/app_files" ]]; then
+		echo -e ""
+		echo -e "Please unzip the file 'app_files' and then run this script again..."
+		echo -e ""
+		exit
+	fi
 	sudo echo "Determining app path..."
 	sudo cp -R "$SCRIPTPATHMAIN/macOS Creator.command" /private/tmp/macOS\ Creator.command
 	echo -e "Building the app..."
 	mkdir /$HOME/macOS\ Creator
 	sudo mkdir /Applications/macOS\ Creator.app
-	sudo cp -R "$SCRIPTPATHMAIN/macOS Creator App Files/" /Applications/macOS\ Creator.app/
+	sudo cp -R "$SCRIPTPATHMAIN/app_files/macOS Creator App Files/" /Applications/macOS\ Creator.app/
 	echo -e "Copying macOS Creator..."
 	cp -R /private/tmp/macOS\ Creator.command /$HOME/macOS\ Creator/
 	echo -e "Fixing Permissions..."
 	sudo chmod -R u+w /Applications/macOS\ Creator.app
+	sudo chmod +x /$HOME/macOS\ Creator/macOS\ Creator.command
 	chflags hidden /$HOME/macOS\ Creator
 	if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command && -d /Applications/macOS\ Creator.app ]]; then
 		echo -e ""
@@ -41,4 +48,3 @@ if [[ $input == 'y' || $input == 'Y' ]]; then
 else
 	exit
 fi
-	
