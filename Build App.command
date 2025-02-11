@@ -19,7 +19,7 @@ if [[ $input == 'y' || $input == 'Y' ]]; then
 	echo -e "Building the app..."
 	mkdir /$HOME/macOS\ Creator
 	sudo mkdir /Applications/macOS\ Creator.app
-	sudo cp -R "$SCRIPTPATHMAIN/app_files/macOS Creator App Files/" /Applications/macOS\ Creator.app/
+	sudo cp -R "$SCRIPTPATHMAIN/macOS Creator App Files/" /Applications/macOS\ Creator.app/
 	echo -e "Copying macOS Creator..."
 	cp -R /private/tmp/macOS\ Creator.command /$HOME/macOS\ Creator/
 	echo -e "Fixing Permissions..."
