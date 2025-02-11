@@ -8,6 +8,16 @@
 SCRIPTPATH="${0}"
 SCRIPTPATHMAIN="${0%/*}"
 
+#Determines macOS Version (Cancels if not compatible)
+MACOSVERSION=$(sw_vers -productVersion | cut -d '.' -f 1,2)
+if [[ "$MACOSVERSION" == '10.5' || "$MACOSVERSION" == '10.6' || "$MACOSVERSION" == '10.7' || "$MACOSVERSION" == '10.8' ]]; then
+	echo -e ""
+	echo -e "The app cannot be built on this Mac."
+	echo -e "You need OS X Mavericks or later."
+	echo -e ""
+	exit
+fi
+
 #Build App
 echo -e ""
 echo -n "Are you ready to build the macOS Creator application?... "
@@ -30,6 +40,7 @@ if [[ $input == 'y' || $input == 'Y' ]]; then
 	cp -R /private/tmp/macOS\ Creator.command /$HOME/macOS\ Creator/
 	echo -e "Fixing Permissions..."
 	sudo chmod -R u+w /Applications/macOS\ Creator.app
+	sudo chmod +x /Applications/macOS\ Creator.app
 	sudo chmod +x /$HOME/macOS\ Creator/macOS\ Creator.command
 	chflags hidden /$HOME/macOS\ Creator
 	if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command && -d /Applications/macOS\ Creator.app ]]; then
