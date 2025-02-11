@@ -82,7 +82,7 @@ PreRun()
 		UIAPPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
 		if [[ "$UIAPPEARANCE" == "Dark" ]]; then
 			APP='\033["38;5;158m'
-			TITLE='\033["38;5;159m'
+			TITLE='\033["38;5;153m'
 			BODY='\033["38;5;158m'
 			PROMPTSTYLE='\033["38;5;150m'
 			OSFOUND='\033["38;5;111m'
@@ -3170,7 +3170,7 @@ COLORBLUE()
 	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
 	sed -i '' '78s/"38;5;1m/"38;5;132m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;132m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;132m/' macOS\ Creator.command
 	sed -i '' '84s/"38;5;180m/"38;5;158m/' macOS\ Creator.command && sed -i '' '84s/"38;5;255m/"38;5;158m/' macOS\ Creator.command && sed -i '' '84s/"38;5;108m/"38;5;158m/' macOS\ Creator.command && sed -i '' '84s/"38;5;185m/"38;5;158m/' macOS\ Creator.command
-	sed -i '' '85s/"38;5;215m/"38;5;153m/' macOS\ Creator.command && sed -i '' '85s/"38;5;255m/"38;5;159m/' macOS\ Creator.command && sed -i '' '85s/"38;5;193m/"38;5;153m/' macOS\ Creator.command && sed -i '' '85s/"38;5;209m/"38;5;153m/' macOS\ Creator.command
+	sed -i '' '85s/"38;5;215m/"38;5;153m/' macOS\ Creator.command && sed -i '' '85s/"38;5;255m/"38;5;153m/' macOS\ Creator.command && sed -i '' '85s/"38;5;193m/"38;5;153m/' macOS\ Creator.command && sed -i '' '85s/"38;5;209m/"38;5;153m/' macOS\ Creator.command
 	sed -i '' '86s/"38;5;180m/"38;5;158m/' macOS\ Creator.command && sed -i '' '86s/"38;5;255m/"38;5;158m/' macOS\ Creator.command && sed -i '' '86s/"38;5;108m/"38;5;158m/' macOS\ Creator.command && sed -i '' '86s/"38;5;201m/"38;5;158m/' macOS\ Creator.command
 	sed -i '' '87s/"38;5;208m/"38;5;150m/' macOS\ Creator.command && sed -i '' '87s/"38;5;255m/"38;5;150m/' macOS\ Creator.command && sed -i '' '87s/"38;5;150m/"38;5;150m/' macOS\ Creator.command && sed -i '' '87s/"38;5;123m/"38;5;150m/' macOS\ Creator.command
 	sed -i '' '88s/"38;5;166m/"38;5;111m/' macOS\ Creator.command && sed -i '' '88s/"38;5;255m/"38;5;111m/' macOS\ Creator.command && sed -i '' '88s/"38;5;194m/"38;5;111m/' macOS\ Creator.command && sed -i '' '88s/"38;5;156m/"38;5;111m/' macOS\ Creator.command
