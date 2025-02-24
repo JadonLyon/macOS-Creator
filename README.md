@@ -4,6 +4,7 @@ This tool allows for easy creation of macOS Installers on USB Drives
 How to use the tool:
 Drag the script into a Terminal window.
 If you get a "Permission Denied" error, type chmod +x and then drag the script into the Terminal window.
+(NOTE: In V5.1 and newer, you should not experience this issue.)
 Type "y" every time you want to advance to the next step.
 Press "return" any time you wish to cancel.
 Follow the on-screen instructions to create the drive.
@@ -41,4 +42,7 @@ Listing the drives in V5.0
 The drives listed are numbered. If you continuously type an invalid command, the list will progressively grow larger in number. It may get to the point where the drive you need is label 67 or higher. Because the macOS Creator only recives single digit numbers for input, you must restart the script or manually provide the drive.
 
 Cleanup in V5.0
-While donwloading the macOS Installer, the script saves the file to /private/tmp/ on your Mac's internal drive. When the drive has been successfully created, you can now use the cleanup tool to remove those files and free disk space on your Mac. This tool is still in acitve devolopment and is currently limited.
+While donwloading the macOS Installer, the script saves the file to /private/tmp/ on your Mac's internal drive. When the drive has been successfully created, you can now use the cleanup tool to remove those files and free disk space on your Mac. This tool has many more features begining in V5.1 and more will be added in future releases.
+
+First time in V5.2 and newer.
+When you first launch the script, it will ask if you have ever used the script before, and it can take you to the user guide. When you continue to the main menu, the script rewrites itself so you never see that message again. If you are updating from a previous version, the Build App.command script will save a file to your Mac's tmp folder to show that the update has been successful.
