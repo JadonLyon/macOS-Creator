@@ -46,3 +46,6 @@ While donwloading the macOS Installer, the script saves the file to /private/tmp
 
 First time in V5.2 and newer.
 When you first launch the script, it will ask if you have ever used the script before, and it can take you to the user guide. When you continue to the main menu, the script rewrites itself so you never see that message again. If you are updating from a previous version, the Build App.command script will save a file to your Mac's tmp folder to show that the update has been successful.
+
+Settings in V5.3 and newer.
+All configurations have been moved to a menu called Settings. This includes color adjustments and the cleanup tool. If you build the app, you will be able to save your setting permanently. This way, you do not lose your Setitngs after an upgrade or reinstallation. Running in Verbose or Safe Mode simply relaunches the script with an argument added. Adjusting the app has two options: One Launch and Normal Launch. Normal launch simply opens a terminal window and runs the script. This way, you can run the script as many times as needed. One Launch opens the script directly, so it is faster, and more direct. This, however, forces the user to close the window and reopen it every time.
