@@ -2,11 +2,19 @@
 This tool allows for easy creation of macOS Installers on USB Drives
 
 How to use the tool:
-Drag the script into a Terminal window.
+Open the "macOS Creator.dmg" file. There you can build the application.
+NOTE: you can run the script directly from the .dmg file, but you will not be able to customize it.
+
+Enter your password to install the app.
+
 If you get a "Permission Denied" error, type chmod +x and then drag the script into the Terminal window.
 (NOTE: In V5.1 and newer, you should not experience this issue.)
-Type "y" every time you want to advance to the next step.
+
+To choose a command, type the number corresponding to it.
 Press "return" any time you wish to cancel.
+Press "Q" any time you wish to go back to the Home Menu.
+Press "W" any time you wish to go back one step.
+Adjust the settings you like in the settings menu.
 Follow the on-screen instructions to create the drive.
 
 New changes in V4.0
