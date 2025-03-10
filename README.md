@@ -1,6 +1,8 @@
 # macOS-Creator
 This tool allows for easy creation of macOS Installers on USB Drives
 
+USE: YOU MAY USE THIS TOOL FREE OF CHARGE. BUT, PLEASE DO NOT REDISTRIBUTE THIS SOFTWARE AND CLAIM IT AS YOUR OWN!
+
 How to use the tool:
 Open the "macOS Creator.dmg" file. There you can build the application.
 NOTE: you can run the script directly from the .dmg file, but you will not be able to customize it.
