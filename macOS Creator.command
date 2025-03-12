@@ -11,8 +11,10 @@
 #                   Now lets you refresh the drive list.
 #                   Now allows you to confirm if you wish to cancel.
 #                   Allows you to see more detailed information about your Mac in the Info tool.
+#                   Now allows you to run safe mode with graphics safe mode.
 #                   Fixed a minor issue with Safe Mode.
 #                   Fixed an issue where on rare occasions, the disk image did not mount.
+#                   Fixed minor issues found throughout the script.
 #
 #
 #
@@ -28,8 +30,6 @@
 
 
 #Sets parameters for Verbose and Safe Modes
-
-
 PARAMETERS="${1}${2}${3}${4}${5}${6}${7}${8}${9}"
 
 if [[ $PARAMETERS == *"-v"* || $PARAMETERS == *"-verbose"* ]]; then
@@ -266,13 +266,10 @@ PreRun()
 		APPLECHIPINFO="\033[38;5;33mApp\033[38;5;63mle \033[38;5;129mSili\033[38;5;163mcone"
 	fi
 }
-PreRunOS()
+PreRunMac()
 {
 	#Checks Mac model
 	MACVERSION=$(sysctl hw.model | awk '{ print $2 }')
-	
-	#Checks macOS Version
-	MACOSVERSION=$(sw_vers -productVersion | cut -d '.' -f 1,2)
 	
 	#Checks Startup Disk
 	STARTUPDISK=$(diskutil info / | sed -n 's/^ *Volume Name: *//p')
@@ -296,21 +293,40 @@ PreRunOS()
 		fi
 	fi
 }
+PreRunOS()
+{
+	#Checks macOS Version
+	MACOSVERSION=$(sw_vers -productVersion | cut -d '.' -f 1,2)
+}
 
 #Text and commands
 WINDOWBAR()
 {
-	clear
-	if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-		echo -e "${APP}${BOLD}                     macOS Creator V5.4 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
-	elif [[ $verbose == '1' ]]; then
-		echo -e "${APP}${BOLD}                           macOS Creator V5.4 ${WARNING}(Verbose)${APP}${BOLD}"
-	elif [[ $safe == '1' || $safe == '2' ]]; then
-		echo -e "${APP}${BOLD}                         macOS Creator V5.4 ${WARNING}(Safe Mode)${APP}${BOLD}"
+	if [[ $GRAPHICSSAFE == 'YES' ]]; then
+		clear
+		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
+			echo -e "${APP}${BOLD}macOS Creator V5.4 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+		elif [[ $verbose == '1' ]]; then
+			echo -e "${APP}${BOLD}macOS Creator V5.4 ${WARNING}(Verbose)${APP}${BOLD}"
+		elif [[ $safe == '1' || $safe == '2' ]]; then
+			echo -e "${APP}${BOLD}macOS Creator V5.4 ${WARNING}(Safe Mode)${APP}${BOLD}"
+		else
+			echo -e "${APP}${BOLD}macOS Creator V5.4"
+		fi
+		echo -e ""
 	else
-		echo -e "${APP}${BOLD}                               macOS Creator V5.4"
+		clear
+		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
+			echo -e "${APP}${BOLD}                     macOS Creator V5.4 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+		elif [[ $verbose == '1' ]]; then
+			echo -e "${APP}${BOLD}                           macOS Creator V5.4 ${WARNING}(Verbose)${APP}${BOLD}"
+		elif [[ $safe == '1' || $safe == '2' ]]; then
+			echo -e "${APP}${BOLD}                         macOS Creator V5.4 ${WARNING}(Safe Mode)${APP}${BOLD}"
+		else
+			echo -e "${APP}${BOLD}                               macOS Creator V5.4"
+		fi
+		echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
 	fi
-	echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
 }
 WINDOWBAREND()
 {
@@ -320,9 +336,11 @@ WINDOWBAREND()
 	if [[ $input == 'q' || $input == 'Q' ]]; then
 		echo -e ""
 		echo -e "\033[1A\033[0KScript Canceled"
-		echo -e "${RESET}${APP}${BOLD}"
-		echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
-		echo -e "${RESET}"
+		if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
+			echo -e "${RESET}${APP}${BOLD}"
+			echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
+			echo -e "${RESET}"
+		fi
 		exit
 	else
 		echo -e "${RESET}"
@@ -352,9 +370,11 @@ WINDOWBARENDANY()
 	if [[ $input == 'q' || $input == 'Q' ]]; then
 		echo -e ""
 		echo -e "\033[1A\033[0KScript Canceled"
-		echo -e "${RESET}${APP}${BOLD}"
-		echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
-		echo -e "${RESET}"
+		if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
+			echo -e "${RESET}${APP}${BOLD}"
+			echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
+			echo -e "${RESET}"
+		fi
 		exit
 	else
 		echo -e "${RESET}"
@@ -365,18 +385,22 @@ SUCCESS()
 	echo -e ""
 	echo -e ""
 	echo -e "${RESET}${CANCEL}${BOLD}Thank you for using the macOS Creator."
-	echo -e "${RESET}${APP}${BOLD}"
-	echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
-	echo -e "${RESET}"
+	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
+		echo -e "${RESET}${APP}${BOLD}"
+		echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
+		echo -e "${RESET}"
+	fi
 	exit
 }
 SUCCESSRETURN()
 {
 	echo -e ""
 	echo -e "${RESET}${CANCEL}${BOLD}Thank you for using the macOS Creator."
-	echo -e "${RESET}${APP}${BOLD}"
-	echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
-	echo -e "${RESET}"
+	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
+		echo -e "${RESET}${APP}${BOLD}"
+		echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
+		echo -e "${RESET}"
+	fi
 	exit
 }
 TROUBLESHOOTGUIDE()
@@ -611,15 +635,17 @@ RELEASENOTES()
 - Now lets you refresh the drive list.
 - Now allows you to confirm if you wish to cancel.
 - Allows you to see more detailed information about your Mac in the Info tool.
+- Now allows you to run safe mode with graphics safe mode.
 - Fixed a minor issue with Safe Mode.
-- Fixed an issue where on rare occasions, the disk image did not mount."
+- Fixed an issue where on rare occasions, the disk image did not mount.
+- Fixed minor issues found throughout the script."
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to get started... "
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '7165s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+		sed -i '' '7283s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 		if [[ $verbose == "1" ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 		elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -650,20 +676,12 @@ MACINFO()
 		fi
 	fi
 	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
-		echo -e "${RESET}${TITLE}Mac model: ${BODY}${BOLD}Unknown"
+		echo -e "${RESET}${TITLE}Mac model:"
 	else
 		echo -e "${RESET}${TITLE}Mac model: ${BODY}${BOLD}$MACVERSION (Press I to see more info)"
 	fi
-	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
-		echo -e "${RESET}${TITLE}macOS Version: ${BODY}${BOLD}Unknown"
-	else
-		echo -e "${RESET}${TITLE}macOS Version: ${BODY}${BOLD}$MACOSVERSION"
-	fi
-	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
-		echo -e "${RESET}${TITLE}Startup Drive: ${BODY}${BOLD}Unknown"
-	else
-		echo -e "${RESET}${TITLE}Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
-	fi
+	echo -e "${RESET}${TITLE}macOS Version: ${BODY}${BOLD}$MACOSVERSION"
+	echo -e "${RESET}${TITLE}Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
 	echo -e ""
 	echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}Press any key to return home... "
 	read -n 1 input
@@ -691,7 +709,7 @@ FIRSTTIME()
 		else
 			rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7165s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7283s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -717,7 +735,7 @@ FIRSTTIME()
 			GUIDE
 		else
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7165s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7283s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -843,7 +861,7 @@ GUIDE()
 												echo -n "Press any key to get started... "
 												read -n 1
 												cd "$SCRIPTPATHMAIN"
-												sed -i '' '7165s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+												sed -i '' '7283s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 												if [[ $verbose == "1" ]]; then
 													"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 												elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -4480,6 +4498,7 @@ APPCONFIG()
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to go back... "
 		read -n 1
+		break
 	fi
 	while true; do
 		WINDOWBAR
@@ -6248,6 +6267,18 @@ IDMAC()
 					else
 						SCRIPTLAYOUT
 					fi
+				elif [[ $MACVERSION == 'Mac15,14' || $MACVERSION == 'Mac16,9' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Studio (2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
 				else 
 					WINDOWBAR
 					echo -e "${RESET}${ERROR}Cannot detect Mac model."
@@ -7249,7 +7280,7 @@ SCRIPTLAYOUT()
 		exit
 	else
 		while true; do
-			MAINMENU
+			FIRSTTIME
 			read -n 1 maininput
 			if [[ $maininput == '1' ]]; then
 				while true; do
@@ -7288,6 +7319,7 @@ SCRIPTLAYOUT()
 
 #Script Order
 if [[ $safe == "1" ]]; then
+	GRAPHICSSAFE="YES"
 	SCRIPTLAYOUT
 elif [[ $safe == "2" ]]; then
 	clear
@@ -7304,6 +7336,14 @@ elif [[ $safe == "2" ]]; then
 	else
 		echo -e ""
 	fi
+	echo -n "Skip OS Verifications... "
+	read -n 1 input
+	if [[ $input == 'y' || $input == 'Y' ]]; then
+		PRERUNOS="NO"
+		echo -e ""
+	else
+		echo -e ""
+	fi
 	echo -n "Skip script color set... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
@@ -7312,7 +7352,20 @@ elif [[ $safe == "2" ]]; then
 	else
 		echo -e ""
 	fi
+	echo -n "Run with safe graphics... "
+	read -n 1 input
+	if [[ $input == 'y' || $input == 'Y' ]]; then
+		PRERUNDIS="YES"
+		echo -e ""
+	else
+		echo -e ""
+	fi
 	if [[ $MACVERIFY == 'NO' ]]; then
+		echo -e ""
+	else
+		PreRunMac
+	fi
+	if [[ $PRERUNOS == 'NO' ]]; then
 		echo -e ""
 	else
 		PreRunOS
@@ -7322,10 +7375,16 @@ elif [[ $safe == "2" ]]; then
 	else
 		PreRun
 	fi
+	if [[ $PRERUNDIS == 'YES' ]]; then
+		GRAPHICSSAFE="YES"
+	else
+		echo -e ""
+	fi
 	SCRIPTLAYOUT
 else
-	PreRunOS
 	PreRun
+	PreRunMac
+	PreRunOS
 	SCRIPTLAYOUT
 fi
 
