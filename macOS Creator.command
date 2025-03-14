@@ -4,17 +4,11 @@
 #This is where the script code is located
 #Caution: Modifying the script may cause it to break!
 
-#Version 5.4
+#Version 5.5
 #Release notes:
-#              V5.4 Introduces support for the new MacBook Air model.
-#                   Introduces support for Mac Studio models.
-#                   Now lets you refresh the drive list.
-#                   Now allows you to confirm if you wish to cancel.
-#                   Allows you to see more detailed information about your Mac in the Info tool.
-#                   Now allows you to run safe mode with graphics safe mode.
-#                   Fixed a minor issue with Safe Mode.
-#                   Fixed an issue where on rare occasions, the disk image did not mount.
-#                   Fixed minor issues found throughout the script.
+#              V5.5 This update focuses primarily on macOS Sierra.
+#                   No longer uses createinstallmedia command to create macOS Sierra.
+#                   Modifies macOS Sierra drive to run correctly.
 #
 #
 #
@@ -613,6 +607,7 @@ CREDITS()
 	echo -e "${RESET}${BODY}Script built and designed by ${BOLD}Encore Platforms${RESET}${BODY}."
 	echo -e "Clean up tool (Repair Permissions) made by ${BOLD}Isiah Johnson${RESET}${BODY}."
 	echo -e "(Output), the tool to hide commands was originally created by ${BOLD}OS X Hackers${RESET}${BODY}."
+	echo -e "macOS Sierra modifications were discovered by ${BOLD}dosdude1${RESET}${BODY}."
 	echo -e ""
 	echo -e "Encore Platforms is not affiliated with Apple Inc."
 	echo -e "Mac OS Ten (X), Mac, and all other Apple product names are trademarks or"
@@ -2194,8 +2189,29 @@ SIERRADRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Sierra${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction
-	if [ $? -eq 0 ]; then
+	Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg"
+	if [ ! $? -eq 0 ]; then
+		echo -e "${RESET}${ERROR}${BOLD}"
+		echo -e "Disk mounting failed."
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "Please unmount the disk image with Disk Utility. (Press any key to quit)... "
+		read -n 1 input
+		if [[ $input == 'q' || $input == 'Q' ]]; then
+			SCRIPTLAYOUT
+		elif [[ $input == 'w' || $input == 'W' ]]; then
+			break
+		elif [[ $input == '' ]]; then
+			WINDOWBAREND
+		else
+			WINDOWBARENDANY
+		fi
+	fi
+	Output sudo asr restore -source "/Volumes/OS X Install ESD/BaseSystem.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
+	Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/Packages
+	Output cp -R "/Volumes/OS X Install ESD/Packages" /Volumes/OS\ X\ Base\ System/System/Installation/
+	Output cp "/Volumes/OS X Install ESD/BaseSystem.dmg" /Volumes/OS\ X\ Base\ System/
+	Output cp "/Volumes/OS X Install ESD/BaseSystem.chunklist" /Volumes/OS\ X\ Base\ System/
+	if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -7280,7 +7296,7 @@ SCRIPTLAYOUT()
 		exit
 	else
 		while true; do
-			FIRSTTIME
+			MAINMENU
 			read -n 1 maininput
 			if [[ $maininput == '1' ]]; then
 				while true; do
