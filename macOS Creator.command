@@ -8,7 +8,7 @@
 #Release notes:
 #              V5.5 This update focuses primarily on macOS Sierra.
 #                   No longer uses createinstallmedia command to create macOS Sierra.
-#                   Modifies macOS Sierra drive to run correctly.
+#                   Modifies macOS Sierra drive to install correctly.
 #
 #
 #
@@ -625,15 +625,9 @@ RELEASENOTES()
 {
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Version 5.4 ${RESET}${TITLE}Release Notes"
-	echo -e "${RESET}${BODY}- Introduces support for the new MacBook Air model.
-- Introduces support for Mac Studio models.
-- Now lets you refresh the drive list.
-- Now allows you to confirm if you wish to cancel.
-- Allows you to see more detailed information about your Mac in the Info tool.
-- Now allows you to run safe mode with graphics safe mode.
-- Fixed a minor issue with Safe Mode.
-- Fixed an issue where on rare occasions, the disk image did not mount.
-- Fixed minor issues found throughout the script."
+	echo -e "${RESET}${BODY}- This update focuses primarily on macOS Sierra.
+- No longer uses createinstallmedia command to create macOS Sierra.
+- Modifies macOS Sierra drive to install correctly."
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to get started... "
@@ -2189,28 +2183,24 @@ SIERRADRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Sierra${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg"
-	if [ ! $? -eq 0 ]; then
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Disk mounting failed."
-		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Please unmount the disk image with Disk Utility. (Press any key to quit)... "
-		read -n 1 input
-		if [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
-		else
-			WINDOWBARENDANY
-		fi
+	if [[ -d /Volumes/OS\ X\ Install\ ESD/ ]]; then
+		Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
 	fi
+	echo -e ""
+	echo -e "Step 1 of 7..."
+	Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg"
+	echo -e "\033[1A\033[0KStep 2 of 7..."
 	Output sudo asr restore -source "/Volumes/OS X Install ESD/BaseSystem.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
+	echo -e "\033[1A\033[0KStep 3 of 7..."
 	Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/Packages
+	echo -e "\033[1A\033[0KStep 4 of 7..."
 	Output cp -R "/Volumes/OS X Install ESD/Packages" /Volumes/OS\ X\ Base\ System/System/Installation/
+	echo -e "\033[1A\033[0KStep 5 of 7..."
 	Output cp "/Volumes/OS X Install ESD/BaseSystem.dmg" /Volumes/OS\ X\ Base\ System/
+	echo -e "\033[1A\033[0KStep 6 of 7..."
 	Output cp "/Volumes/OS X Install ESD/BaseSystem.chunklist" /Volumes/OS\ X\ Base\ System/
+	echo -e "\033[1A\033[0KStep 7 of 7..."
+	Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
 	if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
