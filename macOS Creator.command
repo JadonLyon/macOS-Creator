@@ -299,25 +299,25 @@ WINDOWBAR()
 	if [[ $GRAPHICSSAFE == 'YES' ]]; then
 		clear
 		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}macOS Creator V5.4 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}macOS Creator V5.5 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
 		elif [[ $verbose == '1' ]]; then
-			echo -e "${APP}${BOLD}macOS Creator V5.4 ${WARNING}(Verbose)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}macOS Creator V5.5 ${WARNING}(Verbose)${APP}${BOLD}"
 		elif [[ $safe == '1' || $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}macOS Creator V5.4 ${WARNING}(Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}macOS Creator V5.5 ${WARNING}(Safe Mode)${APP}${BOLD}"
 		else
-			echo -e "${APP}${BOLD}macOS Creator V5.4"
+			echo -e "${APP}${BOLD}macOS Creator V5.5"
 		fi
 		echo -e ""
 	else
 		clear
 		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                     macOS Creator V5.4 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                     macOS Creator V5.5 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
 		elif [[ $verbose == '1' ]]; then
-			echo -e "${APP}${BOLD}                           macOS Creator V5.4 ${WARNING}(Verbose)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                           macOS Creator V5.5 ${WARNING}(Verbose)${APP}${BOLD}"
 		elif [[ $safe == '1' || $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                         macOS Creator V5.4 ${WARNING}(Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                         macOS Creator V5.5 ${WARNING}(Safe Mode)${APP}${BOLD}"
 		else
-			echo -e "${APP}${BOLD}                               macOS Creator V5.4"
+			echo -e "${APP}${BOLD}                               macOS Creator V5.5"
 		fi
 		echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
 	fi
