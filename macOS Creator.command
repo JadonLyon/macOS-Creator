@@ -6,9 +6,11 @@
 
 #Version 5.5
 #Release notes:
-#              V5.5 This update focuses primarily on macOS Sierra.
-#                   No longer uses createinstallmedia command to create macOS Sierra.
+#              V5.5 No longer uses createinstallmedia command to create macOS Sierra.
 #                   Modifies macOS Sierra drive to install correctly.
+#                   Now shows simplified error results if drive creation fails. BETA
+#                   Fixes a major issue where OS X Mavericks - El Capitan would not create successfully.
+#                   Fixes minor issues found throughout the script.
 #
 #
 #
@@ -55,11 +57,15 @@ SCRIPTPATH="${0}"
 
 SCRIPTPATHMAIN="${0%/*}"
 
+
 if [[ -e "$SCRIPTPATHMAIN/.homeuser" ]]; then
 	HOMEUSER="YES"
 fi
+
+
 PreRun()
 {
+	
 	#Sets UI Colors
 	if [[ "$MACOSVERSION" == 10.5 || "$MACOSVERSION" == 10.6 || "$MACOSVERSION" == 10.7 || "$MACOSVERSION" == 10.8 || "$MACOSVERSION" == 10.9 || "$MACOSVERSION" == 10.10 || "$MACOSVERSION" == 10.11 || "$MACOSVERSION" == 10.12 || "$MACOSVERSION" == 10.13 ]]; then
 		APP='\033["38;5;23m'
@@ -624,17 +630,19 @@ CREDITS()
 RELEASENOTES()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Version 5.4 ${RESET}${TITLE}Release Notes"
-	echo -e "${RESET}${BODY}- This update focuses primarily on macOS Sierra.
-- No longer uses createinstallmedia command to create macOS Sierra.
-- Modifies macOS Sierra drive to install correctly."
+	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Version 5.5 ${RESET}${TITLE}Release Notes"
+	echo -e "${RESET}${BODY}- No longer uses createinstallmedia command to create macOS Sierra.
+- Modifies macOS Sierra drive to install correctly.
+- Now shows simplified error results if drive creation fails. BETA
+- Fixes a major issue where OS X Mavericks - El Capitan would not work.
+- Fixes minor issues found throughout the script."
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to get started... "
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '7283s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+		sed -i '' '7367s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 		if [[ $verbose == "1" ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 		elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -689,7 +697,7 @@ FIRSTTIME()
 		FIRSTTIMEHERE="TRUE"
 		WINDOWBAR
 		echo -e "${RESET}${TITLE}${BOLD}Upgrade successful.${RESET}"
-		echo -e "${RESET}${BODY}The macOS Creator has been upgraded to V5.4"
+		echo -e "${RESET}${BODY}The macOS Creator has been upgraded to V5.5"
 		echo -e ""
 		echo -e -n "${RESET}${BODY}Would you like to see the release notes?... "
 		read -n 1 input
@@ -698,7 +706,7 @@ FIRSTTIME()
 		else
 			rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7283s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7367s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -724,7 +732,7 @@ FIRSTTIME()
 			GUIDE
 		else
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7283s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7367s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -850,7 +858,7 @@ GUIDE()
 												echo -n "Press any key to get started... "
 												read -n 1
 												cd "$SCRIPTPATHMAIN"
-												sed -i '' '7283s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+												sed -i '' '7367s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 												if [[ $verbose == "1" ]]; then
 													"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 												elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -2066,8 +2074,11 @@ MAVERICKSDRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}OS X Mavericks${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath /Applications/Install\ OS\ X\ Mavericks.app --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Done"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2082,20 +2093,25 @@ MAVERICKSDRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2105,8 +2121,11 @@ YOSEMITEDRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}OS X Yosemite${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath /Applications/Install\ OS\ X\ Yosemite.app --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Done"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2121,20 +2140,25 @@ YOSEMITEDRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2144,8 +2168,11 @@ ELCAPITANDRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}OS X El Capitan${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath /Applications/Install\ OS\ X\ El\ Capitan.app --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Done"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2160,20 +2187,25 @@ ELCAPITANDRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2216,20 +2248,14 @@ SIERRADRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2239,8 +2265,11 @@ HIGHSIERRADRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS High Sierra${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Done"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2255,20 +2284,25 @@ HIGHSIERRADRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2278,8 +2312,11 @@ MOJAVEDRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Mojave${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Install media now available"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2294,20 +2331,25 @@ MOJAVEDRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2317,8 +2359,11 @@ CATALINADRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Catalina${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Install media now available"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2333,20 +2378,25 @@ CATALINADRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2356,8 +2406,11 @@ BIGSURDRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Big Sur${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Install media now available"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2372,20 +2425,25 @@ BIGSURDRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2395,8 +2453,11 @@ MONTEREYDRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Monterey${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Install media now available"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2411,20 +2472,25 @@ MONTEREYDRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2434,8 +2500,11 @@ VENTURADRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Ventura${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Install media now available"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2450,20 +2519,25 @@ VENTURADRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2473,8 +2547,11 @@ SONOMADRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Sonoma${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Install media now available"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2489,20 +2566,25 @@ SONOMADRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2512,8 +2594,11 @@ SEQUOIADRIVECREATION()
 	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Sequoia${RESET}${TITLE}. Please Enter Your "
 	sudo echo ""
 	echo -e "${RESET}${BODY}Please wait... "
-	Output sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction
-	if [ $? -eq 0 ]; then
+	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ $verbose == "1" ]]; then
+		echo -e "$error"
+	fi
+	if [[ "$error" == *"Install media now available"* ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
@@ -2528,20 +2613,25 @@ SEQUOIADRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
+		if [[ "$error" == *"command not found"* ]]; then
+			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+		elif [[ "$error" == *"large enough"* ]]; then
+			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+		elif [[ "$error" == *"installer"* ]]; then
+			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+		else
+			echo -e "${RESET}${ERROR}An unknown error has occured."
+		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2567,20 +2657,14 @@ MLDRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -2606,20 +2690,14 @@ LDRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed."
+		echo -e "Operation Failed"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to quit)... "
+		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
-		elif [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			WINDOWBAREND
 		else
-			WINDOWBARENDANY
+			SCRIPTLAYOUT
 		fi
 	fi
 }
@@ -7286,7 +7364,7 @@ SCRIPTLAYOUT()
 		exit
 	else
 		while true; do
-			MAINMENU
+			FIRSTTIME
 			read -n 1 maininput
 			if [[ $maininput == '1' ]]; then
 				while true; do
