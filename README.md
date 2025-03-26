@@ -59,3 +59,6 @@ When you first launch the script, it will ask if you have ever used the script b
 
 Settings in V5.3 and newer.
 All configurations have been moved to a menu called Settings. This includes color adjustments and the cleanup tool. If you build the app, you will be able to save your setting permanently. This way, you do not lose your Setitngs after an upgrade or reinstallation. Running in Verbose or Safe Mode simply relaunches the script with an argument added. Adjusting the app has two options: One Launch and Normal Launch. Normal launch simply opens a terminal window and runs the script. This way, you can run the script as many times as needed. One Launch opens the script directly, so it is faster, and more direct. This, however, forces the user to close the window and reopen it every time.
+
+macOS Sierra Drive Modification in V5.5.
+macOS Sierra has some bug with the standard createinstallmedia command which is why is fails continuously. In order to resolve this issue with the macOS Creator, drive creation has been completely changed. Now, the macOS Creator will mount the Install ESD disk image and restore the Base System disk image onto the drive. Then, it will copy the packages required for installation to the drive. It will then bless the drive to make it bootable.
