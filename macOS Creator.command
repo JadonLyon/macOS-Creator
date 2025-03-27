@@ -4,13 +4,9 @@
 #This is where the script code is located
 #Caution: Modifying the script may cause it to break!
 
-#Version 5.5
+#Version 5.6
 #Release notes:
-#              V5.5 No longer uses createinstallmedia command to create macOS Sierra.
-#                   Modifies macOS Sierra drive to install correctly.
-#                   Now shows simplified error results if drive creation fails. BETA
-#                   Fixes a major issue where OS X Mavericks - El Capitan would not create successfully.
-#                   Fixes minor issues found throughout the script.
+#              V5.6 Introduces ESM (Extended Support Mode) for Mac OS X Leopard & Snow Leopard.
 #
 #
 #
@@ -305,25 +301,25 @@ WINDOWBAR()
 	if [[ $GRAPHICSSAFE == 'YES' ]]; then
 		clear
 		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}macOS Creator V5.5 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}macOS Creator V5.6 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
 		elif [[ $verbose == '1' ]]; then
-			echo -e "${APP}${BOLD}macOS Creator V5.5 ${WARNING}(Verbose)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}macOS Creator V5.6 ${WARNING}(Verbose)${APP}${BOLD}"
 		elif [[ $safe == '1' || $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}macOS Creator V5.5 ${WARNING}(Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}macOS Creator V5.6 ${WARNING}(Safe Mode)${APP}${BOLD}"
 		else
-			echo -e "${APP}${BOLD}macOS Creator V5.5"
+			echo -e "${APP}${BOLD}macOS Creator V5.6"
 		fi
 		echo -e ""
 	else
 		clear
 		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                     macOS Creator V5.5 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                     macOS Creator V5.6 ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
 		elif [[ $verbose == '1' ]]; then
-			echo -e "${APP}${BOLD}                           macOS Creator V5.5 ${WARNING}(Verbose)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                           macOS Creator V5.6 ${WARNING}(Verbose)${APP}${BOLD}"
 		elif [[ $safe == '1' || $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                         macOS Creator V5.5 ${WARNING}(Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                         macOS Creator V5.6 ${WARNING}(Safe Mode)${APP}${BOLD}"
 		else
-			echo -e "${APP}${BOLD}                               macOS Creator V5.5"
+			echo -e "${APP}${BOLD}                               macOS Creator V5.6"
 		fi
 		echo -e "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
 	fi
@@ -630,7 +626,7 @@ CREDITS()
 RELEASENOTES()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Version 5.5 ${RESET}${TITLE}Release Notes"
+	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Version 5.6 ${RESET}${TITLE}Release Notes"
 	echo -e "${RESET}${BODY}- No longer uses createinstallmedia command to create macOS Sierra.
 - Modifies macOS Sierra drive to install correctly.
 - Now shows simplified error results if drive creation fails. BETA
@@ -697,7 +693,7 @@ FIRSTTIME()
 		FIRSTTIMEHERE="TRUE"
 		WINDOWBAR
 		echo -e "${RESET}${TITLE}${BOLD}Upgrade successful.${RESET}"
-		echo -e "${RESET}${BODY}The macOS Creator has been upgraded to V5.5"
+		echo -e "${RESET}${BODY}The macOS Creator has been upgraded to V5.6"
 		echo -e ""
 		echo -e -n "${RESET}${BODY}Would you like to see the release notes?... "
 		read -n 1 input
@@ -7340,19 +7336,290 @@ IDMAC()
 		done
 }
 
+#Extended Support Mode
+ESMWINDOWBAR()
+{
+		clear
+		echo "                            macOS Creator V5.6 (ESM)"
+		echo "********************************************************************************"
+}
+ESMWINDOWBAREND()
+{
+	echo ""
+	echo -n "Press Q to quit... "
+	read -n 1 input
+	if [[ $input == 'q' || $input == 'Q' ]]; then
+		echo ""
+		echo -e "\033[1A\033[0KScript Canceled"
+		echo ""
+		exit
+	fi
+}
+ESMWINDOWBARERROR()
+{
+	echo ""
+	echo ""
+	echo -n "This is not a valid command, press any key to try again... "
+	read -n 1
+}
+ESMOSSEQUOIA()
+{
+	ESMWINDOWBAR
+	echo "macOS Sequoia was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSSONOMA()
+{
+	ESMWINDOWBAR
+	echo "macOS Sonoma was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSVENTURA()
+{
+	ESMWINDOWBAR
+	echo "macOS Ventura was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSMONTEREY()
+{
+	ESMWINDOWBAR
+	echo "macOS Monterey was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSBIGSUR()
+{
+	ESMWINDOWBAR
+	echo "macOS Big Sur was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSCATALINA()
+{
+	ESMWINDOWBAR
+	echo "macOS Catalina was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSMOJAVE()
+{
+	ESMWINDOWBAR
+	echo "macOS Mojave was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSHIGHSIERRA()
+{
+	ESMWINDOWBAR
+	echo "macOS High Sierra was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSSIERRA()
+{
+	ESMWINDOWBAR
+	echo "macOS Sierra was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSELCAPITAN()
+{
+	ESMWINDOWBAR
+	echo "OS X El Capitan was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSYOSEMITE()
+{
+	ESMWINDOWBAR
+	echo "OS X Yosemite was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSMAVERICKS()
+{
+	ESMWINDOWBAR
+	echo "OS X Mavericks was found"
+	echo "This macOS Verison is not compatible in ESM"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSNONE()
+{
+	ESMWINDOWBAR
+	echo "No Mac OS X Version was found"
+	echo ""
+	echo -n "Press any key to go home... "
+	read -n 1
+}
+ESMOSL()
+{
+	ESMWINDOWBAR
+	echo "Mac OS X Lion was found"
+	echo "Press (Y) to use this OS Version"
+	echo ""
+	echo -n "Press any other key to go back... "
+	read -n 1 input
+	if [[ $input == 'y' || $input == 'Y' ]]; then
+		apppath="/Applications/Install Mac OS X Lion.app"
+		ESMDRIVE
+	fi
+}
+ESMOSML()
+{
+	ESMWINDOWBAR
+	echo "OS X Mountain Lion was found"
+	echo "Press (Y) to use this OS Version"
+	echo ""
+	echo -n "Press any other key to go back... "
+	read -n 1 input
+	if [[ $input == 'y' || $input == 'Y' ]]; then
+		apppath="/Applications/Install OS X Mountain Lion.app"
+		ESMDRIVE
+	fi
+}
+ESMDRIVE()
+{
+	while true; do
+		ESMWINDOWBAR
+		echo "Provide a drive to create the installer"
+		echo "Drag the drive from the Finder into this window"
+		echo "Press the return key when finished"
+		echo ""
+		echo "Drive path: "
+		read -p drivepath
+		if [[ "$drivepath" == '' ]]; then
+			ESMWINDOWBAREND
+		else
+			if [[ ! "$drivepath" == */Volumes/* ]]; then
+				echo ""
+				echo -n "This is not a valid drive. Press any key to try again... "
+				read -n 1
+			else
+				if [[ "$apppath" == *Mountain* ]]; then
+					ESMMLCREATE
+				else
+					ESMLCREATE
+				fi
+			fi
+		fi
+	done
+}
+ESM()
+{
+	while true; do
+		ESMWINDOWBAR
+		echo "Welcome to the macOS Creator (ESM)"
+		echo "Please choose one of the folowing options..."
+		echo ""
+		echo "Search for Mac OS X Installer in Applications folder..........(1)"
+		echo "Manually provide path for Mac OS X Installer..................(2)"
+		echo "(ESM) Help....................................................(3)"
+		echo ""
+		echo -n "Enter your option here... "
+		read -n 1 input
+		if [[ $input == '1' ]]; then
+			echo ""
+			echo "Checking for valid Mac OS X Installer..."
+			if [[ -d /Applications/Install\ OS\ X\ Mountain\ Lion.app ]]; then
+				ESMOSML
+			elif [[ -d /Applications/Install\ Mac\ OS\ X\ Lion.app ]]; then
+				ESMOSL
+			elif [[ -d /Applications/Install\ macOS\ Sequoia.app ]]; then
+				ESMOSSEQUOIA
+			elif [[ -d /Applications/Install\ macOS\ Sonoma.app ]]; then
+				ESMOSSONOMA
+			elif [[ -d /Applications/Install\ macOS\ Ventura.app ]]; then
+				ESMOSVENTURA
+			elif [[ -d /Applications/Install\ macOS\ Monterey.app ]]; then
+				ESMOSMONTEREY
+			elif [[ -d /Applications/Install\ macOS\ Big\ Sur.app ]]; then
+				ESMOSBIGSUR
+			elif [[ -d /Applications/Install\ macOS\ Catalina.app ]]; then
+				ESMOSCATALINA
+			elif [[ -d /Applications/Install\ macOS\ Mojave.app ]]; then
+				ESMOSMOJAVE
+			elif [[ -d /Applications/Install\ macOS\ High\ Sierra.app ]]; then
+				ESMOSHIGHSIERRA
+			elif [[ -d /Applications/Install\ macOS\ Sierra.app ]]; then
+				ESMOSSIERRA
+			elif [[ -d /Applications/Install\ OS\ X\ El\ Capitan.app ]]; then
+				ESMOSELCAPITAN
+			elif [[ -d /Applications/Install\ OS\ X\ Yosemite.app ]]; then
+				ESMOSYOSEMITE
+			elif [[ -d /Applications/Install\ OS\ X\ Mavericks.app ]]; then
+				ESMOSMAVERICKS
+			else
+				ESMOSNONE
+			fi
+		elif [[ $input == '3' ]]; then
+			ESMWINDOWBAR
+			echo "ESM (Extended Support Mode) is built for Macs running Mac OS X Snow Leopard."
+			echo ""
+			echo "Several features have been removed in order for script to funcion on this OS."
+			echo "Such features include:"
+			echo "- Download macOS"
+			echo "- Identify Mac Model"
+			echo "- Color Customization"
+			echo "- GUI Application"
+			echo ""
+			echo "Mac OS X Lion and OS X Mountain Lion are the only OS versions compatible in ESM."
+			echo "In order to have full access, upgrade to Mac OS X Lion or use macOS Creator V2.3"
+			echo ""
+			echo -n "Press any key to go back... "
+			read -n 1
+		elif [[ $input == '' ]]; then
+			ESMWINDOWBAREND
+		else
+			ESMWINDOWBARERROR
+		fi
+	done
+}
+
 #Script Layout
 SCRIPTLAYOUT()
 {
-	if [[ "$MACOSVERSION" == 10.6 ]]; then
+	if [[ "$MACOSVERSION" == 13.7 ]]; then
 		clear
+		echo "macOS Creator V5.6"
 		echo ""
 		echo "This Mac is running Mac OS X Snow Leopard"
-		echo "This script requires Mac OS X Lion or later"
-		echo "You can use V2.3 if you wish to use this script."
+		echo "You can run this script in ESM (Extended Support Mode)"
 		echo ""
-		echo "Press any key to cancel... "
-		read -n 1
-		exit
+		echo -n "Press (Y) if you wish to continue (Press any other key to cancel)... "
+		read -n 1 input
+		if [[ $input == 'y' || $input == 'Y' ]]; then
+			ESM
+		else
+			echo ""
+			exit
+		fi
 	elif [[ "$MACOSVERSION" == 10.5 ]]; then
 		clear
 		echo ""
@@ -7364,7 +7631,7 @@ SCRIPTLAYOUT()
 		exit
 	else
 		while true; do
-			FIRSTTIME
+			MAINMENU
 			read -n 1 maininput
 			if [[ $maininput == '1' ]]; then
 				while true; do
