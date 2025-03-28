@@ -7,9 +7,8 @@
 #Version 5.6
 #Release notes:
 #              V5.6 Introduces ESM (Extended Support Mode) for Mac OS X Leopard & Snow Leopard.
-#                   Introduces Warning mode. You can now check if your Mac has potential issues with creating installers.
 #                   Now lets you try to create the drive again by pressing S.
-#                   Changing colors no longer restarts the macOS Creator.
+#                   Changing colors now checks if script is in a read-only directory.
 #
 #
 #
@@ -66,6 +65,7 @@ PreRun()
 {
 	
 	#Sets UI Colors
+	
 	
 	if [[ "$MACOSVERSION" == 10.5 || "$MACOSVERSION" == 10.6 || "$MACOSVERSION" == 10.7 || "$MACOSVERSION" == 10.8 || "$MACOSVERSION" == 10.9 || "$MACOSVERSION" == 10.10 || "$MACOSVERSION" == 10.11 || "$MACOSVERSION" == 10.12 || "$MACOSVERSION" == 10.13 ]]; then
 		APP='\033["38;5;23m'
@@ -2095,7 +2095,7 @@ MAVERICKSDRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2145,7 +2145,7 @@ YOSEMITEDRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2195,7 +2195,7 @@ ELCAPITANDRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2298,7 +2298,7 @@ HIGHSIERRADRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2348,7 +2348,7 @@ MOJAVEDRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2398,7 +2398,7 @@ CATALINADRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2448,7 +2448,7 @@ BIGSURDRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2498,7 +2498,7 @@ MONTEREYDRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2548,7 +2548,7 @@ VENTURADRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2598,7 +2598,7 @@ SONOMADRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2648,7 +2648,7 @@ SEQUOIADRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}An internal error has occured. Try running this script again."
+			echo -e "${RESET}${ERROR}The Installer cannot be found. Please try again."
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -4158,6 +4158,22 @@ DOWNLOADFAIL()
 }
 
 #Script Color Change
+TESTELIGIBILITY()
+{
+	cd "$SCRIPTPATHMAIN"
+	sed -i '' '4170s/cd/cd/' macOS\ Creator.command
+		if [ $? -eq 0 ]; then
+			echo ""
+		else
+			WINDOWBAR
+			echo -e "${RESET}${ERROR}${BOLD}You cannot change script colors."
+			echo -e "${RESET}${ERROR}The script is located in a read-only directory.${RESET}"
+			echo -e "${PROMPTSTYLE}${BOLD}"
+			echo -n "Press any key to go back... "
+			read -n 1
+			SETTINGSMENU
+		fi
+}
 CHANGECOLORS()
 {
 	if [[ $MODIFIED == 'YES' ]]; then
@@ -4169,11 +4185,12 @@ CHANGECOLORS()
 	fi
 	if [[ $safe == '1' || $safe == '2' ]]; then
 		WINDOWBAR
-		echo -e "You cannot change script colors in Safe Mode."
-		echo -e ""
+		echo -e "${RESET}${ERROR}${BOLD}You cannot change script colors in Safe Mode.${RESET}"
+		echo -e "${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to go back... "
 		read -n 1
 	else
+		TESTELIGIBILITY
 		if [[ $APPLESILICONE == 'YES' ]]; then
 			if [[ -e "$SCRIPTPATHMAIN/macOS Creator.command" ]]; then
 				while true; do
@@ -7803,6 +7820,8 @@ SCRIPTLAYOUT()
 }
 
 #Script Order
+SCRIPTORDER()
+{
 if [[ $safe == "1" ]]; then
 	GRAPHICSSAFE="YES"
 	SCRIPTLAYOUT
@@ -7872,5 +7891,8 @@ else
 	PreRunOS
 	SCRIPTLAYOUT
 fi
+}
+
+SCRIPTORDER
 
 #End of Script
