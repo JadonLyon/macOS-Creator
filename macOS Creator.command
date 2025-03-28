@@ -66,6 +66,7 @@ PreRun()
 {
 	
 	#Sets UI Colors
+	
 	if [[ "$MACOSVERSION" == 10.5 || "$MACOSVERSION" == 10.6 || "$MACOSVERSION" == 10.7 || "$MACOSVERSION" == 10.8 || "$MACOSVERSION" == 10.9 || "$MACOSVERSION" == 10.10 || "$MACOSVERSION" == 10.11 || "$MACOSVERSION" == 10.12 || "$MACOSVERSION" == 10.13 ]]; then
 		APP='\033["38;5;23m'
 		TITLE='\033["38;5;24m'
