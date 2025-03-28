@@ -325,7 +325,7 @@ WINDOWBAR()
 		else
 			echo -e "${APP}${BOLD}                               macOS Creator V5.6"
 		fi
-		echo -e "*******"
+		echo -e "•••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"
 	fi
 }
 WINDOWBAREND()
