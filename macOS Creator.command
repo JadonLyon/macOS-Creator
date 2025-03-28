@@ -7,6 +7,9 @@
 #Version 5.6
 #Release notes:
 #              V5.6 Introduces ESM (Extended Support Mode) for Mac OS X Leopard & Snow Leopard.
+#                   Introduces Warning mode. You can now check if your Mac has potential issues with creating installers.
+#                   Now lets you try to create the drive again by pressing S.
+#                   Changing colors no longer restarts the macOS Creator.
 #
 #
 #
@@ -321,7 +324,7 @@ WINDOWBAR()
 		else
 			echo -e "${APP}${BOLD}                               macOS Creator V5.6"
 		fi
-		echo -e "â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+		echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
 	fi
 }
 WINDOWBAREND()
@@ -334,7 +337,7 @@ WINDOWBAREND()
 		echo -e "\033[1A\033[0KScript Canceled"
 		if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 			echo -e "${RESET}${APP}${BOLD}"
-			echo -e "â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+			echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
 			echo -e "${RESET}"
 		fi
 		exit
@@ -368,7 +371,7 @@ WINDOWBARENDANY()
 		echo -e "\033[1A\033[0KScript Canceled"
 		if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 			echo -e "${RESET}${APP}${BOLD}"
-			echo -e "â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+			echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
 			echo -e "${RESET}"
 		fi
 		exit
@@ -383,7 +386,7 @@ SUCCESS()
 	echo -e "${RESET}${CANCEL}${BOLD}Thank you for using the macOS Creator."
 	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 		echo -e "${RESET}${APP}${BOLD}"
-		echo -e "â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+		echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
 		echo -e "${RESET}"
 	fi
 	exit
@@ -394,7 +397,7 @@ SUCCESSRETURN()
 	echo -e "${RESET}${CANCEL}${BOLD}Thank you for using the macOS Creator."
 	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 		echo -e "${RESET}${APP}${BOLD}"
-		echo -e "â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+		echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
 		echo -e "${RESET}"
 	fi
 	exit
@@ -2102,10 +2105,13 @@ MAVERICKSDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2149,10 +2155,13 @@ YOSEMITEDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2196,10 +2205,13 @@ ELCAPITANDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2246,10 +2258,13 @@ SIERRADRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2293,10 +2308,13 @@ HIGHSIERRADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2340,10 +2358,13 @@ MOJAVEDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2387,10 +2408,13 @@ CATALINADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2434,10 +2458,13 @@ BIGSURDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2481,10 +2508,13 @@ MONTEREYDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2528,10 +2558,13 @@ VENTURADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2575,10 +2608,13 @@ SONOMADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2622,10 +2658,13 @@ SEQUOIADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2655,10 +2694,13 @@ MLDRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -2688,10 +2730,13 @@ LDRIVECREATION()
 		echo -e "${RESET}${ERROR}${BOLD}"
 		echo -e "Operation Failed"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Would you like to review troubleshooting steps? (Press any key to go home)... "
+		echo -e "Press S to try again, or Y to review troubleshooting steps."
+		echo -n "(Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			OSDRIVECREATION
 		else
 			SCRIPTLAYOUT
 		fi
@@ -7512,8 +7557,7 @@ ESMDRIVE()
 		echo "Drag the drive from the Finder into this window"
 		echo "Press the return key when finished"
 		echo ""
-		echo "Drive path: "
-		read -p drivepath
+		read -p "Drive path: " drivepath
 		if [[ "$drivepath" == '' ]]; then
 			ESMWINDOWBAREND
 		else
@@ -7527,6 +7571,86 @@ ESMDRIVE()
 				else
 					ESMLCREATE
 				fi
+			fi
+		fi
+	done
+}
+ESMMLCREATE()
+{
+	ESMWINDOWBAR
+	echo -n "Creating the drive for OS X Mountain Lion. Please Enter Your "
+	sudo echo ""
+	echo ""
+	echo -n "Please wait... "
+	Output sudo asr restore -source "$apppath/Contents/SharedSupport/InstallESD.dmg" -target "$drivepath" -noprompt -noverify -erase
+	if [[ -d /Volumes/Mac\ OS\ X\ Install\ ESD/Install\ OS\ X\ Mountain\ Lion.app ]]; then
+		echo ""
+		echo ""
+		echo -n "The drive has been created successfully. Press any key to go home... "
+		read -n 1
+		ESM
+	else
+		echo ""
+		echo ""
+		echo "Operation Failed"
+		echo ""
+		echo -n "Press any key to go home... "
+		read -n 1
+		ESM
+	fi
+}
+ESMLCREATE()
+{
+	ESMWINDOWBAR
+	echo -n "Creating the drive for Mac OS X Lion. Please Enter Your "
+	sudo echo ""
+	echo ""
+	echo -n "Please wait... "
+	Output sudo asr restore -source "$apppath/Contents/SharedSupport/InstallESD.dmg" -target "$drivepath" -noprompt -noverify -erase
+	if [[ -d /Volumes/Mac\ OS\ X\ Install\ ESD/Install\ Mac\ OS\ X\ Lion.app ]]; then
+		echo ""
+		echo ""
+		echo -n "The drive has been created successfully. Press any key to go home... "
+		read -n 1
+		ESM
+	else
+		echo ""
+		echo ""
+		echo "Operation Failed"
+		echo ""
+		echo -n "Press any key to go home... "
+		read -n 1
+		ESM
+	fi
+}
+ESMPROVIDE()
+{
+	while true; do
+		ESMWINDOWBAR
+		echo "Please provide the Mac OS X Installer path"
+		echo "Drag the Mac OS X Installer from the Finder into this window"
+		echo "Press the return key when finished"
+		echo ""
+		read -p "Mac OS X Installer path: " apppath
+		if [[ "$apppath" == '' ]]; then
+			ESMWINDOWBAREND
+		elif [[ ! "$apppath" == *Lion* ]]; then
+			echo ""
+			echo -n "This is not a valid Mac OS X Installer. Press any key to try again... "
+			read -n 1
+		else
+			if [[ "$apppath" == *Mountain* ]]; then
+				echo ""
+				echo "OS X Mountain Lion"
+				echo -n "Press any key to use this OS... "
+				read -n 1
+				ESMDRIVE
+			else
+				echo ""
+				echo "Mac OS X Lion"
+				echo -n "Press any key to use this OS... "
+				read -n 1
+				ESMDRIVE
 			fi
 		fi
 	done
@@ -7578,6 +7702,8 @@ ESM()
 			else
 				ESMOSNONE
 			fi
+		elif [[ $input == '2' ]]; then
+			ESMPROVIDE
 		elif [[ $input == '3' ]]; then
 			ESMWINDOWBAR
 			echo "ESM (Extended Support Mode) is built for Macs running Mac OS X Snow Leopard."
@@ -7588,6 +7714,7 @@ ESM()
 			echo "- Identify Mac Model"
 			echo "- Color Customization"
 			echo "- GUI Application"
+			echo "- Help Menu"
 			echo ""
 			echo "Mac OS X Lion and OS X Mountain Lion are the only OS versions compatible in ESM."
 			echo "In order to have full access, upgrade to Mac OS X Lion or use macOS Creator V2.3"
@@ -7605,7 +7732,7 @@ ESM()
 #Script Layout
 SCRIPTLAYOUT()
 {
-	if [[ "$MACOSVERSION" == 13.7 ]]; then
+	if [[ "$MACOSVERSION" == 10.6 ]]; then
 		clear
 		echo "macOS Creator V5.6"
 		echo ""
@@ -7622,13 +7749,19 @@ SCRIPTLAYOUT()
 		fi
 	elif [[ "$MACOSVERSION" == 10.5 ]]; then
 		clear
+		echo "macOS Creator V5.6"
 		echo ""
 		echo "This Mac is running Mac OS X Leopard"
-		echo "This script requires Mac OS X Lion or later"
+		echo "You can run this script in ESM (Extended Support Mode)"
 		echo ""
-		echo "Press any key to cancel... "
-		read -n 1
-		exit
+		echo -n "Press (Y) if you wish to continue (Press any other key to cancel)... "
+		read -n 1 input
+		if [[ $input == 'y' || $input == 'Y' ]]; then
+			ESM
+		else
+			echo ""
+			exit
+		fi
 	else
 		while true; do
 			MAINMENU
