@@ -325,7 +325,7 @@ WINDOWBAR()
 		else
 			echo -e "${APP}${BOLD}                               macOS Creator V5.6"
 		fi
-		echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
+		echo -e "*******"
 	fi
 }
 WINDOWBAREND()
@@ -338,7 +338,7 @@ WINDOWBAREND()
 		echo -e "\033[1A\033[0KScript Canceled"
 		if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 			echo -e "${RESET}${APP}${BOLD}"
-			echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
+			echo -e "*******"
 			echo -e "${RESET}"
 		fi
 		exit
@@ -372,7 +372,7 @@ WINDOWBARENDANY()
 		echo -e "\033[1A\033[0KScript Canceled"
 		if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 			echo -e "${RESET}${APP}${BOLD}"
-			echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
+			echo -e "*******"
 			echo -e "${RESET}"
 		fi
 		exit
@@ -387,7 +387,7 @@ SUCCESS()
 	echo -e "${RESET}${CANCEL}${BOLD}Thank you for using the macOS Creator."
 	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 		echo -e "${RESET}${APP}${BOLD}"
-		echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
+		echo -e "*******"
 		echo -e "${RESET}"
 	fi
 	exit
@@ -398,7 +398,7 @@ SUCCESSRETURN()
 	echo -e "${RESET}${CANCEL}${BOLD}Thank you for using the macOS Creator."
 	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 		echo -e "${RESET}${APP}${BOLD}"
-		echo -e "¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥"
+		echo -e "*******"
 		echo -e "${RESET}"
 	fi
 	exit
