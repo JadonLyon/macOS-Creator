@@ -9,6 +9,7 @@
 #              V5.6 Introduces ESM (Extended Support Mode) for Mac OS X Leopard & Snow Leopard.
 #                   Now lets you try to create the drive again by pressing S.
 #                   Changing colors now checks if script is in a read-only directory.
+#                   Now lets you check if your Mac has potential issues for creating the drive.
 #
 #
 #
@@ -679,6 +680,16 @@ MACINFO()
 	fi
 	echo -e "${RESET}${TITLE}macOS Version: ${BODY}${BOLD}$MACOSVERSION"
 	echo -e "${RESET}${TITLE}Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
+	echo -e ""
+	if [[ $APPLESILICONE == 'YES' ]]; then
+		echo -e "${RESET}${WARNING}${BOLD}This Mac has the Apple Silicone."
+		echo -e "${RESET}${WARNING}You may not be able to install older macOS Versions."
+	elif [[ $MACOSVERSION == '10.7' || $MACOSVERSION == '10.8' || $MACOSVERSION == '10.9' || $MACOSVERSION == '10.10' || $MACOSVERSION == '10.11' || $MACOSVERSION == '10.12' ]]; then
+		echo -e "${RESET}${WARNING}${BOLD}This Mac is running an older macOS Version."
+		echo -e "${RESET}${WARNING}You may not be able to install newer macOS Versions."
+	else
+		echo -e "${RESET}${BODY}This Mac should not have any issues with drive creation."
+	fi
 	echo -e ""
 	echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}Press any key to return home... "
 	read -n 1 input
