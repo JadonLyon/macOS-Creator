@@ -570,7 +570,7 @@ CLEANUP()
 					echo -n -e "${RESET}${DEFAULTBLUE}Press any key to restart... "
 					read -n 1
 					cd "$SCRIPTPATHMAIN"
-					sed -i '' '7367s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
+					sed -i '' '7885s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
 					if [[ $APPLESILICONE == "YES" ]]; then
 						COLORM1
 					else
@@ -699,7 +699,7 @@ RELEASENOTES()
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '7367s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+		sed -i '' '7885s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 		if [[ $verbose == "1" ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 		elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -775,7 +775,7 @@ FIRSTTIME()
 		else
 			rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7367s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7885s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -803,7 +803,7 @@ FIRSTTIME()
 			GUIDE
 		else
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7367s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7885s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -929,7 +929,7 @@ GUIDE()
 												echo -n "Press any key to get started... "
 												read -n 1
 												cd "$SCRIPTPATHMAIN"
-												sed -i '' '7367s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+												sed -i '' '7885s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 												if [[ $verbose == "1" ]]; then
 													"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 												elif [[ $safe == "1" || $safe == "2" ]]; then
