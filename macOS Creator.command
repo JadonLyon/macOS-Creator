@@ -64,14 +64,9 @@ SCRIPTPATHMAIN="${0%/*}"
 if [[ -e "$SCRIPTPATHMAIN/.homeuser" ]]; then
 	HOMEUSER="YES"
 fi
-
-
 PreRun()
 {
-	
 	#Sets UI Colors
-	
-	
 	if [[ "$MACOSVERSION" == 10.5 || "$MACOSVERSION" == 10.6 || "$MACOSVERSION" == 10.7 || "$MACOSVERSION" == 10.8 || "$MACOSVERSION" == 10.9 || "$MACOSVERSION" == 10.10 || "$MACOSVERSION" == 10.11 || "$MACOSVERSION" == 10.12 || "$MACOSVERSION" == 10.13 ]]; then
 		APP='\033["38;5;23m'
 		TITLE='\033["38;5;24m'
@@ -527,6 +522,35 @@ CLEANUP()
 					CLEANED="TRUE"
 					echo -e ""
 					echo -e "${RESET}${TITLE}${BOLD}Clearing Settings...${RESET}${TITLE}"
+					DELETEMODES
+					Output sudo rm -R "$SCRIPTPATHMAIN/.launchall"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.launchonce"
+					sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
+					sudo cp -R "$SCRIPTPATHMAIN/normallaunch/normal.wflow" /Applications/macOS\ Creator.app/Contents/document.wflow
+					echo -e "${RESET}${TITLE}${BOLD}Settings have been reset."
+					echo -e ""
+					echo -n "${RESET}${TITLE}Press any key to restart... "
+					read -n 1
+					echo -e "${RESET}"
+					"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
+				elif [[ $input == '2' ]]; then
+					CLEANED="TRUE"
+					echo -e ""
+					echo -e "${RESET}${TITLE}${BOLD}Clearing Settings...${RESET}${TITLE}"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.defaultbluesetting"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.desertsandssetting"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.forestgreensetting"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.classicsetting"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.colorm1setting"
+					echo -e "${RESET}${DEFAULTBLUE}${BOLD}Color settings have been reset."
+					echo -e ""
+					echo -n -e "${RESET}${DEFAULTBLUE}Press any key to restart... "
+					read -n 1
+					if [[ $APPLESILICONE == "YES" ]]; then
+						COLORM1
+					else
+						COLORBLUE
+					fi
 				elif [[ $input == '3' ]]; then
 					CLEANED="TRUE"
 					echo -e ""
@@ -543,7 +567,7 @@ CLEANUP()
 					sudo cp -R "$SCRIPTPATHMAIN/normallaunch/normal.wflow" /Applications/macOS\ Creator.app/Contents/document.wflow
 					echo -e "${RESET}${DEFAULTBLUE}${BOLD}All settings have been reset to default."
 					echo -e ""
-					echo -n "Press any key to restart... "
+					echo -n -e "${RESET}${DEFAULTBLUE}Press any key to restart... "
 					read -n 1
 					cd "$SCRIPTPATHMAIN"
 					sed -i '' '7367s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
@@ -557,7 +581,7 @@ CLEANUP()
 				elif [[ $input == 'w' || $input == 'W' ]]; then
 					break
 				elif [[ $input == '?' || $input == '/' ]]; then
-					HELPCLEAN
+					HELPRESET
 				elif [[ $input == '' ]]; then
 					WINDOWBAREND
 				else
@@ -1078,6 +1102,23 @@ HELPCLEAN()
 	echo -e "2) Removes macOS Installers inside of your Applications folder."
 	echo -e "3) Cleans up your Mac if files were tempered with during operation."
 	echo -e "4) Runs all three of these commands."
+	if [[ $HOMEUSER == 'YES' ]]; then
+		echo -e "5) Resets all settings to default."
+	fi
+	echo -e ""
+	echo -e "Press (Q) to return back home"
+	echo -e "Press the return key to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
+HELPRESET()
+{
+	WINDOWBAR
+	echo -e "${RESET}${TITLE}1) Resets the way the app launches."
+	echo -e "2) Resets the color settings."
+	echo -e "3) Resets all settings to their defaults."
 	echo -e ""
 	echo -e "Press (Q) to return back home"
 	echo -e "Press the return key to cancel"
