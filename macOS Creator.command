@@ -7882,7 +7882,7 @@ SCRIPTLAYOUT()
 		fi
 	else
 		while true; do
-			FIRSTTIME
+			MAINMENU
 			read -n 1 maininput
 			if [[ $maininput == '1' ]]; then
 				while true; do

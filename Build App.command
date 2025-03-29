@@ -33,11 +33,11 @@ BUILDAPP()
 		sudo rm -R /$HOME/macOS\ Creator/normallaunch
 		sudo rm -R /$HOME/macOS\ Creator/onelaunch
 	fi
-	echo -e "Building the app..."
 	if [[ ! $UPGRADE == 'YES' ]]; then
 		mkdir /$HOME/macOS\ Creator
 	fi
 	sudo mkdir /Applications/macOS\ Creator.app
+	echo -e "Building the app..."
 	if [[ $UPGRADE == 'YES' ]]; then
 		if [[ -e /$HOME/macOS\ Creator/.launchall ]]; then
 			if [[ -e /$HOME/macOS\ Creator/.verbose ]]; then
@@ -67,6 +67,7 @@ BUILDAPP()
 	sudo chmod +x /$HOME/macOS\ Creator/macOS\ Creator.command
 	chflags hidden /$HOME/macOS\ Creator
 	touch /$HOME/macOS\ Creator/.homeuser
+	sed -i '' '7885s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
 	if [[ ! $UPGRADE == 'YES' ]]; then
 		if [[ $(uname -m) == "arm64" ]]; then
 			touch /$HOME/macOS\ Creator/.colorm1setting
