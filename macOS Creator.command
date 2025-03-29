@@ -685,11 +685,14 @@ RELEASENOTES()
 {
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Version 5.6 ${RESET}${TITLE}Release Notes"
-	echo -e "${RESET}${BODY}- No longer uses createinstallmedia command to create macOS Sierra.
-- Modifies macOS Sierra drive to install correctly.
-- Now shows simplified error results if drive creation fails. BETA
-- Fixes a major issue where OS X Mavericks - El Capitan would not work.
-- Fixes minor issues found throughout the script."
+	echo -e "${RESET}${BODY}- Introduces ESM (Extended Support Mode) for Mac OS X Leopard & Snow Leopard.
+- Now lets you try to create the drive again by pressing S.
+- Now lets you check if your Mac has potential issues for creating the drive.
+- Changing colors now checks if script is in a read-only directory.
+- Fixes some minor issues with Safe Mode.
+- Fixes some minor issues with Troubleshooting Guides.
+- Fixes some minor issues with text.
+- Fixes other minor issues found throughout the script."
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to get started... "
@@ -7879,7 +7882,7 @@ SCRIPTLAYOUT()
 		fi
 	else
 		while true; do
-			MAINMENU
+			FIRSTTIME
 			read -n 1 maininput
 			if [[ $maininput == '1' ]]; then
 				while true; do
