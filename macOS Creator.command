@@ -8,8 +8,12 @@
 #Release notes:
 #              V5.6 Introduces ESM (Extended Support Mode) for Mac OS X Leopard & Snow Leopard.
 #                   Now lets you try to create the drive again by pressing S.
-#                   Changing colors now checks if script is in a read-only directory.
 #                   Now lets you check if your Mac has potential issues for creating the drive.
+#                   Changing colors now checks if script is in a read-only directory.
+#                   Fixes some minor issues with Safe Mode.
+#                   Fixes some minor issues with Troubleshooting Guides.
+#                   Fixes some minor issues with text.
+#                   Fixes other minor issues found throughout the script.
 #
 #
 #
@@ -406,24 +410,26 @@ SUCCESSRETURN()
 }
 TROUBLESHOOTGUIDE()
 {
-	WINDOWBAR
-	echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
-	echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map)"
-	echo -e "3) Try using a different drive"
-	echo -e "4) Try redownloading the macOS Installer"
-	echo -e "5) Restart your Mac${RESET}"
-	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to cancel... "
-	read -n 1 input
-	if [[ "$input" == 'q' || "$input" == 'Q' ]]; then
-		SCRIPTLAYOUT
-	elif [[ "$input" == 'w' || "$input" == 'W' ]]; then
-		break
-	elif [[ "$input" == '' ]]; then
-		WINDOWBAREND
-	else
-		WINDOWBARENDANY
-	fi
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
+		echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map)"
+		echo -e "3) Try using a different drive"
+		echo -e "4) Try redownloading the macOS Installer"
+		echo -e "5) Restart your Mac${RESET}"
+		echo -e "${PROMPTSTYLE}${BOLD}"
+		echo -n "Press any key to go home... "
+		read -n 1 input
+		if [[ "$input" == 'q' || "$input" == 'Q' ]]; then
+			SCRIPTLAYOUT
+		elif [[ "$input" == 'w' || "$input" == 'W' ]]; then
+			break
+		elif [[ "$input" == '' ]]; then
+			WINDOWBAREND
+		else
+			SCRIPTLAYOUT
+		fi
+	done
 }
 TROUBLESHOOTGUIDEMAIN()
 {
@@ -450,8 +456,8 @@ CLEANUP()
 	echo -e "${RESET}${BODY}Remove macOS Installers..............(2)"
 	echo -e "${RESET}${BODY}Fix drive permissions................(3)"
 	if [[ "$HOMEUSER" == 'YES' ]]; then
-		echo -e "${RESET}${BODY}Clear All Settings...................(4)"
-		echo -e "${RESET}${BODY}All of the above.....................(5)"
+		echo -e "${RESET}${BODY}All of the above.....................(4)"
+		echo -e "${RESET}${BODY}Reset................................(5)"
 	else
 		echo -e "${RESET}${BODY}All of the above.....................(4)"
 	fi
@@ -505,35 +511,59 @@ CLEANUP()
 		read -n 1
 		SCRIPTLAYOUT
 	elif [[ $input == '4' ]]; then
-		if [[ $HOMEUSER == 'YES' ]]; then
-			CLEANED="TRUE"
-			echo -e ""
-			echo -e "${RESET}${TITLE}${BOLD}Clearing Settings...${RESET}${TITLE}"
-			Output sudo rm -R "$SCRIPTPATHMAIN/.defaultbluesetting"
-			Output sudo rm -R "$SCRIPTPATHMAIN/.desertsandssetting"
-			Output sudo rm -R "$SCRIPTPATHMAIN/.forestgreensetting"
-			Output sudo rm -R "$SCRIPTPATHMAIN/.classicsetting"
-			Output sudo rm -R "$SCRIPTPATHMAIN/.colorm1setting"
-			DELETEMODES
-			Output sudo rm -R "$SCRIPTPATHMAIN/.launchall"
-			Output sudo rm -R "$SCRIPTPATHMAIN/.launchonce"
-			sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
-			sudo cp -R "$SCRIPTPATHMAIN/normallaunch/normal.wflow" /Applications/macOS\ Creator.app/Contents/document.wflow
-			echo -e "${RESET}${DEFAULTBLUE}${BOLD}Settings have been cleared."
-			echo -e ""
-			echo -n "Press any key to restart... "
-			read -n 1
-			if [[ $APPLESILICONE == "YES" ]]; then
-				COLORM1
-			else
-				COLORBLUE
-			fi
-		else
-			CLEANMAC
-		fi
+		CLEANMAC
 	elif [[ $input == '5' ]]; then
 		if [[ $HOMEUSER == 'YES' ]]; then
-			CLEANMAC
+			while true; do
+				WINDOWBAR
+				echo -e "${RESET}${TITLE}${BOLD}Reset"
+				echo -e "${RESET}${BODY}Reset App Settings................(1)"
+				echo -e "${RESET}${BODY}Reset Color Settings..............(2)"
+				echo -e "${RESET}${BODY}Reset All Settings................(3)"
+				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+				echo -n "Enter your option here... "
+				read -n 1 input
+				if [[ $input == '1' ]]; then
+					CLEANED="TRUE"
+					echo -e ""
+					echo -e "${RESET}${TITLE}${BOLD}Clearing Settings...${RESET}${TITLE}"
+				elif [[ $input == '3' ]]; then
+					CLEANED="TRUE"
+					echo -e ""
+					echo -e "${RESET}${TITLE}${BOLD}Resetting...${RESET}${TITLE}"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.defaultbluesetting"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.desertsandssetting"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.forestgreensetting"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.classicsetting"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.colorm1setting"
+					DELETEMODES
+					Output sudo rm -R "$SCRIPTPATHMAIN/.launchall"
+					Output sudo rm -R "$SCRIPTPATHMAIN/.launchonce"
+					sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
+					sudo cp -R "$SCRIPTPATHMAIN/normallaunch/normal.wflow" /Applications/macOS\ Creator.app/Contents/document.wflow
+					echo -e "${RESET}${DEFAULTBLUE}${BOLD}All settings have been reset to default."
+					echo -e ""
+					echo -n "Press any key to restart... "
+					read -n 1
+					cd "$SCRIPTPATHMAIN"
+					sed -i '' '7367s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
+					if [[ $APPLESILICONE == "YES" ]]; then
+						COLORM1
+					else
+						COLORBLUE
+					fi
+				elif [[ $input == 'q' || $input == 'Q' ]]; then
+					SCRIPTLAYOUT
+				elif [[ $input == 'w' || $input == 'W' ]]; then
+					break
+				elif [[ $input == '?' || $input == '/' ]]; then
+					HELPCLEAN
+				elif [[ $input == '' ]]; then
+					WINDOWBAREND
+				else
+					WINDOWERROR
+				fi
+			done
 		else
 			WINDOWERROR
 		fi
@@ -593,18 +623,17 @@ CLEANMAC()
 MAINMENU()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}Welcome to the macOS Creator${RESET}"
-	echo -e "${TITLE}The All-In-One script that creates a bootable installer for macOS${RESET}"
+	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Home menu${RESET}"
 	echo -e "${RESET}${BODY}Press ${BOLD}W${RESET}${BODY} to see list of controls${RESET}"
 	echo -e "${CANCEL}To show the help menu, press the ${BOLD}? ${RESET}${CANCEL}key${RESET}"
 	echo -e ""
 	echo -e "${TITLE}${BOLD}Please choose an option:${RESET}"
-	echo -e "${BODY}Automatically find macOS installer in your Applications folder.............(1)"
-	echo -e "Manually provide a path to create the bootable installer...................(2)"
-	echo -e "Download macOS Installer...................................................(3)"
-	echo -e "Identify Mac model.........................................................(4)"
-	echo -e "Review troubleshooting guide...............................................(5)"
-	echo -e "Settings...................................................................(6)${RESET}"
+	echo -e "${BODY}Search for macOS installers in your Applications folder.................(1)"
+	echo -e "Manually provide macOS Installer........................................(2)"
+	echo -e "Download macOS Installer................................................(3)"
+	echo -e "Identify Mac model......................................................(4)"
+	echo -e "Review troubleshooting guide............................................(5)"
+	echo -e "Settings................................................................(6)${RESET}"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
 }
@@ -682,22 +711,24 @@ MACINFO()
 	echo -e "${RESET}${TITLE}Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
 	echo -e ""
 	if [[ $APPLESILICONE == 'YES' ]]; then
-		echo -e "${RESET}${WARNING}${BOLD}This Mac has the Apple Silicone."
-		echo -e "${RESET}${WARNING}You may not be able to install older macOS Versions."
+		echo -e "${RESET}${WARNING}You may not be able to install older macOS Versions with Apple Silicone."
 	elif [[ $MACOSVERSION == '10.7' || $MACOSVERSION == '10.8' || $MACOSVERSION == '10.9' || $MACOSVERSION == '10.10' || $MACOSVERSION == '10.11' || $MACOSVERSION == '10.12' ]]; then
-		echo -e "${RESET}${WARNING}${BOLD}This Mac is running an older macOS Version."
 		echo -e "${RESET}${WARNING}You may not be able to install newer macOS Versions."
 	else
-		echo -e "${RESET}${BODY}This Mac should not have any issues with drive creation."
+		echo -e "${RESET}${BODY}You should not have any issues with drive creation."
 	fi
 	echo -e ""
 	echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}Press any key to return home... "
 	read -n 1 input
 	if [[ $input == 'i' || $input == 'I' ]]; then
-		WINDOWBAR
-		system_profiler SPHardwareDataType
-		echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}Press any key to return home... "
-		read -n 1
+		if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
+			echo -e ""
+		else
+			WINDOWBAR
+			system_profiler SPHardwareDataType
+			echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}Press any key to return home... "
+			read -n 1
+		fi
 	else
 		echo -e ""
 	fi
@@ -732,6 +763,8 @@ FIRSTTIME()
 		FIRSTTIMEHERE="TRUE"
 		WINDOWBAR
 		echo -e "${RESET}${TITLE}${BOLD}Welcome to the macOS Creator${RESET}"
+		echo -e "${RESET}${TITLE}The all-in-one script for creating bootable macOS Installers"
+		echo -e ""
 		echo -e "${RESET}${BODY}Is this your first time using this script?"
 		echo -e ""
 		echo -e "Press the Y key to see the user guide."
@@ -781,7 +814,7 @@ GUIDE()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Welcome to the user guide."
+		echo -e "${RESET}${TITLE}${BOLD}macOS Creator User guide."
 		echo -e "${RESET}${TITLE}This quick guide will show you how to use the macOS Creator."
 		echo -e ""
 		echo -e "${RESET}${BODY}Commands will be listed like this.........................................(1)"
@@ -1187,8 +1220,9 @@ OSMAVERICKS()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		installpath="/Applications/Install OS X Mavericks.app"
@@ -1210,8 +1244,9 @@ OSYOSEMITE()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}OS X Yosemite was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		installpath="/Applications/Install OS X Yosemite.app"
@@ -1233,8 +1268,9 @@ OSELCAPITAN()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}OS X El Capitan was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		installpath="/Applications/Install OS X El Capitan.app"
@@ -1256,8 +1292,9 @@ OSSIERRA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $APPLESILICONE == 'YES' ]]; then
@@ -1299,8 +1336,9 @@ OSHIGHSIERRA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS High Sierra was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $APPLESILICONE == 'YES' ]]; then
@@ -1343,8 +1381,9 @@ OSMOJAVE()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Mojave was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $APPLESILICONE == 'YES' ]]; then
@@ -1387,8 +1426,9 @@ OSCATALINA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Catalina was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $APPLESILICONE == 'YES' ]]; then
@@ -1440,8 +1480,9 @@ OSBIGSUR()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Big Sur was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -1483,8 +1524,9 @@ OSMONTEREY()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -1526,8 +1568,9 @@ OSVENTURA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -1596,8 +1639,9 @@ OSSONOMA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -1675,8 +1719,9 @@ OSSEQUOIA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia was found.${RESET}"
+	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to use this Installer?... "
+	echo -n "Enter your option here... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -3124,7 +3169,7 @@ MANUALCREATE()
 			WINDOWBAREND
 		else
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This is not a valid macOS Installer. Press any key to try again... "
+			echo -e -n "This is not a valid macOS Installer. Press any key to try again... "
 			read -n 1
 		fi
 	done
@@ -7556,7 +7601,7 @@ ESMOSL()
 {
 	ESMWINDOWBAR
 	echo "Mac OS X Lion was found"
-	echo "Press (Y) to use this OS Version"
+	echo "Press Y to use this OS Version"
 	echo ""
 	echo -n "Press any other key to go back... "
 	read -n 1 input
@@ -7569,7 +7614,7 @@ ESMOSML()
 {
 	ESMWINDOWBAR
 	echo "OS X Mountain Lion was found"
-	echo "Press (Y) to use this OS Version"
+	echo "Press Y to use this OS Version"
 	echo ""
 	echo -n "Press any other key to go back... "
 	read -n 1 input
