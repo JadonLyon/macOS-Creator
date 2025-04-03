@@ -60,8 +60,14 @@ if [[ -e "$SCRIPTPATHMAIN/.homeuser" ]]; then
 fi
 PreRun()
 {
-	#Sets UI Colors
-	if [[ "$MACOSVERSION" == 10.5 || "$MACOSVERSION" == 10.6 || "$MACOSVERSION" == 10.7 || "$MACOSVERSION" == 10.8 || "$MACOSVERSION" == 10.9 || "$MACOSVERSION" == 10.10 || "$MACOSVERSION" == 10.11 || "$MACOSVERSION" == 10.12 || "$MACOSVERSION" == 10.13 ]]; then
+	UIAPPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
+	#Light Mode
+	
+	
+	
+	
+	
+	if [[ ! "$UIAPPEARANCE" == "Dark" ]]; then
 		APP='\033["38;5;23m'
 		TITLE='\033["38;5;24m'
 		BODY='\033["38;5;23m'
@@ -72,31 +78,19 @@ PreRun()
 		CANCEL='\033["38;5;132m'
 		BOLD='\033[1m'
 		RESET='\033[0m'
+	
+	#Dark Mode
 	else
-		UIAPPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
-		if [[ "$UIAPPEARANCE" == "Dark" ]]; then
-			APP='\033["38;5;158m'
-			TITLE='\033["38;5;153m'
-			BODY='\033["38;5;158m'
-			PROMPTSTYLE='\033["38;5;150m'
-			OSFOUND='\033["38;5;111m'
-			WARNING='\033["38;5;160m'
-			ERROR='\033["38;5;196m'
-			CANCEL='\033["38;5;175m'
-			BOLD='\033[1m'
-			RESET='\033[0m'
-		else
-			APP='\033["38;5;23m'
-			TITLE='\033["38;5;24m'
-			BODY='\033["38;5;23m'
-			PROMPTSTYLE='\033["38;5;65m'
-			OSFOUND='\033["38;5;67m'
-			WARNING='\033["38;5;160m'
-			ERROR='\033["38;5;9m'
-			CANCEL='\033["38;5;132m'
-			BOLD='\033[1m'
-			RESET='\033[0m'
-		fi
+		APP='\033["38;5;158m'
+		TITLE='\033["38;5;153m'
+		BODY='\033["38;5;158m'
+		PROMPTSTYLE='\033["38;5;150m'
+		OSFOUND='\033["38;5;111m'
+		WARNING='\033["38;5;160m'
+		ERROR='\033["38;5;196m'
+		CANCEL='\033["38;5;175m'
+		BOLD='\033[1m'
+		RESET='\033[0m'
 	fi
 	
 	#Settings Preview
@@ -4420,14 +4414,14 @@ COLORBLUE()
 		Output rm -R .classicsetting
 		Output rm -R .colorm1setting
 	fi
-	sed -i '' '71s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;23m/' macOS\ Creator.command
-	sed -i '' '72s/"38;5;172m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;24m/' macOS\ Creator.command
-	sed -i '' '73s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;23m/' macOS\ Creator.command
-	sed -i '' '74s/"38;5;208m/"38;5;65m/' macOS\ Creator.command && sed -i '' '74s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '74s/"38;5;58m/"38;5;65m/' macOS\ Creator.command && sed -i '' '74s/"38;5;1m/"38;5;65m/' macOS\ Creator.command
-	sed -i '' '75s/"38;5;166m/"38;5;67m/' macOS\ Creator.command && sed -i '' '75s/"38;5;0m/"38;5;67m/' macOS\ Creator.command && sed -i '' '75s/"38;5;64m/"38;5;67m/' macOS\ Creator.command && sed -i '' '75s/"38;5;52m/"38;5;67m/' macOS\ Creator.command
-	sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
-	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
-	sed -i '' '78s/"38;5;1m/"38;5;132m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;132m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;132m/' macOS\ Creator.command && sed -i '' '78s/"38;5;130m/"38;5;132m/' macOS\ Creator.command
+	sed -i '' '71s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;23m/' macOS\ Creator.command
+	sed -i '' '72s/"38;5;172m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;24m/' macOS\ Creator.command
+	sed -i '' '73s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;23m/' macOS\ Creator.command
+	sed -i '' '74s/"38;5;208m/"38;5;65m/' macOS\ Creator.command && sed -i '' '74s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '74s/"38;5;58m/"38;5;65m/' macOS\ Creator.command && sed -i '' '74s/"38;5;1m/"38;5;65m/' macOS\ Creator.command && sed -i '' '74s/"38;5;38m/"38;5;65m/' macOS\ Creator.command
+	sed -i '' '75s/"38;5;166m/"38;5;67m/' macOS\ Creator.command && sed -i '' '75s/"38;5;0m/"38;5;67m/' macOS\ Creator.command && sed -i '' '75s/"38;5;64m/"38;5;67m/' macOS\ Creator.command && sed -i '' '75s/"38;5;52m/"38;5;67m/' macOS\ Creator.command && sed -i '' '75s/"38;5;34m/"38;5;67m/' macOS\ Creator.command
+	sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
+	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
+	sed -i '' '78s/"38;5;1m/"38;5;132m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;132m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;132m/' macOS\ Creator.command && sed -i '' '78s/"38;5;130m/"38;5;132m/' macOS\ Creator.command && sed -i '' '78s/"38;5;55m/"38;5;132m/' macOS\ Creator.command
 	sed -i '' '84s/"38;5;180m/"38;5;158m/' macOS\ Creator.command && sed -i '' '84s/"38;5;255m/"38;5;158m/' macOS\ Creator.command && sed -i '' '84s/"38;5;108m/"38;5;158m/' macOS\ Creator.command && sed -i '' '84s/"38;5;88m/"38;5;158m/' macOS\ Creator.command && sed -i '' '84s/"38;5;185m/"38;5;158m/' macOS\ Creator.command
 	sed -i '' '85s/"38;5;215m/"38;5;153m/' macOS\ Creator.command && sed -i '' '85s/"38;5;255m/"38;5;153m/' macOS\ Creator.command && sed -i '' '85s/"38;5;193m/"38;5;153m/' macOS\ Creator.command && sed -i '' '85s/"38;5;137m/"38;5;153m/' macOS\ Creator.command && sed -i '' '85s/"38;5;209m/"38;5;153m/' macOS\ Creator.command
 	sed -i '' '86s/"38;5;180m/"38;5;158m/' macOS\ Creator.command && sed -i '' '86s/"38;5;255m/"38;5;158m/' macOS\ Creator.command && sed -i '' '86s/"38;5;108m/"38;5;158m/' macOS\ Creator.command && sed -i '' '86s/"38;5;88m/"38;5;158m/' macOS\ Creator.command && sed -i '' '86s/"38;5;201m/"38;5;158m/' macOS\ Creator.command
@@ -4436,14 +4430,6 @@ COLORBLUE()
 	sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;255m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;106m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
 	sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;255m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command
 	sed -i '' '91s/"38;5;197m/"38;5;175m/' macOS\ Creator.command && sed -i '' '91s/"38;5;255m/"38;5;175m/' macOS\ Creator.command && sed -i '' '91s/"38;5;187m/"38;5;175m/' macOS\ Creator.command && sed -i '' '91s/"38;5;210m/"38;5;175m/' macOS\ Creator.command && sed -i '' '91s/"38;5;135m/"38;5;175m/' macOS\ Creator.command
-	sed -i '' '95s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '95s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '95s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '95s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '95s/"38;5;214m/"38;5;23m/' macOS\ Creator.command
-	sed -i '' '96s/"38;5;172m/"38;5;24m/' macOS\ Creator.command && sed -i '' '96s/"38;5;0m/"38;5;24m/' macOS\ Creator.command && sed -i '' '96s/"38;5;65m/"38;5;24m/' macOS\ Creator.command && sed -i '' '96s/"38;5;124m/"38;5;24m/' macOS\ Creator.command && sed -i '' '96s/"38;5;209m/"38;5;24m/' macOS\ Creator.command
-	sed -i '' '97s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '97s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '97s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '97s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '97s/"38;5;163m/"38;5;23m/' macOS\ Creator.command
-	sed -i '' '98s/"38;5;208m/"38;5;65m/' macOS\ Creator.command && sed -i '' '98s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '98s/"38;5;58m/"38;5;65m/' macOS\ Creator.command && sed -i '' '98s/"38;5;1m/"38;5;65m/' macOS\ Creator.command && sed -i '' '98s/"38;5;38m/"38;5;65m/' macOS\ Creator.command
-	sed -i '' '99s/"38;5;166m/"38;5;67m/' macOS\ Creator.command && sed -i '' '99s/"38;5;0m/"38;5;67m/' macOS\ Creator.command && sed -i '' '99s/"38;5;64m/"38;5;67m/' macOS\ Creator.command && sed -i '' '99s/"38;5;52m/"38;5;67m/' macOS\ Creator.command && sed -i '' '99s/"38;5;34m/"38;5;67m/' macOS\ Creator.command
-	sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
-	sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
-	sed -i '' '102s/"38;5;1m/"38;5;132m/' macOS\ Creator.command && sed -i '' '102s/"38;5;0m/"38;5;132m/' macOS\ Creator.command && sed -i '' '102s/"38;5;88m/"38;5;132m/' macOS\ Creator.command && sed -i '' '102s/"38;5;130m/"38;5;132m/' macOS\ Creator.command && sed -i '' '102s/"38;5;55m/"38;5;132m/' macOS\ Creator.command
 	if [[ $verbose == "1" ]]; then
 		if [[ $CLEANED == 'TRUE' ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
@@ -4468,14 +4454,14 @@ COLORSANDS()
 		Output rm -R .classicsetting
 		Output rm -R .colorm1setting
 	fi
-	sed -i '' '71s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;130m/' macOS\ Creator.command
-	sed -i '' '72s/"38;5;24m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;172m/' macOS\ Creator.command
-	sed -i '' '73s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;130m/' macOS\ Creator.command
-	sed -i '' '74s/"38;5;65m/"38;5;208m/' macOS\ Creator.command && sed -i '' '74s/"38;5;0m/"38;5;208m/' macOS\ Creator.command && sed -i '' '74s/"38;5;58m/"38;5;208m/' macOS\ Creator.command && sed -i '' '74s/"38;5;1m/"38;5;208m/' macOS\ Creator.command
-	sed -i '' '75s/"38;5;67m/"38;5;166m/' macOS\ Creator.command && sed -i '' '75s/"38;5;0m/"38;5;166m/' macOS\ Creator.command && sed -i '' '75s/"38;5;64m/"38;5;166m/' macOS\ Creator.command && sed -i '' '75s/"38;5;52m/"38;5;166m/' macOS\ Creator.command
-	sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
-	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
-	sed -i '' '78s/"38;5;132m/"38;5;1m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;1m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;1m/' macOS\ Creator.command && sed -i '' '78s/"38;5;130m/"38;5;1m/' macOS\ Creator.command
+	sed -i '' '71s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;130m/' macOS\ Creator.command
+	sed -i '' '72s/"38;5;24m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;172m/' macOS\ Creator.command
+	sed -i '' '73s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;130m/' macOS\ Creator.command
+	sed -i '' '74s/"38;5;65m/"38;5;208m/' macOS\ Creator.command && sed -i '' '74s/"38;5;0m/"38;5;208m/' macOS\ Creator.command && sed -i '' '74s/"38;5;58m/"38;5;208m/' macOS\ Creator.command && sed -i '' '74s/"38;5;1m/"38;5;208m/' macOS\ Creator.command && sed -i '' '74s/"38;5;38m/"38;5;208m/' macOS\ Creator.command
+	sed -i '' '75s/"38;5;67m/"38;5;166m/' macOS\ Creator.command && sed -i '' '75s/"38;5;0m/"38;5;166m/' macOS\ Creator.command && sed -i '' '75s/"38;5;64m/"38;5;166m/' macOS\ Creator.command && sed -i '' '75s/"38;5;52m/"38;5;166m/' macOS\ Creator.command && sed -i '' '75s/"38;5;34m/"38;5;166m/' macOS\ Creator.command
+	sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
+	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
+	sed -i '' '78s/"38;5;132m/"38;5;1m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;1m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;1m/' macOS\ Creator.command && sed -i '' '78s/"38;5;130m/"38;5;1m/' macOS\ Creator.command && sed -i '' '78s/"38;5;55m/"38;5;1m/' macOS\ Creator.command
 	sed -i '' '84s/"38;5;158m/"38;5;180m/' macOS\ Creator.command && sed -i '' '84s/"38;5;255m/"38;5;180m/' macOS\ Creator.command && sed -i '' '84s/"38;5;108m/"38;5;180m/' macOS\ Creator.command && sed -i '' '84s/"38;5;88m/"38;5;180m/' macOS\ Creator.command && sed -i '' '84s/"38;5;185m/"38;5;180m/' macOS\ Creator.command
 	sed -i '' '85s/"38;5;153m/"38;5;215m/' macOS\ Creator.command && sed -i '' '85s/"38;5;255m/"38;5;215m/' macOS\ Creator.command && sed -i '' '85s/"38;5;193m/"38;5;215m/' macOS\ Creator.command && sed -i '' '85s/"38;5;137m/"38;5;215m/' macOS\ Creator.command && sed -i '' '85s/"38;5;209m/"38;5;215m/' macOS\ Creator.command
 	sed -i '' '86s/"38;5;158m/"38;5;180m/' macOS\ Creator.command && sed -i '' '86s/"38;5;255m/"38;5;180m/' macOS\ Creator.command && sed -i '' '86s/"38;5;108m/"38;5;180m/' macOS\ Creator.command && sed -i '' '86s/"38;5;88m/"38;5;180m/' macOS\ Creator.command && sed -i '' '86s/"38;5;201m/"38;5;180m/' macOS\ Creator.command
@@ -4484,14 +4470,6 @@ COLORSANDS()
 	sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;255m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;106m/"38;5;160m/' macOS\ Creator.command
 	sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;255m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command
 	sed -i '' '91s/"38;5;175m/"38;5;197m/' macOS\ Creator.command && sed -i '' '91s/"38;5;255m/"38;5;197m/' macOS\ Creator.command && sed -i '' '91s/"38;5;187m/"38;5;197m/' macOS\ Creator.command && sed -i '' '91s/"38;5;210m/"38;5;197m/' macOS\ Creator.command && sed -i '' '91s/"38;5;135m/"38;5;197m/' macOS\ Creator.command
-	sed -i '' '95s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '95s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '95s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '95s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '95s/"38;5;214m/"38;5;130m/' macOS\ Creator.command
-	sed -i '' '96s/"38;5;24m/"38;5;172m/' macOS\ Creator.command && sed -i '' '96s/"38;5;0m/"38;5;172m/' macOS\ Creator.command && sed -i '' '96s/"38;5;65m/"38;5;172m/' macOS\ Creator.command && sed -i '' '96s/"38;5;124m/"38;5;172m/' macOS\ Creator.command && sed -i '' '96s/"38;5;209m/"38;5;172m/' macOS\ Creator.command
-	sed -i '' '97s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '97s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '97s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '97s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '97s/"38;5;163m/"38;5;130m/' macOS\ Creator.command
-	sed -i '' '98s/"38;5;65m/"38;5;208m/' macOS\ Creator.command && sed -i '' '98s/"38;5;0m/"38;5;208m/' macOS\ Creator.command && sed -i '' '98s/"38;5;58m/"38;5;208m/' macOS\ Creator.command && sed -i '' '98s/"38;5;1m/"38;5;208m/' macOS\ Creator.command && sed -i '' '98s/"38;5;38m/"38;5;208m/' macOS\ Creator.command
-	sed -i '' '99s/"38;5;67m/"38;5;166m/' macOS\ Creator.command && sed -i '' '99s/"38;5;0m/"38;5;166m/' macOS\ Creator.command && sed -i '' '99s/"38;5;64m/"38;5;166m/' macOS\ Creator.command && sed -i '' '99s/"38;5;52m/"38;5;166m/' macOS\ Creator.command && sed -i '' '99s/"38;5;34m/"38;5;166m/' macOS\ Creator.command
-	sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"160;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"160;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
-	sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
-	sed -i '' '102s/"38;5;132m/"38;5;1m/' macOS\ Creator.command && sed -i '' '102s/"38;5;0m/"38;5;1m/' macOS\ Creator.command && sed -i '' '102s/"38;5;88m/"38;5;1m/' macOS\ Creator.command && sed -i '' '102s/"38;5;130m/"38;5;1m/' macOS\ Creator.command && sed -i '' '102s/"38;5;55m/"38;5;1m/' macOS\ Creator.command
 	if [[ $verbose == "1" ]]; then
 		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 	else
@@ -4512,14 +4490,14 @@ COLORFOREST()
 		Output rm -R .classicsetting
 		Output rm -R .colorm1setting
 	fi
-	sed -i '' '71s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;22m/' macOS\ Creator.command
-	sed -i '' '72s/"38;5;172m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;65m/' macOS\ Creator.command
-	sed -i '' '73s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;22m/' macOS\ Creator.command
-	sed -i '' '74s/"38;5;208m/"38;5;58m/' macOS\ Creator.command && sed -i '' '74s/"38;5;0m/"38;5;58m/' macOS\ Creator.command && sed -i '' '74s/"38;5;65m/"38;5;58m/' macOS\ Creator.command && sed -i '' '74s/"38;5;1m/"38;5;58m/' macOS\ Creator.command
-	sed -i '' '75s/"38;5;166m/"38;5;64m/' macOS\ Creator.command && sed -i '' '75s/"38;5;0m/"38;5;64m/' macOS\ Creator.command && sed -i '' '75s/"38;5;67m/"38;5;64m/' macOS\ Creator.command && sed -i '' '75s/"38;5;52m/"38;5;64m/' macOS\ Creator.command
-	sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
-	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
-	sed -i '' '78s/"38;5;1m/"38;5;88m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '78s/"38;5;132m/"38;5;88m/' macOS\ Creator.command && sed -i '' '78s/"38;5;130m/"38;5;88m/' macOS\ Creator.command
+	sed -i '' '71s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;22m/' macOS\ Creator.command
+	sed -i '' '72s/"38;5;172m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;65m/' macOS\ Creator.command
+	sed -i '' '73s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;22m/' macOS\ Creator.command
+	sed -i '' '74s/"38;5;208m/"38;5;58m/' macOS\ Creator.command && sed -i '' '74s/"38;5;0m/"38;5;58m/' macOS\ Creator.command && sed -i '' '74s/"38;5;65m/"38;5;58m/' macOS\ Creator.command && sed -i '' '74s/"38;5;1m/"38;5;58m/' macOS\ Creator.command && sed -i '' '74s/"38;5;38m/"38;5;58m/' macOS\ Creator.command
+	sed -i '' '75s/"38;5;166m/"38;5;64m/' macOS\ Creator.command && sed -i '' '75s/"38;5;0m/"38;5;64m/' macOS\ Creator.command && sed -i '' '75s/"38;5;67m/"38;5;64m/' macOS\ Creator.command && sed -i '' '75s/"38;5;52m/"38;5;64m/' macOS\ Creator.command && sed -i '' '75s/"38;5;34m/"38;5;64m/' macOS\ Creator.command
+	sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
+	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
+	sed -i '' '78s/"38;5;1m/"38;5;88m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '78s/"38;5;132m/"38;5;88m/' macOS\ Creator.command && sed -i '' '78s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '78s/"38;5;55m/"38;5;88m/' macOS\ Creator.command
 	sed -i '' '84s/"38;5;180m/"38;5;108m/' macOS\ Creator.command && sed -i '' '84s/"38;5;255m/"38;5;108m/' macOS\ Creator.command && sed -i '' '84s/"38;5;158m/"38;5;108m/' macOS\ Creator.command && sed -i '' '84s/"38;5;88m/"38;5;108m/' macOS\ Creator.command && sed -i '' '84s/"38;5;185m/"38;5;108m/' macOS\ Creator.command
 	sed -i '' '85s/"38;5;215m/"38;5;193m/' macOS\ Creator.command && sed -i '' '85s/"38;5;255m/"38;5;193m/' macOS\ Creator.command && sed -i '' '85s/"38;5;153m/"38;5;193m/' macOS\ Creator.command && sed -i '' '85s/"38;5;137m/"38;5;193m/' macOS\ Creator.command && sed -i '' '85s/"38;5;209m/"38;5;193m/' macOS\ Creator.command
 	sed -i '' '86s/"38;5;180m/"38;5;108m/' macOS\ Creator.command && sed -i '' '86s/"38;5;255m/"38;5;108m/' macOS\ Creator.command && sed -i '' '86s/"38;5;158m/"38;5;108m/' macOS\ Creator.command && sed -i '' '86s/"38;5;88m/"38;5;108m/' macOS\ Creator.command && sed -i '' '86s/"38;5;201m/"38;5;108m/' macOS\ Creator.command
@@ -4528,14 +4506,6 @@ COLORFOREST()
 	sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;255m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;106m/"38;5;160m/' macOS\ Creator.command
 	sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;255m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command
 	sed -i '' '91s/"38;5;197m/"38;5;187m/' macOS\ Creator.command && sed -i '' '91s/"38;5;255m/"38;5;187m/' macOS\ Creator.command && sed -i '' '91s/"38;5;175m/"38;5;187m/' macOS\ Creator.command && sed -i '' '91s/"38;5;210m/"38;5;187m/' macOS\ Creator.command && sed -i '' '91s/"38;5;135m/"38;5;187m/' macOS\ Creator.command
-	sed -i '' '95s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '95s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '95s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '95s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '95s/"38;5;214m/"38;5;22m/' macOS\ Creator.command
-	sed -i '' '96s/"38;5;172m/"38;5;65m/' macOS\ Creator.command && sed -i '' '96s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '96s/"38;5;24m/"38;5;65m/' macOS\ Creator.command && sed -i '' '96s/"38;5;124m/"38;5;65m/' macOS\ Creator.command && sed -i '' '96s/"38;5;209m/"38;5;65m/' macOS\ Creator.command
-	sed -i '' '97s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '97s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '97s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '97s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '97s/"38;5;163m/"38;5;22m/' macOS\ Creator.command
-	sed -i '' '98s/"38;5;208m/"38;5;58m/' macOS\ Creator.command && sed -i '' '98s/"38;5;0m/"38;5;58m/' macOS\ Creator.command && sed -i '' '98s/"38;5;65m/"38;5;58m/' macOS\ Creator.command && sed -i '' '98s/"38;5;1m/"38;5;58m/' macOS\ Creator.command && sed -i '' '98s/"38;5;38m/"38;5;58m/' macOS\ Creator.command
-	sed -i '' '99s/"38;5;166m/"38;5;64m/' macOS\ Creator.command && sed -i '' '99s/"38;5;0m/"38;5;64m/' macOS\ Creator.command && sed -i '' '99s/"38;5;67m/"38;5;64m/' macOS\ Creator.command && sed -i '' '99s/"38;5;52m/"38;5;64m/' macOS\ Creator.command && sed -i '' '99s/"38;5;34m/"38;5;64m/' macOS\ Creator.command
-	sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
-	sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
-	sed -i '' '102s/"38;5;1m/"38;5;88m/' macOS\ Creator.command && sed -i '' '102s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '102s/"38;5;132m/"38;5;88m/' macOS\ Creator.command && sed -i '' '102s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '102s/"38;5;55m/"38;5;88m/' macOS\ Creator.command
 	if [[ $verbose == "1" ]]; then
 		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 	else
@@ -4556,14 +4526,14 @@ CINNAMONCOLOR()
 		Output rm -R .classicsetting
 		Output rm -R .colorm1setting
 	fi
-	sed -i '' '71s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;88m/' macOS\ Creator.command
-	sed -i '' '72s/"38;5;172m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;124m/' macOS\ Creator.command
-	sed -i '' '73s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;88m/' macOS\ Creator.command
-	sed -i '' '74s/"38;5;208m/"38;5;1m/' macOS\ Creator.command && sed -i '' '74s/"38;5;0m/"38;5;1m/' macOS\ Creator.command && sed -i '' '74s/"38;5;65m/"38;5;1m/' macOS\ Creator.command && sed -i '' '74s/"38;5;58m/"38;5;1m/' macOS\ Creator.command
-	sed -i '' '75s/"38;5;166m/"38;5;52m/' macOS\ Creator.command && sed -i '' '75s/"38;5;0m/"38;5;52m/' macOS\ Creator.command && sed -i '' '75s/"38;5;67m/"38;5;52m/' macOS\ Creator.command && sed -i '' '75s/"38;5;64m/"38;5;52m/' macOS\ Creator.command
-	sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
-	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
-	sed -i '' '78s/"38;5;1m/"38;5;130m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '78s/"38;5;132m/"38;5;130m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;130m/' macOS\ Creator.command
+	sed -i '' '71s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;88m/' macOS\ Creator.command
+	sed -i '' '72s/"38;5;172m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;124m/' macOS\ Creator.command
+	sed -i '' '73s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;88m/' macOS\ Creator.command
+	sed -i '' '74s/"38;5;208m/"38;5;1m/' macOS\ Creator.command && sed -i '' '74s/"38;5;0m/"38;5;1m/' macOS\ Creator.command && sed -i '' '74s/"38;5;65m/"38;5;1m/' macOS\ Creator.command && sed -i '' '74s/"38;5;58m/"38;5;1m/' macOS\ Creator.command && sed -i '' '74s/"38;5;38m/"38;5;1m/' macOS\ Creator.command
+	sed -i '' '75s/"38;5;166m/"38;5;52m/' macOS\ Creator.command && sed -i '' '75s/"38;5;0m/"38;5;52m/' macOS\ Creator.command && sed -i '' '75s/"38;5;67m/"38;5;52m/' macOS\ Creator.command && sed -i '' '75s/"38;5;64m/"38;5;52m/' macOS\ Creator.command && sed -i '' '75s/"38;5;34m/"38;5;52m/' macOS\ Creator.command
+	sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
+	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
+	sed -i '' '78s/"38;5;1m/"38;5;130m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '78s/"38;5;132m/"38;5;130m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '78s/"38;5;55m/"38;5;130m/' macOS\ Creator.command
 	sed -i '' '84s/"38;5;180m/"38;5;88m/' macOS\ Creator.command && sed -i '' '84s/"38;5;255m/"38;5;88m/' macOS\ Creator.command && sed -i '' '84s/"38;5;158m/"38;5;88m/' macOS\ Creator.command && sed -i '' '84s/"38;5;108m/"38;5;88m/' macOS\ Creator.command && sed -i '' '84s/"38;5;185m/"38;5;88m/' macOS\ Creator.command
 	sed -i '' '85s/"38;5;215m/"38;5;137m/' macOS\ Creator.command && sed -i '' '85s/"38;5;255m/"38;5;137m/' macOS\ Creator.command  && sed -i '' '85s/"38;5;153m/"38;5;137m/' macOS\ Creator.command  && sed -i '' '85s/"38;5;193m/"38;5;137m/' macOS\ Creator.command && sed -i '' '85s/"38;5;209m/"38;5;137m/' macOS\ Creator.command
 	sed -i '' '86s/"38;5;180m/"38;5;88m/' macOS\ Creator.command && sed -i '' '86s/"38;5;255m/"38;5;88m/' macOS\ Creator.command && sed -i '' '86s/"38;5;158m/"38;5;88m/' macOS\ Creator.command && sed -i '' '86s/"38;5;108m/"38;5;88m/' macOS\ Creator.command && sed -i '' '86s/"38;5;201m/"38;5;88m/' macOS\ Creator.command
@@ -4572,14 +4542,6 @@ CINNAMONCOLOR()
 	sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;255m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;106m/"38;5;160m/' macOS\ Creator.command
 	sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;255m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command
 	sed -i '' '91s/"38;5;197m/"38;5;210m/' macOS\ Creator.command && sed -i '' '91s/"38;5;255m/"38;5;210m/' macOS\ Creator.command && sed -i '' '91s/"38;5;175m/"38;5;210m/' macOS\ Creator.command && sed -i '' '91s/"38;5;187m/"38;5;210m/' macOS\ Creator.command && sed -i '' '91s/"38;5;135m/"38;5;210m/' macOS\ Creator.command
-	sed -i '' '95s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '95s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '95s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '95s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '95s/"38;5;214m/"38;5;88m/' macOS\ Creator.command
-	sed -i '' '96s/"38;5;172m/"38;5;124m/' macOS\ Creator.command && sed -i '' '96s/"38;5;0m/"38;5;124m/' macOS\ Creator.command && sed -i '' '96s/"38;5;24m/"38;5;124m/' macOS\ Creator.command && sed -i '' '96s/"38;5;65m/"38;5;124m/' macOS\ Creator.command && sed -i '' '96s/"38;5;209m/"38;5;124m/' macOS\ Creator.command
-	sed -i '' '97s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '97s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '97s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '97s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '97s/"38;5;163m/"38;5;88m/' macOS\ Creator.command
-	sed -i '' '98s/"38;5;208m/"38;5;1m/' macOS\ Creator.command && sed -i '' '98s/"38;5;0m/"38;5;1m/' macOS\ Creator.command && sed -i '' '98s/"38;5;65m/"38;5;1m/' macOS\ Creator.command && sed -i '' '98s/"38;5;58m/"38;5;1m/' macOS\ Creator.command && sed -i '' '98s/"38;5;38m/"38;5;1m/' macOS\ Creator.command
-	sed -i '' '99s/"38;5;166m/"38;5;52m/' macOS\ Creator.command && sed -i '' '99s/"38;5;0m/"38;5;52m/' macOS\ Creator.command && sed -i '' '99s/"38;5;67m/"38;5;52m/' macOS\ Creator.command && sed -i '' '99s/"38;5;64m/"38;5;52m/' macOS\ Creator.command && sed -i '' '99s/"38;5;34m/"38;5;52m/' macOS\ Creator.command
-	sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
-	sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
-	sed -i '' '102s/"38;5;1m/"38;5;130m/' macOS\ Creator.command && sed -i '' '102s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '102s/"38;5;132m/"38;5;130m/' macOS\ Creator.command && sed -i '' '102s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '102s/"38;5;55m/"38;5;130m/' macOS\ Creator.command
 	if [[ $verbose == "1" ]]; then
 		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 	else
@@ -4600,14 +4562,14 @@ COLORCLASSIC()
 		Output rm -R .defaultbluesetting
 		Output rm -R .colorm1setting
 	fi
-	sed -i '' '71s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '72s/"38;5;24m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '73s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '74s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '74s/"38;5;208m/"38;5;0m/' macOS\ Creator.command && sed -i '' '74s/"38;5;58m/"38;5;0m/' macOS\ Creator.command && sed -i '' '74s/"38;5;1m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '75s/"38;5;67m/"38;5;0m/' macOS\ Creator.command && sed -i '' '75s/"38;5;166m/"38;5;0m/' macOS\ Creator.command && sed -i '' '75s/"38;5;64m/"38;5;0m/' macOS\ Creator.command && sed -i '' '75s/"38;5;52m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '76s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '77s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '78s/"38;5;132m/"38;5;0m/' macOS\ Creator.command && sed -i '' '78s/"38;5;1m/"38;5;0m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '78s/"38;5;130m/"38;5;0m/' macOS\ Creator.command
+	sed -i '' '71s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;0m/' macOS\ Creator.command
+	sed -i '' '72s/"38;5;24m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;0m/' macOS\ Creator.command
+	sed -i '' '73s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;0m/' macOS\ Creator.command
+	sed -i '' '74s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '74s/"38;5;208m/"38;5;0m/' macOS\ Creator.command && sed -i '' '74s/"38;5;58m/"38;5;0m/' macOS\ Creator.command && sed -i '' '74s/"38;5;1m/"38;5;0m/' macOS\ Creator.command && sed -i '' '74s/"38;5;38m/"38;5;0m/' macOS\ Creator.command
+	sed -i '' '75s/"38;5;67m/"38;5;0m/' macOS\ Creator.command && sed -i '' '75s/"38;5;166m/"38;5;0m/' macOS\ Creator.command && sed -i '' '75s/"38;5;64m/"38;5;0m/' macOS\ Creator.command && sed -i '' '75s/"38;5;52m/"38;5;0m/' macOS\ Creator.command && sed -i '' '75s/"38;5;34m/"38;5;0m/' macOS\ Creator.command
+	sed -i '' '76s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;0m/' macOS\ Creator.command
+	sed -i '' '77s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;0m/' macOS\ Creator.command
+	sed -i '' '78s/"38;5;132m/"38;5;0m/' macOS\ Creator.command && sed -i '' '78s/"38;5;1m/"38;5;0m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '78s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '78s/"38;5;55m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '84s/"38;5;158m/"38;5;255m/' macOS\ Creator.command && sed -i '' '84s/"38;5;180m/"38;5;255m/' macOS\ Creator.command && sed -i '' '84s/"38;5;108m/"38;5;255m/' macOS\ Creator.command && sed -i '' '84s/"38;5;88m/"38;5;255m/' macOS\ Creator.command && sed -i '' '84s/"38;5;185m/"38;5;255m/' macOS\ Creator.command
 	sed -i '' '85s/"38;5;153m/"38;5;255m/' macOS\ Creator.command && sed -i '' '85s/"38;5;215m/"38;5;255m/' macOS\ Creator.command && sed -i '' '85s/"38;5;193m/"38;5;255m/' macOS\ Creator.command && sed -i '' '85s/"38;5;137m/"38;5;255m/' macOS\ Creator.command && sed -i '' '85s/"38;5;209m/"38;5;255m/' macOS\ Creator.command
 	sed -i '' '86s/"38;5;158m/"38;5;255m/' macOS\ Creator.command && sed -i '' '86s/"38;5;180m/"38;5;255m/' macOS\ Creator.command && sed -i '' '86s/"38;5;108m/"38;5;255m/' macOS\ Creator.command && sed -i '' '86s/"38;5;88m/"38;5;255m/' macOS\ Creator.command && sed -i '' '86s/"38;5;201m/"38;5;255m/' macOS\ Creator.command
@@ -4616,14 +4578,6 @@ COLORCLASSIC()
 	sed -i '' '89s/"38;5;160m/"38;5;255m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;255m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;255m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;255m/' macOS\ Creator.command && sed -i '' '89s/"38;5;106m/"38;5;255m/' macOS\ Creator.command
 	sed -i '' '90s/"38;5;196m/"38;5;255m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;255m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;255m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;255m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;255m/' macOS\ Creator.command
 	sed -i '' '91s/"38;5;175m/"38;5;255m/' macOS\ Creator.command && sed -i '' '91s/"38;5;197m/"38;5;255m/' macOS\ Creator.command && sed -i '' '91s/"38;5;187m/"38;5;255m/' macOS\ Creator.command && sed -i '' '91s/"38;5;210m/"38;5;255m/' macOS\ Creator.command && sed -i '' '91s/"38;5;135m/"38;5;255m/' macOS\ Creator.command
-	sed -i '' '95s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '95s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '95s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '95s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '95s/"38;5;214m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '96s/"38;5;24m/"38;5;0m/' macOS\ Creator.command && sed -i '' '96s/"38;5;172m/"38;5;0m/' macOS\ Creator.command && sed -i '' '96s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '96s/"38;5;124m/"38;5;0m/' macOS\ Creator.command && sed -i '' '96s/"38;5;209m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '97s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '97s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '97s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '97s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '97s/"38;5;163m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '98s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '98s/"38;5;208m/"38;5;0m/' macOS\ Creator.command && sed -i '' '98s/"38;5;58m/"38;5;0m/' macOS\ Creator.command && sed -i '' '98s/"38;5;1m/"38;5;0m/' macOS\ Creator.command && sed -i '' '98s/"38;5;38m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '99s/"38;5;67m/"38;5;0m/' macOS\ Creator.command && sed -i '' '99s/"38;5;166m/"38;5;0m/' macOS\ Creator.command && sed -i '' '99s/"38;5;64m/"38;5;0m/' macOS\ Creator.command && sed -i '' '99s/"38;5;52m/"38;5;0m/' macOS\ Creator.command && sed -i '' '99s/"38;5;34m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '100s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;0m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '101s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;0m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;0m/' macOS\ Creator.command
-	sed -i '' '102s/"38;5;132m/"38;5;0m/' macOS\ Creator.command && sed -i '' '102s/"38;5;1m/"38;5;0m/' macOS\ Creator.command && sed -i '' '102s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '102s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '102s/"38;5;55m/"38;5;0m/' macOS\ Creator.command
 	if [[ $verbose == "1" ]]; then
 		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 	else
@@ -4644,6 +4598,14 @@ COLORM1()
 		Output rm -R .cinnamonapplecolor
 		Output rm -R .defaultbluesetting
 	fi
+	sed -i '' '71s/"38;5;23m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;30m/"38;5;214m/' macOS\ Creator.command
+	sed -i '' '72s/"38;5;24m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;23m/"38;5;209m/' macOS\ Creator.command
+	sed -i '' '73s/"38;5;23m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;30m/"38;5;163m/' macOS\ Creator.command
+	sed -i '' '74s/"38;5;65m/"38;5;38m/' macOS\ Creator.command && sed -i '' '74s/"38;5;208m/"38;5;38m/' macOS\ Creator.command && sed -i '' '74s/"38;5;58m/"38;5;38m/' macOS\ Creator.command && sed -i '' '74s/"38;5;0m/"38;5;38m/' macOS\ Creator.command && sed -i '' '74s/"38;5;1m/"38;5;38m/' macOS\ Creator.command && sed -i '' '74s/"38;5;109m/"38;5;38m/' macOS\ Creator.command
+	sed -i '' '75s/"38;5;67m/"38;5;34m/' macOS\ Creator.command && sed -i '' '75s/"38;5;166m/"38;5;34m/' macOS\ Creator.command && sed -i '' '75s/"38;5;64m/"38;5;34m/' macOS\ Creator.command && sed -i '' '75s/"38;5;0m/"38;5;34m/' macOS\ Creator.command && sed -i '' '75s/"38;5;52m/"38;5;34m/' macOS\ Creator.command && sed -i '' '75s/"38;5;30m/"38;5;34m/' macOS\ Creator.command
+	sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '76s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
+	sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '77s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
+	sed -i '' '78s/"38;5;132m/"38;5;55m/' macOS\ Creator.command && sed -i '' '78s/"38;5;1m/"38;5;55m/' macOS\ Creator.command && sed -i '' '78s/"38;5;88m/"38;5;55m/' macOS\ Creator.command && sed -i '' '78s/"38;5;0m/"38;5;55m/' macOS\ Creator.command && sed -i '' '78s/"38;5;130m/"38;5;55m/' macOS\ Creator.command && sed -i '' '78s/"38;5;66m/"38;5;55m/' macOS\ Creator.command
 	sed -i '' '84s/"38;5;158m/"38;5;185m/' macOS\ Creator.command && sed -i '' '84s/"38;5;180m/"38;5;185m/' macOS\ Creator.command && sed -i '' '84s/"38;5;108m/"38;5;185m/' macOS\ Creator.command && sed -i '' '84s/"38;5;255m/"38;5;185m/' macOS\ Creator.command && sed -i '' '84s/"38;5;88m/"38;5;185m/' macOS\ Creator.command && sed -i '' '84s/"38;5;73m/"38;5;185m/' macOS\ Creator.command
 	sed -i '' '85s/"38;5;153m/"38;5;209m/' macOS\ Creator.command && sed -i '' '85s/"38;5;215m/"38;5;209m/' macOS\ Creator.command && sed -i '' '85s/"38;5;193m/"38;5;209m/' macOS\ Creator.command && sed -i '' '85s/"38;5;255m/"38;5;209m/' macOS\ Creator.command && sed -i '' '85s/"38;5;137m/"38;5;209m/' macOS\ Creator.command && sed -i '' '85s/"38;5;152m/"38;5;209m/' macOS\ Creator.command
 	sed -i '' '86s/"38;5;158m/"38;5;201m/' macOS\ Creator.command && sed -i '' '86s/"38;5;180m/"38;5;201m/' macOS\ Creator.command && sed -i '' '86s/"38;5;108m/"38;5;201m/' macOS\ Creator.command && sed -i '' '86s/"38;5;255m/"38;5;201m/' macOS\ Creator.command && sed -i '' '86s/"38;5;88m/"38;5;201m/' macOS\ Creator.command && sed -i '' '86s/"38;5;73m/"38;5;201m/' macOS\ Creator.command
@@ -4652,14 +4614,6 @@ COLORM1()
 	sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;255m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '89s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
 	sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;255m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command && sed -i '' '90s/"38;5;196m/"38;5;196m/' macOS\ Creator.command
 	sed -i '' '91s/"38;5;175m/"38;5;135m/' macOS\ Creator.command && sed -i '' '91s/"38;5;197m/"38;5;135m/' macOS\ Creator.command && sed -i '' '91s/"38;5;187m/"38;5;135m/' macOS\ Creator.command && sed -i '' '91s/"38;5;255m/"38;5;135m/' macOS\ Creator.command && sed -i '' '91s/"38;5;210m/"38;5;135m/' macOS\ Creator.command && sed -i '' '91s/"38;5;194m/"38;5;135m/' macOS\ Creator.command
-	sed -i '' '95s/"38;5;23m/"38;5;214m/' macOS\ Creator.command && sed -i '' '95s/"38;5;130m/"38;5;214m/' macOS\ Creator.command && sed -i '' '95s/"38;5;22m/"38;5;214m/' macOS\ Creator.command && sed -i '' '95s/"38;5;0m/"38;5;214m/' macOS\ Creator.command && sed -i '' '95s/"38;5;88m/"38;5;214m/' macOS\ Creator.command && sed -i '' '95s/"38;5;30m/"38;5;214m/' macOS\ Creator.command
-	sed -i '' '96s/"38;5;24m/"38;5;209m/' macOS\ Creator.command && sed -i '' '96s/"38;5;172m/"38;5;209m/' macOS\ Creator.command && sed -i '' '96s/"38;5;65m/"38;5;209m/' macOS\ Creator.command && sed -i '' '96s/"38;5;0m/"38;5;209m/' macOS\ Creator.command && sed -i '' '96s/"38;5;124m/"38;5;209m/' macOS\ Creator.command && sed -i '' '96s/"38;5;23m/"38;5;209m/' macOS\ Creator.command
-	sed -i '' '97s/"38;5;23m/"38;5;163m/' macOS\ Creator.command && sed -i '' '97s/"38;5;130m/"38;5;163m/' macOS\ Creator.command && sed -i '' '97s/"38;5;22m/"38;5;163m/' macOS\ Creator.command && sed -i '' '97s/"38;5;0m/"38;5;163m/' macOS\ Creator.command && sed -i '' '97s/"38;5;88m/"38;5;163m/' macOS\ Creator.command && sed -i '' '97s/"38;5;30m/"38;5;163m/' macOS\ Creator.command
-	sed -i '' '98s/"38;5;65m/"38;5;38m/' macOS\ Creator.command && sed -i '' '98s/"38;5;208m/"38;5;38m/' macOS\ Creator.command && sed -i '' '98s/"38;5;58m/"38;5;38m/' macOS\ Creator.command && sed -i '' '98s/"38;5;0m/"38;5;38m/' macOS\ Creator.command && sed -i '' '98s/"38;5;1m/"38;5;38m/' macOS\ Creator.command && sed -i '' '98s/"38;5;109m/"38;5;38m/' macOS\ Creator.command
-	sed -i '' '99s/"38;5;67m/"38;5;34m/' macOS\ Creator.command && sed -i '' '99s/"38;5;166m/"38;5;34m/' macOS\ Creator.command && sed -i '' '99s/"38;5;64m/"38;5;34m/' macOS\ Creator.command && sed -i '' '99s/"38;5;0m/"38;5;34m/' macOS\ Creator.command && sed -i '' '99s/"38;5;52m/"38;5;34m/' macOS\ Creator.command && sed -i '' '99s/"38;5;30m/"38;5;34m/' macOS\ Creator.command
-	sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;0m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command && sed -i '' '100s/"38;5;160m/"38;5;160m/' macOS\ Creator.command
-	sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;0m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command && sed -i '' '101s/"38;5;9m/"38;5;9m/' macOS\ Creator.command
-	sed -i '' '102s/"38;5;132m/"38;5;55m/' macOS\ Creator.command && sed -i '' '102s/"38;5;1m/"38;5;55m/' macOS\ Creator.command && sed -i '' '102s/"38;5;88m/"38;5;55m/' macOS\ Creator.command && sed -i '' '102s/"38;5;0m/"38;5;55m/' macOS\ Creator.command && sed -i '' '102s/"38;5;130m/"38;5;55m/' macOS\ Creator.command && sed -i '' '102s/"38;5;66m/"38;5;55m/' macOS\ Creator.command
 	if [[ $verbose == "1" ]]; then
 		if [[ $CLEANED == 'TRUE' ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
@@ -7477,7 +7431,7 @@ IDMAC()
 ESMWINDOWBAR()
 {
 		clear
-		echo "                            macOS Creator ${RESET}${APP}V6.0${BOLD} (ESM)"
+		echo "                            macOS Creator V6.0 (ESM)"
 		echo "********************************************************************************"
 }
 ESMWINDOWBAREND()
