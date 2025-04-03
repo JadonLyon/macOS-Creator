@@ -6,7 +6,7 @@
 
 #Version 6.0
 #Release notes:
-#              ${RESET}${APP}V6.0${BOLD} Introduces a new UI, refined colors, and a brand-new much more simplified experience.
+#              V6.0 Introduces a new UI, refined colors, and a brand-new much more simplified experience.
 #                   Fixed some issues with macOS Sierra.
 #
 #
@@ -1257,7 +1257,7 @@ APPLICATIONSCREATE()
 OSMAVERICKS()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1281,7 +1281,7 @@ OSMAVERICKS()
 OSYOSEMITE()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}OS X Yosemite was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}OS X Yosemite was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1305,7 +1305,7 @@ OSYOSEMITE()
 OSELCAPITAN()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}OS X El Capitan was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}OS X El Capitan was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1329,7 +1329,7 @@ OSELCAPITAN()
 OSSIERRA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1353,7 +1353,7 @@ OSSIERRA()
 OSHIGHSIERRA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS High Sierra was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}macOS High Sierra was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1398,7 +1398,7 @@ OSHIGHSIERRA()
 OSMOJAVE()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Mojave was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}macOS Mojave was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1443,7 +1443,7 @@ OSMOJAVE()
 OSCATALINA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Catalina was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}macOS Catalina was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1497,7 +1497,7 @@ OSCATALINA()
 OSBIGSUR()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Big Sur was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}macOS Big Sur was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1541,7 +1541,7 @@ OSBIGSUR()
 OSMONTEREY()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1585,7 +1585,7 @@ OSMONTEREY()
 OSVENTURA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1656,7 +1656,7 @@ OSVENTURA()
 OSSONOMA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1736,7 +1736,7 @@ OSSONOMA()
 OSSEQUOIA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Enter your option here... "
@@ -1816,7 +1816,7 @@ OSSEQUOIA()
 OSML()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}OS X Mountain Lion was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}OS X Mountain Lion was found${RESET}${TITLE}"
 	echo -e "${RESET}${WARNING}This installer is still in active devolopment and may not work.${RESET}"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Would you like to continue?... "
@@ -1840,7 +1840,7 @@ OSML()
 OSL()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}Mac OS X Lion was found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}Mac OS X Lion was found${RESET}${TITLE}"
 	echo -e "${RESET}${WARNING}This installer is still in active devolopment and may not work.${RESET}"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Would you like to continue?... "
@@ -1864,7 +1864,7 @@ OSL()
 OSNONE()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}No versions of macOS were found${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}No versions of macOS were found${RESET}${TITLE}"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "Press S to search again... "
 	read -n 1 input
