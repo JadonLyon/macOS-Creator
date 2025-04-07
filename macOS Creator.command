@@ -8,6 +8,8 @@
 #Release notes:
 #              V6.0 Introduces a new UI, refined colors, and a brand-new much more simplified experience.
 #                   Introduces Tips, where you can see helpful tips during a particular section.
+#                   Completely redesigns both the First Time Menu and User Guide Menu.
+#                   Changing colors now feels much more fluid and user friendly.
 #                   Fixed some issues with macOS Sierra.
 #
 #
@@ -62,8 +64,6 @@ fi
 PreRun()
 {
 	UIAPPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
-	
-	
 	
 	
 	#Light Mode
@@ -558,7 +558,7 @@ CLEANUP()
 					echo -n -e "${RESET}${DEFAULTBLUE}Press any key to restart... "
 					read -n 1
 					cd "$SCRIPTPATHMAIN"
-					sed -i '' '7885s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
+					sed -i '' '7847s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
 					if [[ $APPLESILICONE == "YES" ]]; then
 						COLORM1
 					else
@@ -634,6 +634,10 @@ CLEANMAC()
 }
 MAINMENU()
 {
+	cd "$SCRIPTPATHMAIN"
+	sed -i '' '7846s/TRUE/FALSE/' macOS\ Creator.command
+	FIRSTTIMEHERE="FALSE"
+	ENTERHERE="TRUE"
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Home menu${RESET}"
 	echo -e "${RESET}${BODY}Press ${BOLD}W${RESET}${BODY} to see list of controls${RESET}"
@@ -687,7 +691,7 @@ RELEASENOTES()
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '7885s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+		sed -i '' '7847s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 		if [[ $verbose == "1" ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 		elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -763,7 +767,7 @@ FIRSTTIME()
 		else
 			rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7885s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7847s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -779,19 +783,22 @@ FIRSTTIME()
 		WINDOWBAR
 		echo -e "${RESET}${TITLE}${BOLD}Welcome to the macOS Creator${RESET}"
 		echo -e "${RESET}${TITLE}The all-in-one script for creating bootable macOS Installers"
-		echo -e ""
-		echo -e "${RESET}${BODY}Is this your first time using this script?"
-		echo -e ""
-		echo -e "Press the Y key to see the user guide."
-		echo -e "Press any other key to go straight to the Home Menu."
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "Press any key to get started... "
+		read -n 1
+		WINDOWBAR
+		echo -e "${RESET}${TITLE}If you wish to go straight to the Home Menu, press Q now."
+		echo -e "${BODY}Otherwise press any other key to continue."
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Enter your option here... "
 		read -n 1 input
-		if [[ $input == 'y' || $input == 'Y' ]]; then
-			GUIDE
+		if [[ ! $input == 'q' || $input == 'Q' ]]; then
+			cd "$SCRIPTPATHMAIN"
+			sed -i '' '7847s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
+			CHANGECOLORS
 		else
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7885s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7847s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -917,7 +924,7 @@ GUIDE()
 												echo -n "Press any key to get started... "
 												read -n 1
 												cd "$SCRIPTPATHMAIN"
-												sed -i '' '7885s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+												sed -i '' '7847s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 												if [[ $verbose == "1" ]]; then
 													"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 												elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -1156,7 +1163,7 @@ HELPCOLORS()
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}Choose the color style you prefer."
 	if [[ $HOMEUSER == 'YES' ]]; then
-		echo -e "You can save these settings for future updates."
+		echo -e "You can save these settings to your Mac for future updates."
 	fi
 	echo -e ""
 	echo -e "Press (Q) to return back home"
@@ -4242,6 +4249,16 @@ TESTELIGIBILITY()
 			SETTINGSMENU
 		fi
 }
+SAVECOLORS()
+{
+	cd "$SCRIPTPATHMAIN"
+	sed -i '' '7847s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
+	if [[ $verbose == "1" ]]; then
+		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
+	else
+		"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
+	fi
+}
 CHANGECOLORS()
 {
 	if [[ $MODIFIED == 'YES' ]]; then
@@ -4263,7 +4280,11 @@ CHANGECOLORS()
 			if [[ -e "$SCRIPTPATHMAIN/macOS Creator.command" ]]; then
 				while true; do
 					WINDOWBAR
-					echo -e "${RESET}${TITLE}${BOLD}Choose the color style you like:"
+					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
+						echo -e "${RESET}${TITLE}${BOLD}To begin, choose the color style you like:"
+					else
+						echo -e "${RESET}${TITLE}${BOLD}Choose the color style you like:"
+					fi
 					echo -e ""
 					echo -e "${RESET}$APPLECHIP"
 					echo -e "${RESET}${DEFAULTBLUE}Default Blue....................(2)"
@@ -4275,15 +4296,14 @@ CHANGECOLORS()
 						echo -e "${RESET}${IMACCOLOR}This Mac........................(7)"
 					fi
 					echo -e ""
-					echo -e "${RESET}${TITLE}Current color:${APP}${BOLD} $SETTINGCOLOR"
-					if [[ $HOMEUSER == 'YES' ]]; then
-						if [[ $SAVECOLORS == 'NO' ]]; then
-							SAVED="NO"
-							echo -e "${RESET}${WARNING}Settings will not be saved. Press (S) to change."
-						else
-							SAVED="YES"
-							echo -e "${RESET}${TITLE}Settings will be saved. Press (S) to change."
-						fi
+					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
+						echo -e "${RESET}${TITLE}You can change these colors at any point from Settings."
+					else
+						echo -e "${RESET}${TITLE}Current color:${APP}${BOLD} $SETTINGCOLOR"
+					fi
+					if [[ ! $ENTERHERE == 'TRUE' ]]; then
+						echo -e ""
+						echo -e "${RESET}${TITLE}${BOLD}Press (E) to save."
 					fi
 					echo -e "${PROMPTSTYLE}${BOLD}"
 					echo -n "Enter your option here... "
@@ -4307,20 +4327,31 @@ CHANGECOLORS()
 							WINDOWERROR
 						fi
 					elif [[ $input == 'q' || $input == 'Q' ]]; then
-						SCRIPTLAYOUT
+						if [[ $ENTERHERE == 'TRUE' ]]; then
+							SCRIPTLAYOUT
+						else
+							echo -e ""
+							echo -e ""
+							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
+							read -n 1
+						fi
 					elif [[ $input == 'w' || $input == 'W' ]]; then
-						break
+						if [[ $ENTERHERE == 'TRUE' ]]; then
+							break
+						else
+							echo -e ""
+							echo -e ""
+							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
+							read -n 1
+						fi
+					elif [[ $input == 'e' || $input == 'E' ]]; then
+						if [[ $ENTERHERE == 'TRUE' ]]; then
+							WINDOWERROR
+						else
+							SAVECOLORS
+						fi
 					elif [[ $input == '?' || $input == '/' ]]; then
 						HELPCOLORS
-					elif [[ $input == 's' || $input == 'S' ]]; then
-						if [[ ! $HOMEUSER == 'YES' ]]; then
-							WINDOWERROR
-						fi
-						if [[ $SAVED == 'NO' ]]; then
-							SAVECOLORS="YES"
-						else
-							SAVECOLORS="NO"
-						fi
 					elif [[ $input == '' ]]; then
 						WINDOWBAREND
 					else
@@ -4338,7 +4369,11 @@ CHANGECOLORS()
 			if [[ -e "$SCRIPTPATHMAIN/macOS Creator.command" ]]; then
 				while true; do
 					WINDOWBAR
-					echo -e "${RESET}${TITLE}${BOLD}Choose the color style you like:"
+					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
+						echo -e "${RESET}${TITLE}${BOLD}To begin, choose the color style you like:"
+					else
+						echo -e "${RESET}${TITLE}${BOLD}Choose the color style you like:"
+					fi
 					echo -e ""
 					echo -e "${RESET}${DEFAULTBLUE}Default Blue....................(1)"
 					echo -e "${RESET}${DESERT}Desert Sands....................(2)"
@@ -4346,15 +4381,14 @@ CHANGECOLORS()
 					echo -e "${RESET}${CINNAMON}Cinnamon Apple..................(4)"
 					echo -e "${RESET}${CLASSICBLACK}$CLASSICBLACKBW"
 					echo -e ""
-					echo -e "${RESET}${TITLE}Current color:${APP}${BOLD} $SETTINGCOLOR"
-					if [[ $HOMEUSER == 'YES' ]]; then
-						if [[ $SAVECOLORS == 'NO' ]]; then
-							SAVED="NO"
-							echo -e "${RESET}${WARNING}Settings will not be saved. Press (S) to change."
-						else
-							SAVED="YES"
-							echo -e "${RESET}${TITLE}Settings will be saved. Press (S) to change."
-						fi
+					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
+						echo -e "${RESET}${TITLE}You can change these colors at any point from Settings."
+					else
+						echo -e "${RESET}${TITLE}Current color:${APP}${BOLD} $SETTINGCOLOR"
+					fi
+					if [[ ! $ENTERHERE == 'TRUE' ]]; then
+						echo -e ""
+						echo -e "${RESET}${TITLE}${BOLD}Press (E) to save."
 					fi
 					echo -e "${PROMPTSTYLE}${BOLD}"
 					echo -n "Enter your option here... "
@@ -4370,20 +4404,31 @@ CHANGECOLORS()
 					elif [[ $input == '5' ]]; then
 						COLORCLASSIC
 					elif [[ $input == 'q' || $input == 'Q' ]]; then
-						SCRIPTLAYOUT
+						if [[ $ENTERHERE == 'TRUE' ]]; then
+							SCRIPTLAYOUT
+						else
+							echo -e ""
+							echo -e ""
+							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
+							read -n 1
+						fi
 					elif [[ $input == 'w' || $input == 'W' ]]; then
-						break
+						if [[ $ENTERHERE == 'TRUE' ]]; then
+							break
+						else
+							echo -e ""
+							echo -e ""
+							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
+							read -n 1
+						fi
+					elif [[ $input == 'e' || $input == 'E' ]]; then
+						if [[ $ENTERHERE == 'TRUE' ]]; then
+							WINDOWERROR
+						else
+							SAVECOLORS
+						fi
 					elif [[ $input == '?' || $input == '/' ]]; then
 						HELPCOLORS
-					elif [[ $input == 's' || $input == 'S' ]]; then
-						if [[ ! $HOMEUSER == 'YES' ]]; then
-							WINDOWERROR
-						fi
-						if [[ $SAVED == 'NO' ]]; then
-							SAVECOLORS="YES"
-						else
-							SAVECOLORS="NO"
-						fi
 					elif [[ $input == '' ]]; then
 						WINDOWBAREND
 					else
@@ -4404,16 +4449,14 @@ COLORBLUE()
 {
 	cd "$SCRIPTPATHMAIN"
 	if [[ "$HOMEUSER" == "YES" ]]; then
-		Output rm -R .defaultbluesetting
-		if [[ ! $SAVED == 'NO' ]]; then
-			touch .defaultbluesetting
-		fi
 		Output rm -R .desertsandssetting
 		Output rm -R .forestgreensetting
 		Output rm -R .cinnamonapplecolor
 		Output rm -R .classicsetting
 		Output rm -R .colorm1setting
+		touch .defaultbluesetting
 	fi
+	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;23m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;24m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;23m/' macOS\ Creator.command
@@ -4444,16 +4487,14 @@ COLORSANDS()
 {
 	cd "$SCRIPTPATHMAIN"
 	if [[ "$HOMEUSER" == "YES" ]]; then
-		Output rm -R .desertsandssetting
-		if [[ ! $SAVED == 'NO' ]]; then
-			touch .desertsandssetting
-		fi
 		Output rm -R .defaultbluesetting
 		Output rm -R .forestgreensetting
 		Output rm -R .cinnamonapplecolor
 		Output rm -R .classicsetting
 		Output rm -R .colorm1setting
+		touch .desertsandssetting
 	fi
+	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;130m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;172m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;130m/' macOS\ Creator.command
@@ -4480,16 +4521,14 @@ COLORFOREST()
 {
 	cd "$SCRIPTPATHMAIN"
 	if [[ "$HOMEUSER" == "YES" ]]; then
-		Output rm -R .forestgreensetting
-		if [[ ! $SAVED == 'NO' ]]; then
-			touch .forestgreensetting
-		fi
 		Output rm -R .desertsandssetting
 		Output rm -R .defaultbluesetting
 		Output rm -R .cinnamonapplecolor
 		Output rm -R .classicsetting
 		Output rm -R .colorm1setting
+		touch .forestgreensetting
 	fi
+	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;22m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;65m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;22m/' macOS\ Creator.command
@@ -4516,16 +4555,14 @@ CINNAMONCOLOR()
 {
 	cd "$SCRIPTPATHMAIN"
 	if [[ "$HOMEUSER" == "YES" ]]; then
-		Output rm -R .cinnamonapplecolor
-		if [[ ! $SAVED == 'NO' ]]; then
-			touch .cinnamonapplecolor
-		fi
 		Output rm -R .desertsandssetting
 		Output rm -R .defaultbluesetting
 		Output rm -R .forestgreensetting
 		Output rm -R .classicsetting
 		Output rm -R .colorm1setting
+		touch .cinnamonapplecolor
 	fi
+	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;88m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;124m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;88m/' macOS\ Creator.command
@@ -4552,16 +4589,14 @@ COLORCLASSIC()
 {
 	cd "$SCRIPTPATHMAIN"
 	if [[ "$HOMEUSER" == "YES" ]]; then
-		Output rm -R .classicsetting
-		if [[ ! $SAVED == 'NO' ]]; then
-			touch .classicsetting
-		fi
 		Output rm -R .desertsandssetting
 		Output rm -R .forestgreensetting
 		Output rm -R .cinnamonapplecolor
 		Output rm -R .defaultbluesetting
 		Output rm -R .colorm1setting
+		touch .classicsetting
 	fi
+	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;0m/' macOS\ Creator.command
@@ -4588,16 +4623,14 @@ COLORM1()
 {
 	cd "$SCRIPTPATHMAIN"
 	if [[ "$HOMEUSER" == "YES" ]]; then
-		Output rm -R .colorm1setting
-		if [[ ! $SAVED == 'NO' ]]; then
-			touch .colorm1setting
-		fi
 		Output rm -R .desertsandssetting
 		Output rm -R .forestgreensetting
 		Output rm -R .classicsetting
 		Output rm -R .cinnamonapplecolor
 		Output rm -R .defaultbluesetting
+		touch .colorm1setting
 	fi
+	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;30m/"38;5;214m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;23m/"38;5;209m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;30m/"38;5;163m/' macOS\ Creator.command
@@ -7810,6 +7843,7 @@ SCRIPTLAYOUT()
 		fi
 	else
 		while true; do
+			FIRSTTIMEHERE="FALSE"
 			MAINMENU
 			read -n 1 maininput
 			if [[ $maininput == '1' ]]; then
