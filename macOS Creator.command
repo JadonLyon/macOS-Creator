@@ -558,7 +558,7 @@ CLEANUP()
 					echo -n -e "${RESET}${DEFAULTBLUE}Press any key to restart... "
 					read -n 1
 					cd "$SCRIPTPATHMAIN"
-					sed -i '' '7847s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
+					sed -i '' '7848s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
 					if [[ $APPLESILICONE == "YES" ]]; then
 						COLORM1
 					else
@@ -635,7 +635,7 @@ CLEANMAC()
 MAINMENU()
 {
 	cd "$SCRIPTPATHMAIN"
-	sed -i '' '7846s/TRUE/FALSE/' macOS\ Creator.command
+	sed -i '' '7847s/TRUE/FALSE/' macOS\ Creator.command
 	FIRSTTIMEHERE="FALSE"
 	ENTERHERE="TRUE"
 	WINDOWBAR
@@ -692,7 +692,7 @@ RELEASENOTES()
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '7847s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+		sed -i '' '7848s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 		if [[ $verbose == "1" ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 		elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -717,9 +717,9 @@ MACINFO()
 		echo -e "${RESET}${TITLE}• Unknown processer type  (Script is in Safe Mode)"
 	else
 		if [[ $APPLESILICONE == 'YES' ]]; then
-			echo -e "${RESET}${TITLE}• $APPLECHIPINFO"
+			echo -e "${RESET}${TITLE}• ${BOLD}$APPLECHIPINFO"
 		else
-			echo -e "${RESET}${TITLE}• ${RESET}${DEFAULTBLUE}Intel Based Mac"
+			echo -e "${RESET}${TITLE}• ${RESET}${DEFAULTBLUE}${BOLD}Intel Based Mac"
 		fi
 	fi
 	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
@@ -731,9 +731,9 @@ MACINFO()
 	echo -e "${RESET}${TITLE}• Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
 	echo -e ""
 	if [[ $APPLESILICONE == 'YES' ]]; then
-		echo -e "${RESET}${WARNING}You may not be able to install older macOS Versions with Apple Silicone."
+		echo -e "${RESET}${WARNING}    You may not be able to install older macOS Versions with Apple Silicone"
 	elif [[ $MACOSVERSION == '10.7' || $MACOSVERSION == '10.8' || $MACOSVERSION == '10.9' || $MACOSVERSION == '10.10' || $MACOSVERSION == '10.11' || $MACOSVERSION == '10.12' ]]; then
-		echo -e "${RESET}${WARNING}You may not be able to install newer macOS Versions."
+		echo -e "${RESET}${WARNING}               You may not be able to install newer macOS Versions"
 	else
 		echo -e "${RESET}${BODY}               You should not have any issues with drive creation"
 	fi
@@ -768,7 +768,7 @@ FIRSTTIME()
 		else
 			rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7847s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7848s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -795,11 +795,11 @@ FIRSTTIME()
 		read -n 1 input
 		if [[ ! $input == 'q' || $input == 'Q' ]]; then
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7847s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
+			sed -i '' '7848s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
 			CHANGECOLORS
 		else
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7847s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7848s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -925,7 +925,7 @@ GUIDE()
 												echo -n "Press any key to get started... "
 												read -n 1
 												cd "$SCRIPTPATHMAIN"
-												sed -i '' '7847s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+												sed -i '' '7848s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 												if [[ $verbose == "1" ]]; then
 													"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 												elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -4253,7 +4253,7 @@ TESTELIGIBILITY()
 SAVECOLORS()
 {
 	cd "$SCRIPTPATHMAIN"
-	sed -i '' '7847s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
+	sed -i '' '7848s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
 	if [[ $verbose == "1" ]]; then
 		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 	else
@@ -4457,7 +4457,7 @@ COLORBLUE()
 		Output rm -R .colorm1setting
 		touch .defaultbluesetting
 	fi
-	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;23m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;24m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;23m/' macOS\ Creator.command
@@ -4495,7 +4495,7 @@ COLORSANDS()
 		Output rm -R .colorm1setting
 		touch .desertsandssetting
 	fi
-	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;130m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;172m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;130m/' macOS\ Creator.command
@@ -4529,7 +4529,7 @@ COLORFOREST()
 		Output rm -R .colorm1setting
 		touch .forestgreensetting
 	fi
-	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;22m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;65m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;22m/' macOS\ Creator.command
@@ -4563,7 +4563,7 @@ CINNAMONCOLOR()
 		Output rm -R .colorm1setting
 		touch .cinnamonapplecolor
 	fi
-	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;88m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;124m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;88m/' macOS\ Creator.command
@@ -4597,7 +4597,7 @@ COLORCLASSIC()
 		Output rm -R .colorm1setting
 		touch .classicsetting
 	fi
-	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;0m/' macOS\ Creator.command
@@ -4631,7 +4631,7 @@ COLORM1()
 		Output rm -R .defaultbluesetting
 		touch .colorm1setting
 	fi
-	sed -i '' '7847s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;30m/"38;5;214m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;23m/"38;5;209m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;30m/"38;5;163m/' macOS\ Creator.command
