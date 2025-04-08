@@ -639,11 +639,11 @@ MAINMENU()
 	FIRSTTIMEHERE="FALSE"
 	ENTERHERE="TRUE"
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Home menu${RESET}"
-	echo -e "${RESET}${BODY}Press ${BOLD}W${RESET}${BODY} to see list of controls${RESET}"
-	echo -e "${CANCEL}To show the help menu, press the ${BOLD}? ${RESET}${CANCEL}key${RESET}"
+	echo -e "${RESET}${TITLE}${BOLD}                            macOS Creator Home menu${RESET}"
+	echo -e "${RESET}${BODY}                        Press ${BOLD}W${RESET}${BODY} to see list of controls${RESET}"
+	echo -e "${CANCEL}                     To show the help menu, press the ${BOLD}? ${RESET}${CANCEL}key${RESET}"
 	echo -e ""
-	echo -e "${TITLE}${BOLD}Please choose an option:${RESET}"
+	echo -e "${TITLE}${BOLD}                           Please choose an option:${RESET}"
 	echo -e "${BODY}Search for macOS installers in your Applications folder.................(1)"
 	echo -e "Manually provide macOS Installer........................................(2)"
 	echo -e "Download macOS Installer................................................(3)"
@@ -4303,7 +4303,7 @@ CHANGECOLORS()
 					fi
 					if [[ ! $ENTERHERE == 'TRUE' ]]; then
 						echo -e ""
-						echo -e "${RESET}${TITLE}${BOLD}Press (E) to save."
+						echo -e "${RESET}${TITLE}${BOLD}Press (S) to save."
 					fi
 					echo -e "${PROMPTSTYLE}${BOLD}"
 					echo -n "Enter your option here... "
@@ -4344,7 +4344,7 @@ CHANGECOLORS()
 							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
 							read -n 1
 						fi
-					elif [[ $input == 'e' || $input == 'E' ]]; then
+					elif [[ $input == 's' || $input == 'S' ]]; then
 						if [[ $ENTERHERE == 'TRUE' ]]; then
 							WINDOWERROR
 						else
@@ -4388,7 +4388,7 @@ CHANGECOLORS()
 					fi
 					if [[ ! $ENTERHERE == 'TRUE' ]]; then
 						echo -e ""
-						echo -e "${RESET}${TITLE}${BOLD}Press (E) to save."
+						echo -e "${RESET}${TITLE}${BOLD}Press (S) to save."
 					fi
 					echo -e "${PROMPTSTYLE}${BOLD}"
 					echo -n "Enter your option here... "
@@ -4421,7 +4421,7 @@ CHANGECOLORS()
 							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
 							read -n 1
 						fi
-					elif [[ $input == 'e' || $input == 'E' ]]; then
+					elif [[ $input == 's' || $input == 'S' ]]; then
 						if [[ $ENTERHERE == 'TRUE' ]]; then
 							WINDOWERROR
 						else
