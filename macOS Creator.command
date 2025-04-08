@@ -6,7 +6,7 @@
 
 #Version 6.0
 #Release notes:
-#              V6.0 Introduces a new UI, refined colors, and a brand-new much more simplified experience.
+#              V6.0 Introduces a new UI, refined colors, and easier texts for a brand-new, much more simplified experience.
 #                   Introduces Tips, where you can see helpful tips during a particular section.
 #                   Completely redesigns both the First Time Menu and User Guide Menu.
 #                   Changing colors now feels much more fluid and user friendly.
@@ -293,13 +293,13 @@ WINDOWBAR()
 	if [[ $GRAPHICSSAFE == 'YES' ]]; then
 		clear
 		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                     macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
 		elif [[ $verbose == '1' ]]; then
-			echo -e "${APP}${BOLD}macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                           macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
 		elif [[ $safe == '1' || $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                         macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Safe Mode)${APP}${BOLD}"
 		else
-			echo -e "${APP}${BOLD}macOS Creator ${RESET}${APP}V6.0${BOLD}"
+			echo -e "${APP}${BOLD}                               macOS Creator ${RESET}${APP}V6.0${BOLD}"
 		fi
 		echo -e ""
 	else
@@ -319,11 +319,11 @@ WINDOWBAR()
 WINDOWBAREND()
 {
 	echo -e ""
-	echo -n -e "${RESET}${CANCEL}${BOLD}Press Q to cancel... "
+	echo -n -e "${RESET}${CANCEL}${BOLD}                             Press Q to cancel... "
 	read -n 1 input
 	if [[ $input == 'q' || $input == 'Q' ]]; then
 		echo -e ""
-		echo -e "\033[1A\033[0KScript Canceled"
+		echo -e "\033[1A\033[0K                                Script Canceled"
 		if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 			echo -e "${RESET}${APP}${BOLD}"
 			echo -e "»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
@@ -338,7 +338,7 @@ WINDOWERROR()
 {
 	echo -e ""
 	echo -e "${RESET}${ERROR}${BOLD}"
-	echo -n "Invalid command. Press any key to try again... "
+	echo -n "                 Invalid command. Press any key to try again... "
 	read -n 1
 	echo -e "${RESET}"
 }
@@ -401,7 +401,7 @@ TROUBLESHOOTGUIDE()
 		echo -e "4) Try redownloading the macOS Installer"
 		echo -e "5) Restart your Mac${RESET}"
 		echo -e "${PROMPTSTYLE}${BOLD}"
-		echo -n "Press any key to return to the Home Menu... "
+		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1 input
 		if [[ "$input" == 'q' || "$input" == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -426,7 +426,7 @@ TROUBLESHOOTGUIDEMAIN()
 	echo -e "6) Make sure your macOS Installer has not been modified. (i.e. name changed)"
 	echo -e "7) Restart your Mac${RESET}"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 	echo -e ""
 }
@@ -445,7 +445,7 @@ CLEANUP()
 		echo -e "${RESET}${BODY}All of the above.....................(4)"
 	fi
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == '1' ]]; then
 		echo -e ""
@@ -456,7 +456,7 @@ CLEANUP()
 		Output sudo rm -R /private/tmp/InstallmacOS.zip
 		echo -e "${RESET}${TITLE}${BOLD}Files have been removed."
 		echo -e "${PROMPTSTYLE}${BOLD}"
-		echo -n "Press any key to return to the Home Menu... "
+		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
 		SCRIPTLAYOUT
 	elif [[ $input == '2' ]]; then
@@ -478,7 +478,7 @@ CLEANUP()
 		Output sudo rm -R /Applications/Install\ OS\ X\ Mountain\ Lion.app
 		echo -e "${RESET}${TITLE}${BOLD}Files have been removed."
 		echo -e "${PROMPTSTYLE}${BOLD}"
-		echo -n "Press any key to return to the Home Menu... "
+		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
 		SCRIPTLAYOUT
 	elif [[ $input == '3' ]]; then
@@ -490,7 +490,7 @@ CLEANUP()
 		Output sudo mdutil -E /
 		echo -e "${RESET}${TITLE}${BOLD}Mac has been cleaned."
 		echo -e "${PROMPTSTYLE}${BOLD}"
-		echo -n "Press any key to return to the Home Menu... "
+		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
 		SCRIPTLAYOUT
 	elif [[ $input == '4' ]]; then
@@ -504,7 +504,7 @@ CLEANUP()
 				echo -e "${RESET}${BODY}Reset Color Settings..............(2)"
 				echo -e "${RESET}${BODY}Reset All Settings................(3)"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Enter your option here... "
+				echo -n "                           Enter your option here: "
 				read -n 1 input
 				if [[ $input == '1' ]]; then
 					CLEANED="TRUE"
@@ -628,7 +628,7 @@ CLEANMAC()
 	fi
 	echo -e "${RESET}${TITLE}${BOLD}Mac has been completely cleaned."
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 	SCRIPTLAYOUT
 }
@@ -643,48 +643,49 @@ MAINMENU()
 	echo -e "${RESET}${BODY}                        Press ${BOLD}W${RESET}${BODY} to see list of controls${RESET}"
 	echo -e "${CANCEL}                     To show the help menu, press the ${BOLD}? ${RESET}${CANCEL}key${RESET}"
 	echo -e ""
-	echo -e "${TITLE}${BOLD}                           Please choose an option:${RESET}"
-	echo -e "${BODY}Search for macOS installers in your Applications folder.................(1)"
-	echo -e "Manually provide macOS Installer........................................(2)"
-	echo -e "Download macOS Installer................................................(3)"
-	echo -e "Identify Mac model......................................................(4)"
-	echo -e "Review troubleshooting guide............................................(5)"
-	echo -e "Settings................................................................(6)${RESET}"
+	echo -e "${TITLE}${BOLD}                            Please choose an option:${RESET}"
+	echo -e "   ${BODY}Search for macOS installers in your Applications folder................(1)"
+	echo -e "   Manually provide macOS Installer.......................................(2)"
+	echo -e "   Download macOS Installer...............................................(3)"
+	echo -e "   Identify Mac model.....................................................(4)"
+	echo -e "   Review troubleshooting guide...........................................(5)"
+	echo -e "   Settings...............................................................(6)${RESET}"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 }
 CREDITS()
 {
 	WINDOWBAR
-	echo -e "${RESET}${BODY}Script built and designed by ${BOLD}Encore Platforms${RESET}${BODY}."
-	echo -e "Clean up tool (Repair Permissions) made by ${BOLD}Isiah Johnson${RESET}${BODY}."
-	echo -e "(Output), the tool to hide commands was originally created by ${BOLD}OS X Hackers${RESET}${BODY}."
-	echo -e "macOS Sierra modifications were discovered by ${BOLD}dosdude1${RESET}${BODY}."
+	echo -e "${RESET}${TITLE}${BOLD}                                     Credits"
 	echo -e ""
-	echo -e "Encore Platforms is not affiliated with Apple Inc."
-	echo -e "Mac OS Ten (X), Mac, and all other Apple product names are trademarks or"
-	echo -e "registered trademarks of Apple Inc."
+	echo -e "${RESET}${BODY} Script built and designed by ${BOLD}Encore Platforms${RESET}${BODY}."
+	echo -e " Clean up tool (Repair Permissions) made by ${BOLD}Isiah Johnson${RESET}${BODY}."
+	echo -e " (Output), the tool to hide commands was originally created by ${BOLD}OS X Hackers${RESET}${BODY}."
+	echo -e " macOS Sierra modifications were discovered by ${BOLD}dosdude1${RESET}${BODY}."
 	echo -e ""
-	echo -e "${BOLD}BSD 3-Clause License"
-	echo -e "${RESET}${BODY}Go to GitHub.com for more information."
+	echo -e " Encore Platforms is not affiliated with Apple Inc."
+	echo -e " Mac OS Ten (X), Mac, and all other Apple product names are trademarks or"
+	echo -e " registered trademarks of Apple Inc."
 	echo -e ""
-	echo -e "${RESET}${TITLE}${BOLD}Encore platforms 2025"
+	echo -e "${BOLD}                              BSD 3-Clause License"
+	echo -e "${RESET}${BODY}                     Go to GitHub.com for more information"
+	echo -e ""
+	echo -e "${RESET}${TITLE}${BOLD}                             Encore platforms 2025"
+	echo -e ""
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 RELEASENOTES()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}macOS Creator Version 6.0 ${RESET}${TITLE}Release Notes"
-	echo -e "${RESET}${BODY}- Introduces ESM (Extended Support Mode) for Mac OS X Leopard & Snow Leopard.
-- Now lets you try to create the drive again by pressing S.
-- Now lets you check if your Mac has potential issues for creating the drive.
-- Changing colors now checks if script is in a read-only directory.
-- Fixes some minor issues with Safe Mode.
-- Fixes some minor issues with Troubleshooting Guides.
-- Fixes some minor issues with text.
-- Fixes other minor issues found throughout the script."
+	echo -e "${RESET}${TITLE}${BOLD}                     macOS Creator Version 6.0 ${RESET}${TITLE}Release Notes"
+	echo -e ""
+	echo -e "${RESET}${BODY}• Introduces a new UI, refined colors, and simplified texts.
+• Introduces Tips, where you can see helpful tips during a particular section.
+• Completely redesigns both the First Time Menu and User Guide Menu.
+• Changing colors now feels much more fluid and user friendly.
+• Fixed some issues with macOS Sierra."
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to get started... "
@@ -703,41 +704,41 @@ RELEASENOTES()
 		fi
 	else
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Press any key to return to the Home Menu... "
+		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
 	fi
 }
 MACINFO()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}Information... "
+	echo -e "${RESET}${TITLE}${BOLD}                              This Mac Information "
 	echo -e ""
 	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
-		echo -e "Unknown processer type  (Script is in Safe Mode)"
+		echo -e "${RESET}${TITLE}• Unknown processer type  (Script is in Safe Mode)"
 	else
 		if [[ $APPLESILICONE == 'YES' ]]; then
-			echo -e "$APPLECHIPINFO"
+			echo -e "${RESET}${TITLE}• $APPLECHIPINFO"
 		else
-			echo -e "${RESET}${DEFAULTBLUE}Intel Based Mac"
+			echo -e "${RESET}${TITLE}• ${RESET}${DEFAULTBLUE}Intel Based Mac"
 		fi
 	fi
 	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
-		echo -e "${RESET}${TITLE}Mac model:"
+		echo -e "${RESET}${TITLE}• Mac model:"
 	else
-		echo -e "${RESET}${TITLE}Mac model: ${BODY}${BOLD}$MACVERSION (Press I to see more info)"
+		echo -e "${RESET}${TITLE}• Mac model: ${BODY}${BOLD}$MACVERSION ${RESET}${BODY}(Press I to see more info)"
 	fi
-	echo -e "${RESET}${TITLE}macOS Version: ${BODY}${BOLD}$MACOSVERSION"
-	echo -e "${RESET}${TITLE}Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
+	echo -e "${RESET}${TITLE}• macOS Version: ${BODY}${BOLD}$MACOSVERSION"
+	echo -e "${RESET}${TITLE}• Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
 	echo -e ""
 	if [[ $APPLESILICONE == 'YES' ]]; then
 		echo -e "${RESET}${WARNING}You may not be able to install older macOS Versions with Apple Silicone."
 	elif [[ $MACOSVERSION == '10.7' || $MACOSVERSION == '10.8' || $MACOSVERSION == '10.9' || $MACOSVERSION == '10.10' || $MACOSVERSION == '10.11' || $MACOSVERSION == '10.12' ]]; then
 		echo -e "${RESET}${WARNING}You may not be able to install newer macOS Versions."
 	else
-		echo -e "${RESET}${BODY}You should not have any issues with drive creation."
+		echo -e "${RESET}${BODY}               You should not have any issues with drive creation"
 	fi
 	echo -e ""
-	echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}Press any key to return to the Home Menu... "
+	echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                  Press any key to return to the Home Menu... "
 	read -n 1 input
 	if [[ $input == 'i' || $input == 'I' ]]; then
 		if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
@@ -745,7 +746,7 @@ MACINFO()
 		else
 			WINDOWBAR
 			system_profiler SPHardwareDataType
-			echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}Press any key to return to the Home Menu... "
+			echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                  Press any key to return to the Home Menu... "
 			read -n 1
 		fi
 	else
@@ -790,7 +791,7 @@ FIRSTTIME()
 		echo -e "${RESET}${TITLE}If you wish to go straight to the Home Menu, press Q now."
 		echo -e "${BODY}Otherwise press any other key to continue."
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Enter your option here... "
+		echo -n "                           Enter your option here: "
 		read -n 1 input
 		if [[ ! $input == 'q' || $input == 'Q' ]]; then
 			cd "$SCRIPTPATHMAIN"
@@ -815,21 +816,21 @@ FIRSTTIME()
 CONTROLS()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}List of available controls:${RESET}"
+	echo -e "${RESET}${TITLE}${BOLD}                           List of available controls:${RESET}"
 	echo -e ""
-	echo -e "${BODY}${BOLD}At any point:${RESET}${BODY}"
-	echo -e "Press the return key to cancel."
-	echo -e "Press the Q key to return home."
-	echo -e "Press the W key to go one step backwards."
-	echo -e "Press the ? key to show help if you do not understand something."
+	echo -e "${BODY}${BOLD} At any point:${RESET}${BODY}"
+	echo -e " Press the return key to cancel."
+	echo -e " Press the Q key to return home."
+	echo -e " Press the W key to go one step backwards."
+	echo -e " Press the ? key to show help if you do not understand something."
 	echo -e ""
-	echo -e "${BODY}${BOLD}From the Home Menu:${RESET}${BODY}"
-	echo -e "Press the ? key to see the macOS Creator Guide."
-	echo -e "Press the C key to see credits."
-	echo -e "Press the R key to see release notes for this update."
-	echo -e "Press the I key to see Mac information."
+	echo -e "${BODY}${BOLD} From the Home Menu:${RESET}${BODY}"
+	echo -e " Press the ? key to see the macOS Creator Guide."
+	echo -e " Press the C key to see credits."
+	echo -e " Press the R key to see release notes for this update."
+	echo -e " Press the I key to see Mac information."
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return home... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 GUIDE()
@@ -1261,7 +1262,7 @@ OSMAVERICKS()
 	echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		installpath="/Applications/Install OS X Mavericks.app"
@@ -1285,7 +1286,7 @@ OSYOSEMITE()
 	echo -e "${RESET}${OSFOUND}${BOLD}OS X Yosemite was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		installpath="/Applications/Install OS X Yosemite.app"
@@ -1309,7 +1310,7 @@ OSELCAPITAN()
 	echo -e "${RESET}${OSFOUND}${BOLD}OS X El Capitan was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		installpath="/Applications/Install OS X El Capitan.app"
@@ -1333,7 +1334,7 @@ OSSIERRA()
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		installpath="/Applications/Install macOS Sierra.app"
@@ -1357,7 +1358,7 @@ OSHIGHSIERRA()
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS High Sierra was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $APPLESILICONE == 'YES' ]]; then
@@ -1366,7 +1367,7 @@ OSHIGHSIERRA()
 			echo -e "This Mac has the Apple Silicone chip${RESET}"
 			echo -e "${ERROR}Currently you cannot install macOS High Sierra with this Mac."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		fi
@@ -1376,7 +1377,7 @@ OSHIGHSIERRA()
 			echo -e "This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS High Sierra."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		else
@@ -1402,7 +1403,7 @@ OSMOJAVE()
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Mojave was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $APPLESILICONE == 'YES' ]]; then
@@ -1411,7 +1412,7 @@ OSMOJAVE()
 			echo -e "This Mac has the Apple Silicone chip${RESET}"
 			echo -e "${ERROR}Currently you cannot install macOS Mojave with this Mac."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		fi
@@ -1421,7 +1422,7 @@ OSMOJAVE()
 			echo -e "This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Mojave."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		else
@@ -1447,7 +1448,7 @@ OSCATALINA()
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Catalina was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $APPLESILICONE == 'YES' ]]; then
@@ -1456,7 +1457,7 @@ OSCATALINA()
 			echo -e "This Mac has the Apple Silicone chip${RESET}"
 			echo -e "${ERROR}Currently you cannot install macOS Catalina with this Mac."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		fi
@@ -1466,7 +1467,7 @@ OSCATALINA()
 			echo -e "This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -1475,7 +1476,7 @@ OSCATALINA()
 			echo -e "This Mac is running OS X Mountain Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		else
@@ -1501,7 +1502,7 @@ OSBIGSUR()
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Big Sur was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -1510,7 +1511,7 @@ OSBIGSUR()
 			echo -e "This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -1519,7 +1520,7 @@ OSBIGSUR()
 			echo -e "This Mac is running OS X Mountain Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		else
@@ -1545,7 +1546,7 @@ OSMONTEREY()
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -1554,7 +1555,7 @@ OSMONTEREY()
 			echo -e "This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -1563,7 +1564,7 @@ OSMONTEREY()
 			echo -e "This Mac is running OS X Mountain Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		else
@@ -1589,7 +1590,7 @@ OSVENTURA()
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -1598,7 +1599,7 @@ OSVENTURA()
 			echo -e "This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -1607,7 +1608,7 @@ OSVENTURA()
 			echo -e "This Mac is running OS X Mountain Lion${RESET}"
 			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -1616,7 +1617,7 @@ OSVENTURA()
 			echo -e "This Mac is running OS X Mavericks${RESET}"
 			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -1625,7 +1626,7 @@ OSVENTURA()
 			echo -e "This Mac is running OS X Yosemite${RESET}"
 			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -1634,7 +1635,7 @@ OSVENTURA()
 			echo -e "This Mac is running OS X El Capitan${RESET}"
 			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		else
@@ -1660,7 +1661,7 @@ OSSONOMA()
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -1669,7 +1670,7 @@ OSSONOMA()
 			echo -e "This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -1678,7 +1679,7 @@ OSSONOMA()
 			echo -e "This Mac is running OS X Mountain Lion${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -1687,7 +1688,7 @@ OSSONOMA()
 			echo -e "This Mac is running OS X Mavericks${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -1696,7 +1697,7 @@ OSSONOMA()
 			echo -e "This Mac is running OS X Yosemite${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -1705,7 +1706,7 @@ OSSONOMA()
 			echo -e "This Mac is running OS X El Capitan${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.12' ]]; then
@@ -1714,7 +1715,7 @@ OSSONOMA()
 			echo -e "This Mac is running macOS Sierra${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		else
@@ -1740,7 +1741,7 @@ OSSEQUOIA()
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia was found${RESET}${TITLE}"
 	echo -e "Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Enter your option here... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		if [[ $MACOSVERSION == '10.7' ]]; then
@@ -1749,7 +1750,7 @@ OSSEQUOIA()
 			echo -e "This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -1758,7 +1759,7 @@ OSSEQUOIA()
 			echo -e "This Mac is running OS X Mountain Lion${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -1767,7 +1768,7 @@ OSSEQUOIA()
 			echo -e "This Mac is running OS X Mavericks${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -1776,7 +1777,7 @@ OSSEQUOIA()
 			echo -e "This Mac is running OS X Yosemite${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -1785,7 +1786,7 @@ OSSEQUOIA()
 			echo -e "This Mac is running OS X El Capitan${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		elif [[ $MACOSVERSION == '10.12' ]]; then
@@ -1794,7 +1795,7 @@ OSSEQUOIA()
 			echo -e "This Mac is running macOS Sierra${RESET}"
 			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to return to the Home Menu... "
+			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
 			SCRIPTLAYOUT
 		else
@@ -2036,7 +2037,7 @@ FINDDRIVE()
 			fi
 			done
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Enter your option here... "
+			echo -n "                           Enter your option here: "
 			read -n 1 installer_volume_number
 			echo -e ""
 			if [[ $installer_volume_number == '' ]]; then
@@ -2852,7 +2853,7 @@ MANUALCREATE()
 				echo -e "This Mac has the Apple Silicone chip${RESET}"
 				echo -e "${ERROR}Currently you cannot install macOS Sierra with this Mac."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			fi
@@ -2861,7 +2862,7 @@ MANUALCREATE()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Sierra."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -2877,7 +2878,7 @@ MANUALCREATE()
 				echo -e "This Mac has the Apple Silicone chip${RESET}"
 				echo -e "${ERROR}Currently you cannot install macOS High Sierra with this Mac."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			fi
@@ -2886,7 +2887,7 @@ MANUALCREATE()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS High Sierra."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -2902,7 +2903,7 @@ MANUALCREATE()
 				echo -e "This Mac has the Apple Silicone chip${RESET}"
 				echo -e "${ERROR}Currently you cannot install macOS Mojave with this Mac."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			fi
@@ -2911,7 +2912,7 @@ MANUALCREATE()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Mojave."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -2927,7 +2928,7 @@ MANUALCREATE()
 				echo -e "This Mac has the Apple Silicone chip${RESET}"
 				echo -e "${ERROR}Currently you cannot install macOS Catalina with this Mac."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			fi
@@ -2936,7 +2937,7 @@ MANUALCREATE()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -2944,7 +2945,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -2960,7 +2961,7 @@ MANUALCREATE()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -2968,7 +2969,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -2984,7 +2985,7 @@ MANUALCREATE()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -2992,7 +2993,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3008,7 +3009,7 @@ MANUALCREATE()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3016,7 +3017,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -3024,7 +3025,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Mavericks${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -3032,7 +3033,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Yosemite${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -3040,7 +3041,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X El Capitan${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3056,7 +3057,7 @@ MANUALCREATE()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3064,7 +3065,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -3072,7 +3073,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Mavericks${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -3080,7 +3081,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Yosemite${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -3088,7 +3089,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X El Capitan${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.12' ]]; then
@@ -3096,7 +3097,7 @@ MANUALCREATE()
 				echo -e "This Mac is running macOS Sierra${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3112,7 +3113,7 @@ MANUALCREATE()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3120,7 +3121,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -3128,7 +3129,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Mavericks${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -3136,7 +3137,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X Yosemite${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -3144,7 +3145,7 @@ MANUALCREATE()
 				echo -e "This Mac is running OS X El Capitan${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.12' ]]; then
@@ -3152,7 +3153,7 @@ MANUALCREATE()
 				echo -e "This Mac is running macOS Sierra${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3212,7 +3213,7 @@ DOWNLOADMACOS()
 		echo -e "macOS Big Sur......(8)"
 		echo -e "Next page..........(9)"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		read -p "Enter your option here... " input
+		read -p "                           Enter your option here: " input
 		if [[ "$input" == '1' || "$input" == '10.9' || "$input" == 'Mavericks' || "$input" == 'mavericks' ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks"
@@ -3249,7 +3250,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac has the Apple Silicone chip${RESET}"
 				echo -e "${ERROR}Currently you cannot install macOS Sierra with this Mac."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			fi
@@ -3258,7 +3259,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Sierra."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3278,7 +3279,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac has the Apple Silicone chip${RESET}"
 				echo -e "${ERROR}Currently you cannot install macOS High Sierra with this Mac."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			fi
@@ -3287,7 +3288,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS High Sierra."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3307,7 +3308,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac has the Apple Silicone chip${RESET}"
 				echo -e "${ERROR}Currently you cannot install macOS Mojave with this Mac."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			fi
@@ -3316,7 +3317,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Mojave."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3336,7 +3337,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac has the Apple Silicone chip${RESET}"
 				echo -e "${ERROR}Currently you cannot install macOS Catalina with this Mac."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			fi
@@ -3345,7 +3346,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3353,7 +3354,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3373,7 +3374,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3381,7 +3382,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3401,7 +3402,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3409,7 +3410,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3429,7 +3430,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3437,7 +3438,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -3445,7 +3446,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Mavericks${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -3453,7 +3454,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Yosemite${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -3461,7 +3462,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X El Capitan${RESET}"
 				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3481,7 +3482,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3489,7 +3490,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -3497,7 +3498,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Mavericks${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -3505,7 +3506,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Yosemite${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -3513,7 +3514,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X El Capitan${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.12' ]]; then
@@ -3521,7 +3522,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running macOS Sierra${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3541,7 +3542,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3549,7 +3550,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -3557,7 +3558,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Mavericks${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -3565,7 +3566,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X Yosemite${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -3573,7 +3574,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running OS X El Capitan${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.12' ]]; then
@@ -3581,7 +3582,7 @@ DOWNLOADMACOS()
 				echo -e "This Mac is running macOS Sierra${RESET}"
 				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return to the Home Menu... "
+				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			else
@@ -3607,14 +3608,14 @@ DOWNLOADMACOS()
 				echo -e "macOS Sequoia......(4)"
 				echo -e "Previous Page......(9)"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				read -p "Enter your option here... " input
+				read -p "                           Enter your option here: " input
 				if [[ "$input" == '1' || "$input" == '12' || "$input" == 'Monterey' || "$input" == 'monterey' ]]; then
 					if [[ $MACOSVERSION == '10.7' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
 						echo -e "This Mac is running Mac OS X Lion${RESET}"
 						echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3622,7 +3623,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Mountain Lion${RESET}"
 						echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					else
@@ -3642,7 +3643,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running Mac OS X Lion${RESET}"
 						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3650,7 +3651,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Mountain Lion${RESET}"
 						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -3658,7 +3659,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Mavericks${RESET}"
 						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -3666,7 +3667,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Yosemite${RESET}"
 						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -3674,7 +3675,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X El Capitan${RESET}"
 						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					else
@@ -3694,7 +3695,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running Mac OS X Lion${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3702,7 +3703,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Mountain Lion${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -3710,7 +3711,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Mavericks${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -3718,7 +3719,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Yosemite${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -3726,7 +3727,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X El Capitan${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.12' ]]; then
@@ -3734,7 +3735,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running macOS Sierra${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					else
@@ -3754,7 +3755,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running Mac OS X Lion${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.8' ]]; then
@@ -3762,7 +3763,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Mountain Lion${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.9' ]]; then
@@ -3770,7 +3771,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Mavericks${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.10' ]]; then
@@ -3778,7 +3779,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X Yosemite${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.11' ]]; then
@@ -3786,7 +3787,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running OS X El Capitan${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.12' ]]; then
@@ -3794,7 +3795,7 @@ DOWNLOADMACOS()
 						echo -e "This Mac is running macOS Sierra${RESET}"
 						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					else
@@ -4306,7 +4307,7 @@ CHANGECOLORS()
 						echo -e "${RESET}${TITLE}${BOLD}Press (S) to save."
 					fi
 					echo -e "${PROMPTSTYLE}${BOLD}"
-					echo -n "Enter your option here... "
+					echo -n "                           Enter your option here: "
 					read -n 1 input
 					if [[ $input == '1' ]]; then
 						COLORM1
@@ -4391,7 +4392,7 @@ CHANGECOLORS()
 						echo -e "${RESET}${TITLE}${BOLD}Press (S) to save."
 					fi
 					echo -e "${PROMPTSTYLE}${BOLD}"
-					echo -n "Enter your option here... "
+					echo -n "                           Enter your option here: "
 					read -n 1 input
 					if [[ $input == '1' ]]; then
 						COLORBLUE
@@ -4667,7 +4668,7 @@ ADVANCEDMODE()
 		echo -e "${RESET}${BODY}Start in Safe Mode..........................(3)"
 		echo -e "${RESET}${BODY}Start in Verbose & Safe Mode................(4)"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Enter your option here... "
+		echo -n "                           Enter your option here: "
 		read -n 1 input
 		if [[ $input == '1' ]]; then
 			echo -e "${RESET}"
@@ -4713,7 +4714,7 @@ APPCONFIG()
 			echo -e "${RESET}${TITLE}Press the S key to apply..."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Enter your option here... "
+		echo -n "                           Enter your option here: "
 		read -n 1 input
 		if [[ $input == '1' ]]; then
 			while true; do
@@ -4722,7 +4723,7 @@ APPCONFIG()
 				echo -e "${RESET}${BODY}Launch script as terminal command (Default).....................(1)"
 				echo -e "${RESET}${BODY}Launch script as one time only (Advanced Mode is disabled)......(2)"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Enter your option here... "
+				echo -n "                           Enter your option here: "
 				read -n 1 input
 				if [[ $input == '2' ]]; then
 					APPLY="NO"
@@ -4753,7 +4754,7 @@ APPCONFIG()
 				echo -e "${RESET}${BODY}Launch in Safe Mode.......................(3)"
 				echo -e "${RESET}${BODY}Launch in Verbose & Safe Mode.............(4)"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Enter your option here... "
+				echo -n "                           Enter your option here: "
 				read -n 1 input
 				if [[ $input == '2' ]]; then
 					APPLY="NO"
@@ -5057,7 +5058,7 @@ SETTINGSMENU()
 			echo -e "${RESET}${BODY}App configuration....................(4)"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Enter your option here... "
+		echo -n "                           Enter your option here: "
 		read -n 1 input
 		if [[ $input == '1' ]]; then
 			CHANGECOLORS
@@ -5106,7 +5107,7 @@ IDMAC()
 			echo -e "${BODY}Identify this Mac........................................................(1)"
 			echo -e "${BODY}Identify another Mac.....................................................(2)"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Enter your option here... "
+			echo -n "                           Enter your option here: "
 			read -n 1 input
 			if [[ "$input" == '1' ]]; then
 				if [[ $MACVERSION == 'MacBook5,1' ]]; then
@@ -5198,7 +5199,7 @@ IDMAC()
 					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Original)"
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}Mac OS X Lion ${RESET}"
 					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Press any key to return to the Home Menu... "
+					echo -n "                  Press any key to return to the Home Menu... "
 					read -n 1 
 					SCRIPTLAYOUT
 				elif [[ $MACVERSION == 'MacBookAir2,1' ]]; then
@@ -6408,7 +6409,7 @@ IDMAC()
 					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 					echo -e "${RESET}${TITLE}If you have a Metal Graphics card: ${BOLD}macOS Mojave ${RESET}"
 					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Press any key to return to the Home Menu... "
+					echo -n "                  Press any key to return to the Home Menu... "
 					read -n 1 
 					SCRIPTLAYOUT
 				elif [[ $MACVERSION == 'MacPro6,1' ]]; then
@@ -6492,7 +6493,7 @@ IDMAC()
 						echo -e "You may have a model that is not compatible with this script... "
 					fi
 					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Press any key to return to the Home Menu... "
+					echo -n "                  Press any key to return to the Home Menu... "
 					read -n 1 
 					SCRIPTLAYOUT
 				fi
@@ -6503,7 +6504,7 @@ IDMAC()
 				echo -e "${BODY}Laptop...................................................................(1)"
 				echo -e "Desktop..................................................................(2)"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Enter your option here... "
+				echo -n "                           Enter your option here: "
 				read -n 1 input
 				if [[ "$input" == '1' ]]; then
 					while true; do
@@ -6513,7 +6514,7 @@ IDMAC()
 					echo -e "MacBook Pro..............................................................(2)"
 					echo -e "MacBook Air..............................................................(3)"
 					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Enter your option here... "
+					echo -n "                           Enter your option here: "
 					read -n 1 input
 					if [[ "$input" == '1' ]]; then
 						while true; do
@@ -6523,7 +6524,7 @@ IDMAC()
 						echo -e "MacBook (Unibody)........................................................(2)"
 						echo -e "MacBook (Retina).........................................................(3)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Enter your option here... "
+						echo -n "                           Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							while true; do
@@ -6532,14 +6533,14 @@ IDMAC()
 							echo -e "${BODY}Early 2009 / Mid 2009....................................................(1)"
 							echo -e "Late 2009 / Mid 2010.....................................................(2)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Enter your option here... "
+							echo -n "                           Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Early 2009/Mid 2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -6547,7 +6548,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Late 2009/Mid 2010)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -6572,7 +6573,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Aluminum, Late 2008)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT
 						elif [[ "$input" == '3' ]]; then
@@ -6583,14 +6584,14 @@ IDMAC()
 							echo -e "2016.....................................................................(2)"
 							echo -e "2017.....................................................................(3)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Enter your option here... "
+							echo -n "                           Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Retina, 2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -6598,7 +6599,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Retina, 2016)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '3' ]]; then
@@ -6606,7 +6607,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Retina, 2017)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -6643,7 +6644,7 @@ IDMAC()
 						echo -e "16-inch Display..........................................................(4)"
 						echo -e "17-inch Display..........................................................(5)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Enter your option here... "
+						echo -n "                           Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							while true; do
@@ -6652,7 +6653,7 @@ IDMAC()
 							echo -e "${BODY}LCD Display..............................................................(1)"
 							echo -e "Retina Display...........................................................(2)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Enter your option here... "
+							echo -n "                           Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								while true; do
@@ -6662,14 +6663,14 @@ IDMAC()
 								echo -e "2010-2011................................................................(2)"
 								echo -e "2012.....................................................................(3)"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Enter your option here... "
+								echo -n "                           Enter your option here: "
 								read -n 1 input
 								if [[ "$input" == '1' ]]; then
 									WINDOWBAR
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2009)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '2' ]]; then
@@ -6677,7 +6678,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2010-2011)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '3' ]]; then
@@ -6685,7 +6686,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '' ]]; then
@@ -6710,14 +6711,14 @@ IDMAC()
 								echo -e "2017.....................................................................(4)"
 								echo -e "2018 or later............................................................(5)"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Enter your option here... "
+								echo -n "                           Enter your option here: "
 								read -n 1 input
 								if [[ "$input" == '1' ]]; then
 									WINDOWBAR
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012-2013)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '2' ]]; then
@@ -6725,7 +6726,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2013-2014)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '3' ]]; then
@@ -6733,7 +6734,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2015-2016)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '4' ]]; then
@@ -6741,7 +6742,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2017)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '5' ]]; then
@@ -6749,7 +6750,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2018 or later)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '' ]]; then
@@ -6781,7 +6782,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro 14-inch"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT								
 						elif [[ "$input" == '3' ]]; then
@@ -6791,7 +6792,7 @@ IDMAC()
 							echo -e "${BODY}LCD Display..............................................................(1)"
 							echo -e "Retina Display...........................................................(2)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Enter your option here... "
+							echo -n "                           Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								while true; do
@@ -6801,14 +6802,14 @@ IDMAC()
 								echo -e "2010-2011................................................................(2)"
 								echo -e "2012.....................................................................(3)"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Enter your option here... "
+								echo -n "                           Enter your option here: "
 								read -n 1 input
 								if [[ "$input" == '1' ]]; then
 									WINDOWBAR
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2008-2009)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '2' ]]; then
@@ -6816,7 +6817,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2010-2011)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '3' ]]; then
@@ -6824,7 +6825,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '' ]]; then
@@ -6849,14 +6850,14 @@ IDMAC()
 								echo -e "2017.....................................................................(4)"
 								echo -e "2018 or later............................................................(5)"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Enter your option here... "
+								echo -n "                           Enter your option here: "
 								read -n 1 input
 									if [[ "$input" == '1' ]]; then
 									WINDOWBAR
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012-2013)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '2' ]]; then
@@ -6864,7 +6865,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2013-2014)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '3' ]]; then
@@ -6872,7 +6873,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2015-2016)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '4' ]]; then
@@ -6880,7 +6881,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2017)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '5' ]]; then
@@ -6888,7 +6889,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2018 or later)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to return to the Home Menu... "
+									echo -n "                  Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '' ]]; then
@@ -6920,7 +6921,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro 16-inch"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT								
 						elif [[ "$input" == '5' ]]; then
@@ -6930,14 +6931,14 @@ IDMAC()
 							echo -e "${BODY}2008-2009................................................................(1)"
 							echo -e "2010-2011................................................................(2)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Enter your option here... "
+							echo -n "                           Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2008-2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -6945,7 +6946,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2010-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -6980,7 +6981,7 @@ IDMAC()
 						echo -e "13-inch Display..........................................................(2)"
 						echo -e "15-inch Display..........................................................(3)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Enter your option here... "
+						echo -n "                           Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							while true; do
@@ -6991,14 +6992,14 @@ IDMAC()
 							echo -e "2013-2014................................................................(3)"
 							echo -e "2015.....................................................................(4)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Enter your option here... "
+							echo -n "                           Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2010-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -7006,7 +7007,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2012)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '3' ]]; then
@@ -7014,7 +7015,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2013-2014)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '4' ]]; then
@@ -7022,7 +7023,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ $input == '?' || $input == '/' ]]; then
@@ -7049,14 +7050,14 @@ IDMAC()
 							echo -e "2018-2019................................................................(6)"
 							echo -e "2020 or later............................................................(7)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Enter your option here... "
+							echo -n "                           Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -7064,7 +7065,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2010-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '3' ]]; then
@@ -7072,7 +7073,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2012)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '4' ]]; then
@@ -7080,7 +7081,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2013-2014)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '5' ]]; then
@@ -7088,7 +7089,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2015 or 2017)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '6' ]]; then
@@ -7096,7 +7097,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2018-2019)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sonoma ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '7' ]]; then
@@ -7104,7 +7105,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2020 or later)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -7124,7 +7125,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air 15-inch"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT
 						elif [[ "$input" == '' ]]; then
@@ -7160,7 +7161,7 @@ IDMAC()
 					echo -e "Mac Pro..................................................................(3)"
 					echo -e "Mac Studio...............................................................(4)"
 					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Enter your option here... "
+					echo -n "                           Enter your option here: "
 					read -n 1 input
 					if [[ "$input" == '1' ]]; then
 						while true; do
@@ -7169,7 +7170,7 @@ IDMAC()
 						echo -e "${BODY}iMac.....................................................................(1)"
 						echo -e "iMac Pro.................................................................(2)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Enter your option here... "
+						echo -n "                           Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							while true; do
@@ -7183,14 +7184,14 @@ IDMAC()
 							echo -e "2017.....................................................................(6)"
 							echo -e "2029 or later............................................................(7)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Enter your option here... "
+							echo -n "                           Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -7198,7 +7199,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2009-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '3' ]]; then
@@ -7206,7 +7207,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2012-2013)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '4' ]]; then
@@ -7214,7 +7215,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2014-2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '5' ]]; then
@@ -7222,7 +7223,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '6' ]]; then
@@ -7230,7 +7231,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2017)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '7' ]]; then
@@ -7238,7 +7239,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2019 or later)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press any key to return to the Home Menu... "
+								echo -n "                  Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -7258,7 +7259,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac Pro"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '' ]]; then
@@ -7284,14 +7285,14 @@ IDMAC()
 						echo -e "2014.....................................................................(5)"
 						echo -e "2018 or later............................................................(6)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Enter your option here... "
+						echo -n "                           Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							WINDOWBAR
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2009)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '2' ]]; then
@@ -7299,7 +7300,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2010)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '3' ]]; then
@@ -7307,7 +7308,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2011)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '4' ]]; then
@@ -7315,7 +7316,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2012)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '5' ]]; then
@@ -7323,7 +7324,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2014)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '6' ]]; then
@@ -7331,7 +7332,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2018 or later)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '' ]]; then
@@ -7355,14 +7356,14 @@ IDMAC()
 						echo -e "2013.....................................................................(3)"
 						echo -e "2019 or later............................................................(4)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Enter your option here... "
+						echo -n "                           Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							WINDOWBAR
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Pro (2009)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '2' ]]; then
@@ -7371,7 +7372,7 @@ IDMAC()
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 							echo -e "${RESET}${TITLE}If you have a Metal Graphics card: ${BOLD}macOS Mojave ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '3' ]]; then
@@ -7379,7 +7380,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Pro (2013)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '4' ]]; then
@@ -7387,7 +7388,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2019 or later)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to return to the Home Menu... "
+							echo -n "                  Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '' ]]; then
@@ -7407,7 +7408,7 @@ IDMAC()
 						echo -e "${RESET}${OSFOUND}${BOLD}This is a Mac Studio"
 						echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press any key to return to the Home Menu... "
+						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ "$input" == '' ]]; then
@@ -7492,7 +7493,7 @@ ESMOSSEQUOIA()
 	echo "macOS Sequoia was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSSONOMA()
@@ -7501,7 +7502,7 @@ ESMOSSONOMA()
 	echo "macOS Sonoma was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSVENTURA()
@@ -7510,7 +7511,7 @@ ESMOSVENTURA()
 	echo "macOS Ventura was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSMONTEREY()
@@ -7519,7 +7520,7 @@ ESMOSMONTEREY()
 	echo "macOS Monterey was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSBIGSUR()
@@ -7528,7 +7529,7 @@ ESMOSBIGSUR()
 	echo "macOS Big Sur was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSCATALINA()
@@ -7537,7 +7538,7 @@ ESMOSCATALINA()
 	echo "macOS Catalina was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSMOJAVE()
@@ -7546,7 +7547,7 @@ ESMOSMOJAVE()
 	echo "macOS Mojave was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSHIGHSIERRA()
@@ -7555,7 +7556,7 @@ ESMOSHIGHSIERRA()
 	echo "macOS High Sierra was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSSIERRA()
@@ -7564,7 +7565,7 @@ ESMOSSIERRA()
 	echo "macOS Sierra was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSELCAPITAN()
@@ -7573,7 +7574,7 @@ ESMOSELCAPITAN()
 	echo "OS X El Capitan was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSYOSEMITE()
@@ -7582,7 +7583,7 @@ ESMOSYOSEMITE()
 	echo "OS X Yosemite was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSMAVERICKS()
@@ -7591,7 +7592,7 @@ ESMOSMAVERICKS()
 	echo "OS X Mavericks was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSNONE()
@@ -7599,7 +7600,7 @@ ESMOSNONE()
 	ESMWINDOWBAR
 	echo "No Mac OS X Version was found"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSL()
@@ -7673,7 +7674,7 @@ ESMMLCREATE()
 		echo ""
 		echo "Operation Failed"
 		echo ""
-		echo -n "Press any key to return to the Home Menu... "
+		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
 		ESM
 	fi
@@ -7697,7 +7698,7 @@ ESMLCREATE()
 		echo ""
 		echo "Operation Failed"
 		echo ""
-		echo -n "Press any key to return to the Home Menu... "
+		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
 		ESM
 	fi
@@ -7745,7 +7746,7 @@ ESM()
 		echo "Manually provide path for Mac OS X Installer..................(2)"
 		echo "(ESM) Help....................................................(3)"
 		echo ""
-		echo -n "Enter your option here... "
+		echo -n "                           Enter your option here: "
 		read -n 1 input
 		if [[ $input == '1' ]]; then
 			echo ""
