@@ -62,3 +62,6 @@ All configurations have been moved to a menu called Settings. This includes colo
 
 macOS Sierra Drive Modification in V5.5.
 macOS Sierra has some bug with the standard createinstallmedia command which is why is fails continuously. In order to resolve this issue with the macOS Creator, drive creation has been completely changed. Now, the macOS Creator will mount the Install ESD disk image and restore the Base System disk image onto the drive. Then, it will copy the packages required for installation to the drive. It will then bless the drive to make it bootable.
+
+Changing colors in V6.0 and newer.
+In V4.1 the ability to change the script colors was first introduced. Now, the script rewrites itself multiple times in order to feel fluid. This is the process: When you first choose Change Colors in settings, the script simply shows the window. After you choose a color, the script will rewrite itself in this way: instead of going back to the Home Menu, it goes straight to the change colors menu. Then it restarts with the new colors. After you choose to save the desired color with S, the script rewrites itself again, but this time it goes back to the home menu.
