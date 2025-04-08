@@ -1221,7 +1221,7 @@ HELPAPP()
 APPLICATIONSCREATE()
 {
 	echo -e ""
-	echo -e "${TITLE}Checking for valid macOS Installers...${RESET}"
+	echo -e "${TITLE}${BOLD}                      Searching for valid macOS Installers...${RESET}"
 	if [[ -d /Applications/Install\ macOS\ Sequoia.app ]]; then
 		OSSEQUOIA
 	elif [[ -d /Applications/Install\ macOS\ Sonoma.app ]]; then
@@ -1259,8 +1259,8 @@ APPLICATIONSCREATE()
 OSMAVERICKS()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "${RESET}${OSFOUND}${BOLD}                            OS X Mavericks was found${RESET}${TITLE}"
+	echo -e "                         Press Y to use this OS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1866,9 +1866,10 @@ OSL()
 OSNONE()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}No versions of macOS were found${RESET}${TITLE}"
+	echo -e "${RESET}${OSFOUND}${BOLD}                          No macOS versions were found${RESET}${TITLE}"
+	echo -e "                            Press S to search again."
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Press S to search again... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 's' || $input == 'S' ]]; then
 		echo -e "${RESET}"
@@ -3816,7 +3817,7 @@ DOWNLOADMACOS()
 				elif [[ $input == '?' || $input == '/' ]]; then
 					HELPDOWNLOAD
 				elif [[ $input == '9' ]]; then
-					DOWNLOADMACOS
+					break
 				elif [[ $input == '' ]]; then
 					WINDOWBAREND
 				else
