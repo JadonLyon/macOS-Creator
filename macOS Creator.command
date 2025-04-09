@@ -644,7 +644,7 @@ MAINMENU()
 	echo -e "${CANCEL}                     To show the help menu, press the ${BOLD}? ${RESET}${CANCEL}key${RESET}"
 	echo -e ""
 	echo -e "${TITLE}${BOLD}                            Please choose an option:${RESET}"
-	echo -e "   ${BODY}Search for macOS installers in your Applications folder................(1)"
+	echo -e "   ${BODY}Search for macOS installer in your Applications folder.................(1)"
 	echo -e "   Manually provide macOS Installer.......................................(2)"
 	echo -e "   Download macOS Installer...............................................(3)"
 	echo -e "   Identify Mac model.....................................................(4)"
@@ -1260,7 +1260,7 @@ OSMAVERICKS()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}                            OS X Mavericks was found${RESET}${TITLE}"
-	echo -e "                         Press Y to use this OS Version"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1283,8 +1283,8 @@ OSMAVERICKS()
 OSYOSEMITE()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}OS X Yosemite was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "${RESET}${OSFOUND}${BOLD}                            OS X Yosemite was found${RESET}${TITLE}"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1307,8 +1307,8 @@ OSYOSEMITE()
 OSELCAPITAN()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}OS X El Capitan was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "${RESET}${OSFOUND}${BOLD}                           OS X El Capitan was found${RESET}${TITLE}"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1331,8 +1331,8 @@ OSELCAPITAN()
 OSSIERRA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "${RESET}${OSFOUND}${BOLD}                            macOS Sierra was found${RESET}${TITLE}"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1356,7 +1356,7 @@ OSHIGHSIERRA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS High Sierra was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1401,7 +1401,7 @@ OSMOJAVE()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Mojave was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1446,7 +1446,7 @@ OSCATALINA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Catalina was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1500,7 +1500,7 @@ OSBIGSUR()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Big Sur was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1544,7 +1544,7 @@ OSMONTEREY()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1588,7 +1588,7 @@ OSVENTURA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1659,7 +1659,7 @@ OSSONOMA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1739,7 +1739,7 @@ OSSEQUOIA()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia was found${RESET}${TITLE}"
-	echo -e "Press Y to use this OS Version"
+	echo -e "                        Press Y to use this OS Version."
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -7608,7 +7608,7 @@ ESMOSL()
 {
 	ESMWINDOWBAR
 	echo "Mac OS X Lion was found"
-	echo "Press Y to use this OS Version"
+	echo "                        Press Y to use this OS Version."
 	echo ""
 	echo -n "Press any other key to go back... "
 	read -n 1 input
@@ -7621,7 +7621,7 @@ ESMOSML()
 {
 	ESMWINDOWBAR
 	echo "OS X Mountain Lion was found"
-	echo "Press Y to use this OS Version"
+	echo "                        Press Y to use this OS Version."
 	echo ""
 	echo -n "Press any other key to go back... "
 	read -n 1 input
