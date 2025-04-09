@@ -1331,8 +1331,8 @@ OSELCAPITAN()
 OSSIERRA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}                            macOS Sierra was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "${RESET}${OSFOUND}${BOLD}                             macOS Sierra was found${RESET}${TITLE}"
+	echo -e "                       Press Y to use this macOS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1355,8 +1355,8 @@ OSSIERRA()
 OSHIGHSIERRA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS High Sierra was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "${RESET}${OSFOUND}${BOLD}                          macOS High Sierra was found${RESET}${TITLE}"
+	echo -e "                       Press Y to use this macOS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1400,8 +1400,8 @@ OSHIGHSIERRA()
 OSMOJAVE()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Mojave was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "${RESET}${OSFOUND}${BOLD}                            macOS Mojave was found${RESET}${TITLE}"
+	echo -e "                       Press Y to use this macOS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1445,8 +1445,8 @@ OSMOJAVE()
 OSCATALINA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Catalina was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "${RESET}${OSFOUND}${BOLD}                            macOS Catalina was found${RESET}${TITLE}"
+	echo -e "                       Press Y to use this macOS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1499,8 +1499,8 @@ OSCATALINA()
 OSBIGSUR()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Big Sur was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "${RESET}${OSFOUND}${BOLD}                            macOS Big Sur was found${RESET}${TITLE}"
+	echo -e "                       Press Y to use this macOS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1543,8 +1543,8 @@ OSBIGSUR()
 OSMONTEREY()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "${RESET}${OSFOUND}${BOLD}                            macOS Monterey was found${RESET}${TITLE}"
+	echo -e "                       Press Y to use this macOS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1587,8 +1587,8 @@ OSMONTEREY()
 OSVENTURA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "${RESET}${OSFOUND}${BOLD}                            macOS Ventura was found${RESET}${TITLE}"
+	echo -e "                       Press Y to use this macOS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1658,8 +1658,8 @@ OSVENTURA()
 OSSONOMA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "${RESET}${OSFOUND}${BOLD}                             macOS Sonoma was found${RESET}${TITLE}"
+	echo -e "                       Press Y to use this macOS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1738,8 +1738,8 @@ OSSONOMA()
 OSSEQUOIA()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "${RESET}${OSFOUND}${BOLD}                            macOS Sequoia was found${RESET}${TITLE}"
+	echo -e "                       Press Y to use this macOS Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
