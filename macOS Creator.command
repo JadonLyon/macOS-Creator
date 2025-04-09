@@ -1260,7 +1260,7 @@ OSMAVERICKS()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}                            OS X Mavericks was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "                        Press Y to use this OS X Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1284,7 +1284,7 @@ OSYOSEMITE()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}                            OS X Yosemite was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "                        Press Y to use this OS X Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1308,7 +1308,7 @@ OSELCAPITAN()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}                           OS X El Capitan was found${RESET}${TITLE}"
-	echo -e "                        Press Y to use this OS Version."
+	echo -e "                        Press Y to use this OS X Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1818,10 +1818,10 @@ OSSEQUOIA()
 OSML()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}OS X Mountain Lion was found${RESET}${TITLE}"
-	echo -e "${RESET}${WARNING}This installer is still in active devolopment and may not work.${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}                          OS X Mountain Lion was found${RESET}${TITLE}"
+	echo -e "                        Press Y to use this OS X Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to continue?... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		installpath="/Applications/Install OS X Mountain Lion.app"
@@ -1842,10 +1842,10 @@ OSML()
 OSL()
 {
 	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}Mac OS X Lion was found${RESET}${TITLE}"
-	echo -e "${RESET}${WARNING}This installer is still in active devolopment and may not work.${RESET}"
+	echo -e "${RESET}${OSFOUND}${BOLD}                            Mac OS X Lion was found${RESET}${TITLE}"
+	echo -e "                      Press Y to use this Mac OS X Version"
 	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "Would you like to continue?... "
+	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		installpath="/Applications/Install Mac OS X Lion.app"
@@ -1867,7 +1867,7 @@ OSNONE()
 {
 	WINDOWBAR
 	echo -e "${RESET}${OSFOUND}${BOLD}                          No macOS versions were found${RESET}${TITLE}"
-	echo -e "                            Press S to search again."
+	echo -e "                             Press S to search again"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
@@ -1896,10 +1896,10 @@ FINDDRIVE()
 	else
 		while true; do
 			WINDOWBAR
-			echo -e "${RESET}${TITLE}${BOLD}Choose the drive to create the installer."
-			echo -e "${RESET}${TITLE}Press R to refresh drives."
-			echo -e "Press S to manually provide a drive."
-			echo -e "${RESET}${WARNING}${BOLD}WARNING! All data on the drive will be lost!"
+			echo -e "${RESET}${TITLE}${BOLD}                    Choose the drive to create the installer"
+			echo -e "${RESET}${TITLE}                            Press R to refresh drives"
+			echo -e "                       Press S to manually provide a drive"
+			echo -e "${RESET}${WARNING}${BOLD}                  WARNING! All data on the drive will be lost!"
 			echo -e "${RESET}${BODY}"
 			declare -a volume_number=()
 			index=1
@@ -1909,131 +1909,129 @@ FINDDRIVE()
 				volume_number=$(($volume_number + 1))
 				declare volume_$volume_number="$volume_name"
 				if [[ ${#volume_name} -eq 1 ]]; then
-					echo -e "${volume_name}..............................................................(${volume_number})"
+					echo -e "       ${volume_name}.............................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 2 ]]; then
-					echo -e "${volume_name}.............................................................(${volume_number})"
+					echo -e "       ${volume_name}............................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 3 ]]; then
-					echo -e "${volume_name}............................................................(${volume_number})"
+					echo -e "       ${volume_name}...........................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 4 ]]; then
-					echo -e "${volume_name}...........................................................(${volume_number})"
+					echo -e "       ${volume_name}..........................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 5 ]]; then
-					echo -e "${volume_name}..........................................................(${volume_number})"
+					echo -e "       ${volume_name}.........................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 6 ]]; then
-					echo -e "${volume_name}.........................................................(${volume_number})"
+					echo -e "       ${volume_name}........................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 7 ]]; then
-					echo -e "${volume_name}........................................................(${volume_number})"
+					echo -e "       ${volume_name}.......................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 8 ]]; then
-					echo -e "${volume_name}.......................................................(${volume_number})"
+					echo -e "       ${volume_name}......................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 9 ]]; then
-					echo -e "${volume_name}......................................................(${volume_number})"
+					echo -e "       ${volume_name}.....................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 10 ]]; then
-					echo -e "${volume_name}.....................................................(${volume_number})"
+					echo -e "       ${volume_name}....................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 11 ]]; then
-					echo -e "${volume_name}....................................................(${volume_number})"
+					echo -e "       ${volume_name}...................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 12 ]]; then
-					echo -e "${volume_name}...................................................(${volume_number})"
+					echo -e "       ${volume_name}..................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 13 ]]; then
-					echo -e "${volume_name}..................................................(${volume_number})"
+					echo -e "       ${volume_name}.................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 14 ]]; then
-					echo -e "${volume_name}.................................................(${volume_number})"
+					echo -e "       ${volume_name}................................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 15 ]]; then
-					echo -e "${volume_name}................................................(${volume_number})"
+					echo -e "       ${volume_name}...............................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 16 ]]; then
-					echo -e "${volume_name}...............................................(${volume_number})"
+					echo -e "       ${volume_name}..............................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 17 ]]; then
-					echo -e "${volume_name}..............................................(${volume_number})"
+					echo -e "       ${volume_name}.............................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 18 ]]; then
-					echo -e "${volume_name}.............................................(${volume_number})"
+					echo -e "       ${volume_name}............................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 19 ]]; then
-					echo -e "${volume_name}............................................(${volume_number})"
+					echo -e "       ${volume_name}...........................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 20 ]]; then
-					echo -e "${volume_name}...........................................(${volume_number})"
+					echo -e "       ${volume_name}..........................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 21 ]]; then
-					echo -e "${volume_name}..........................................(${volume_number})"
+					echo -e "       ${volume_name}.........................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 22 ]]; then
-					echo -e "${volume_name}.........................................(${volume_number})"
+					echo -e "       ${volume_name}........................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 23 ]]; then
-					echo -e "${volume_name}........................................(${volume_number})"
+					echo -e "       ${volume_name}.......................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 24 ]]; then
-					echo -e "${volume_name}.......................................(${volume_number})"
+					echo -e "       ${volume_name}......................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 25 ]]; then
-					echo -e "${volume_name}......................................(${volume_number})"
+					echo -e "       ${volume_name}.....................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 26 ]]; then
-					echo -e "${volume_name}.....................................(${volume_number})"
+					echo -e "       ${volume_name}....................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 27 ]]; then
-					echo -e "${volume_name}....................................(${volume_number})"
+					echo -e "       ${volume_name}...................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 28 ]]; then
-					echo -e "${volume_name}...................................(${volume_number})"
+					echo -e "       ${volume_name}..................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 29 ]]; then
-					echo -e "${volume_name}..................................(${volume_number})"
+					echo -e "       ${volume_name}.................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 30 ]]; then
-					echo -e "${volume_name}.................................(${volume_number})"
+					echo -e "       ${volume_name}................................(${volume_number})"
 				elif [[ ${#volume_name} -eq 31 ]]; then
-					echo -e "${volume_name}................................(${volume_number})"
+					echo -e "       ${volume_name}...............................(${volume_number})"
 				elif [[ ${#volume_name} -eq 32 ]]; then
-					echo -e "${volume_name}...............................(${volume_number})"
+					echo -e "       ${volume_name}..............................(${volume_number})"
 				elif [[ ${#volume_name} -eq 33 ]]; then
-					echo -e "${volume_name}..............................(${volume_number})"
+					echo -e "       ${volume_name}.............................(${volume_number})"
 				elif [[ ${#volume_name} -eq 34 ]]; then
-					echo -e "${volume_name}.............................(${volume_number})"
+					echo -e "       ${volume_name}............................(${volume_number})"
 				elif [[ ${#volume_name} -eq 35 ]]; then
-					echo -e "${volume_name}............................(${volume_number})"
+					echo -e "       ${volume_name}...........................(${volume_number})"
 				elif [[ ${#volume_name} -eq 36 ]]; then
-					echo -e "${volume_name}...........................(${volume_number})"
+					echo -e "       ${volume_name}..........................(${volume_number})"
 				elif [[ ${#volume_name} -eq 37 ]]; then
-					echo -e "${volume_name}..........................(${volume_number})"
+					echo -e "       ${volume_name}.........................(${volume_number})"
 				elif [[ ${#volume_name} -eq 38 ]]; then
-					echo -e "${volume_name}.........................(${volume_number})"
+					echo -e "       ${volume_name}........................(${volume_number})"
 				elif [[ ${#volume_name} -eq 39 ]]; then
-					echo -e "${volume_name}........................(${volume_number})"
+					echo -e "       ${volume_name}.......................(${volume_number})"
 				elif [[ ${#volume_name} -eq 40 ]]; then
-					echo -e "${volume_name}.......................(${volume_number})"
+					echo -e "       ${volume_name}......................(${volume_number})"
 				elif [[ ${#volume_name} -eq 41 ]]; then
-					echo -e "${volume_name}......................(${volume_number})"
+					echo -e "       ${volume_name}.....................(${volume_number})"
 				elif [[ ${#volume_name} -eq 42 ]]; then
-					echo -e "${volume_name}.....................(${volume_number})"
+					echo -e "       ${volume_name}....................(${volume_number})"
 				elif [[ ${#volume_name} -eq 43 ]]; then
-					echo -e "${volume_name}....................(${volume_number})"
+					echo -e "       ${volume_name}...................(${volume_number})"
 				elif [[ ${#volume_name} -eq 44 ]]; then
-					echo -e "${volume_name}...................(${volume_number})"
+					echo -e "       ${volume_name}..................(${volume_number})"
 				elif [[ ${#volume_name} -eq 45 ]]; then
-					echo -e "${volume_name}..................(${volume_number})"
+					echo -e "       ${volume_name}.................(${volume_number})"
 				elif [[ ${#volume_name} -eq 46 ]]; then
-					echo -e "${volume_name}.................(${volume_number})"
+					echo -e "       ${volume_name}................(${volume_number})"
 				elif [[ ${#volume_name} -eq 47 ]]; then
-					echo -e "${volume_name}................(${volume_number})"
+					echo -e "       ${volume_name}...............(${volume_number})"
 				elif [[ ${#volume_name} -eq 48 ]]; then
-					echo -e "${volume_name}...............(${volume_number})"
+					echo -e "       ${volume_name}..............(${volume_number})"
 				elif [[ ${#volume_name} -eq 49 ]]; then
-					echo -e "${volume_name}..............(${volume_number})"
+					echo -e "       ${volume_name}.............(${volume_number})"
 				elif [[ ${#volume_name} -eq 50 ]]; then
-					echo -e "${volume_name}.............(${volume_number})"
+					echo -e "       ${volume_name}............(${volume_number})"
 				elif [[ ${#volume_name} -eq 51 ]]; then
-					echo -e "${volume_name}............(${volume_number})"
+					echo -e "       ${volume_name}...........(${volume_number})"
 				elif [[ ${#volume_name} -eq 52 ]]; then
-					echo -e "${volume_name}...........(${volume_number})"
+					echo -e "       ${volume_name}..........(${volume_number})"
 				elif [[ ${#volume_name} -eq 53 ]]; then
-					echo -e "${volume_name}..........(${volume_number})"
+					echo -e "       ${volume_name}.........(${volume_number})"
 				elif [[ ${#volume_name} -eq 54 ]]; then
-					echo -e "${volume_name}.........(${volume_number})"
+					echo -e "       ${volume_name}........(${volume_number})"
 				elif [[ ${#volume_name} -eq 55 ]]; then
-					echo -e "${volume_name}........(${volume_number})"
+					echo -e "       ${volume_name}.......(${volume_number})"
 				elif [[ ${#volume_name} -eq 56 ]]; then
-					echo -e "${volume_name}.......(${volume_number})"
+					echo -e "       ${volume_name}......(${volume_number})"
 				elif [[ ${#volume_name} -eq 57 ]]; then
-					echo -e "${volume_name}......(${volume_number})"
+					echo -e "       ${volume_name}.....(${volume_number})"
 				elif [[ ${#volume_name} -eq 58 ]]; then
-					echo -e "${volume_name}.....(${volume_number})"
+					echo -e "       ${volume_name}....(${volume_number})"
 				elif [[ ${#volume_name} -eq 59 ]]; then
-					echo -e "${volume_name}....(${volume_number})"
+					echo -e "       ${volume_name}...(${volume_number})"
 				elif [[ ${#volume_name} -eq 60 ]]; then
-					echo -e "${volume_name}...(${volume_number})"
+					echo -e "       ${volume_name}..(${volume_number})"
 				elif [[ ${#volume_name} -eq 61 ]]; then
-					echo -e "${volume_name}..(${volume_number})"
-				elif [[ ${#volume_name} -eq 62 ]]; then
-					echo -e "${volume_name}.(${volume_number})"
+					echo -e "       ${volume_name}.(${volume_number})"
 				else
-					echo -e "${volume_name}(${volume_number})"
+					echo -e "       ${volume_name}(${volume_number})"
 				fi
 			fi
 			done
