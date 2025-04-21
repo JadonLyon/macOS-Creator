@@ -8,6 +8,7 @@
 #Release notes:
 #              V6.0 Introduces a new UI, refined colors, and easier texts for a brand-new, much more simplified experience.
 #                   Introduces Tips, where you can see helpful tips during a particular section.
+#                   Allows you to now choose macOS installer with GUI window.
 #                   Completely redesigns both the First Time Menu and User Guide Menu.
 #                   Changing colors now feels much more fluid and user friendly.
 #                   Fixed some issues with macOS Sierra.
@@ -714,21 +715,21 @@ MACINFO()
 	echo -e "${RESET}${TITLE}${BOLD}                              This Mac Information "
 	echo -e ""
 	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
-		echo -e "${RESET}${TITLE}• Unknown processer type  (Script is in Safe Mode)"
+		echo -e "${RESET}${TITLE} • Unknown processer type  (Script is in Safe Mode)"
 	else
 		if [[ $APPLESILICONE == 'YES' ]]; then
-			echo -e "${RESET}${TITLE}• ${BOLD}$APPLECHIPINFO"
+			echo -e "${RESET}${TITLE} • ${BOLD}$APPLECHIPINFO"
 		else
-			echo -e "${RESET}${TITLE}• ${RESET}${DEFAULTBLUE}${BOLD}Intel Based Mac"
+			echo -e "${RESET}${TITLE} • ${RESET}${DEFAULTBLUE}${BOLD}Intel Based Mac"
 		fi
 	fi
 	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
-		echo -e "${RESET}${TITLE}• Mac model:"
+		echo -e "${RESET}${TITLE} • Mac model:"
 	else
-		echo -e "${RESET}${TITLE}• Mac model: ${BODY}${BOLD}$MACVERSION ${RESET}${BODY}(Press I to see more info)"
+		echo -e "${RESET}${TITLE} • Mac model: ${BODY}${BOLD}$MACVERSION ${RESET}${BODY}(Press I for details)"
 	fi
-	echo -e "${RESET}${TITLE}• macOS Version: ${BODY}${BOLD}$MACOSVERSION"
-	echo -e "${RESET}${TITLE}• Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
+	echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}$MACOSVERSION"
+	echo -e "${RESET}${TITLE} • Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
 	echo -e ""
 	if [[ $APPLESILICONE == 'YES' ]]; then
 		echo -e "${RESET}${WARNING}    You may not be able to install older macOS Versions with Apple Silicone"
@@ -2824,10 +2825,54 @@ MANUALCREATE()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Manually provide the macOS Installer"
-		echo -e "${RESET}${BODY}Please drag the installer into this window and press the return key... "
+		echo -e "${RESET}${TITLE}${BOLD}                        Manually provide macOS Installer"
+		echo -e ""
+		echo -e "${TITLE}${BOLD}                            Please choose an option:${RESET}${BODY}"
+		echo -e "   Choose macOS Installer from the Finder.................................(1)"
+		echo -e "   Manually provide macOS Installer path..................................(2)"
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "                           Enter your option here: "
+		read -n 1 input
+		if [[ $input == '1' ]]; then
+			installpath=$(osascript <<EOF
+		  	  tell application "System Events"
+		    	    activate
+		    	    set theFile to choose file with prompt "Select a file:"
+		    	    return POSIX path of theFile
+		    	end tell
+EOF
+)
+			MANUALCREATEVERIFY
+		elif [[ $input == '2' ]]; then
+			MANUALCREATEPATH
+		elif [[ $input == '' ]]; then
+			WINDOWBAREND
+		elif [[ $input == 'q' || $input == 'Q' ]]; then
+			SCRIPTLAYOUT
+		elif [[ $input == 'w' || $input == 'W' ]]; then
+			break
+		elif [[ $input == '/' || $input == '?' ]]; then
+			HELPCHOOSEMANUAL
+		else
+			WINDOWERROR
+		fi
+	done
+
+}
+MANUALCREATEPATH()
+{
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${TITLE}${BOLD}                        Manually provide macOS Installer"
+		echo -e ""
+		echo -e "     Please drag the installer into this window and press the return key... "
 		echo -e "${RESET}${BODY}"
-		read -p "Installer path: " installpath
+		read -p " Installer path: " installpath
+		MANUALCREATEVERIFY
+	done
+}
+MANUALCREATEVERIFY()
+{
 		if [[ "$installpath" == *'Mavericks.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks"
@@ -3191,9 +3236,7 @@ MANUALCREATE()
 			echo -e -n "This is not a valid macOS Installer. Press any key to try again... "
 			read -n 1
 		fi
-	done
 }
-
 #Download macOS
 DOWNLOADMACOS()
 {
