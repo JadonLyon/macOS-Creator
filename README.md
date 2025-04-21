@@ -65,3 +65,6 @@ macOS Sierra has some bug with the standard createinstallmedia command which is 
 
 Changing colors in V6.0 and newer.
 In V4.1 the ability to change the script colors was first introduced. Now, the script rewrites itself multiple times in order to feel fluid. This is the process: When you first choose Change Colors in settings, the script simply shows the window. After you choose a color, the script will rewrite itself in this way: instead of going back to the Home Menu, it goes straight to the change colors menu. Then it restarts with the new colors. After you choose to save the desired color with S, the script rewrites itself again, but this time it goes back to the home menu.
+
+Selecting macOS Installer in V6.0 and newer.
+In order for this function to work, the script will connect with Apple Script, and open a file picker window. Here you can find the macOS Installer and simply click "Choose" to use it.
