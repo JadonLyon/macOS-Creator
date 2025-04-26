@@ -635,8 +635,10 @@ CLEANMAC()
 }
 MAINMENU()
 {
-	cd "$SCRIPTPATHMAIN"
-	sed -i '' '7847s/TRUE/FALSE/' macOS\ Creator.command
+	if [[ $FIRSTTIMEHERE=='TRUE' ]]; then
+		cd "$SCRIPTPATHMAIN"
+		sed -i '' '7847s/TRUE/FALSE/' macOS\ Creator.command
+	fi
 	FIRSTTIMEHERE="FALSE"
 	ENTERHERE="TRUE"
 	WINDOWBAR
@@ -684,6 +686,7 @@ RELEASENOTES()
 	echo -e ""
 	echo -e "${RESET}${BODY}• Introduces a new UI, refined colors, and simplified texts.
 • Introduces Tips, where you can see helpful tips during a particular section.
+• Allows you to now choose macOS installer with GUI window.
 • Completely redesigns both the First Time Menu and User Guide Menu.
 • Changing colors now feels much more fluid and user friendly.
 • Fixed some issues with macOS Sierra."
@@ -980,7 +983,7 @@ HELPOSFOUND()
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}Press (Y) to continue with the drive creation process"
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -994,7 +997,7 @@ HELPOSFOUNDLEGACY()
 	echo -e "If you do notice issues, you can report them at GitHub."
 	echo -e "Press (Y) to continue with the drive creation process"
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1007,7 +1010,7 @@ HELPDRIVE()
 	echo -e "${RESET}${TITLE}Choose a drive listed to continue."
 	echo -e "If your drive is not listed, press (S) to manually provide the drive."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1020,7 +1023,7 @@ HELPDRAGDRIVE()
 	echo -e "${RESET}${TITLE}Drag a drive from the Finder into this window."
 	echo -e "When finished, press the return key to continue."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1035,7 +1038,7 @@ HELPOSNONE()
 	echo -e "If you have a version of macOS somewhere else, you can provide it manually."
 	echo -e "Press (Q) to go home and manually provide the installer."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1050,7 +1053,7 @@ BETAHELP()
 	echo -e "If you do notice issues, you can report them at GitHub."
 	echo -e "Press (Y) to continue."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1063,7 +1066,7 @@ HELPID()
 	echo -e "${RESET}${TITLE}If you wish to install macOS on this Mac, press (1)."
 	echo -e "If you wish to install macOS on another Mac, press (2)."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1075,7 +1078,7 @@ HELPIDMAC()
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}Choose the option that is equivalent to the Mac"
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1088,7 +1091,20 @@ HELPMANUAL()
 	echo -e "${RESET}${TITLE}Drag the macOS Installer from the finder into this window."
 	echo -e "When finished, press the return key."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
+	echo -e "Press the return key to cancel"
+	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+	echo -n "Press any key to return... "
+	read -n 1
+	echo -e ""
+}
+HELPCHOOSEMANUAL()
+{
+	WINDOWBAR
+	echo -e "${RESET}${TITLE}1) Open the file picker and choose the macOS Installer using your mouse."
+	echo -e "2) Drag the installer into this window to provide the path."
+	echo -e ""
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1106,7 +1122,7 @@ HELPCLEAN()
 		echo -e "5) Resets all settings to default."
 	fi
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1120,7 +1136,7 @@ HELPRESET()
 	echo -e "2) Resets the color settings."
 	echo -e "3) Resets all settings to their defaults."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1136,7 +1152,7 @@ HELPDOWNLOAD()
 	echo -e "Or press 9 to see the next page."
 	echo -e "After making a selection, press the return key to download."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1153,7 +1169,7 @@ HELPSETTINGS()
 		echo -e "App configuration determines how the app launches the script."
 	fi
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1168,7 +1184,7 @@ HELPCOLORS()
 		echo -e "You can save these settings to your Mac for future updates."
 	fi
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1181,7 +1197,7 @@ HELPADVANCED()
 	echo -e "${RESET}${TITLE}Verbose Mode shows commands run."
 	echo -e "Safe Mode skips certain checks on your Mac"
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1195,7 +1211,7 @@ HELPAPPMAIN()
 	echo -e "1) Adjust how the app runs the script."
 	echo -e "2) Adjust advanced modes when launching (i.e. Safe Mode)."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -1211,7 +1227,7 @@ HELPAPP()
 	echo -e "With the first option, the script opens like an app."
 	echo -e "With the second option, the script runs like a terminal command."
 	echo -e ""
-	echo -e "Press (Q) to return back home"
+	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "Press any key to return... "
@@ -2833,6 +2849,7 @@ MANUALCREATE()
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "                           Enter your option here: "
 		read -n 1 input
+		echo -e ""
 		if [[ $input == '1' ]]; then
 			installpath=$(osascript <<EOF
 		  	  tell application "System Events"
@@ -2875,47 +2892,28 @@ MANUALCREATEVERIFY()
 {
 		if [[ "$installpath" == *'Mavericks.app'* ]]; then
 			echo -e ""
-			echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks"
-			echo -e -n "${RESET}${TITLE}Press any key to continue... "
+			echo -e "${RESET}${OSFOUND}${BOLD}                                 OS X Mavericks"
+			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
 		elif [[ "$installpath" == *'Yosemite.app'* ]]; then
 			echo -e ""
-			echo -e "${RESET}${OSFOUND}${BOLD}OS X Yosemite"
-			echo -e -n "${RESET}${TITLE}Press any key to continue... "
+			echo -e "${RESET}${OSFOUND}${BOLD}                                 OS X Yosemite"
+			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
 		elif [[ "$installpath" == *'Capitan.app'* ]]; then
 			echo -e ""
-			echo -e "${RESET}${OSFOUND}${BOLD}OS X El Capitan"
-			echo -e -n "${RESET}${TITLE}Press any key to continue... "
+			echo -e "${RESET}${OSFOUND}${BOLD}                                OS X El Capitan"
+			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
 		elif [[ "$installpath" == *'macOS Sierra.app'* ]]; then
-			if [[ $APPLESILICONE == 'YES' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac has the Apple Silicone chip${RESET}"
-				echo -e "${ERROR}Currently you cannot install macOS Sierra with this Mac."
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			fi
-			if [[ $MACOSVERSION == '10.7' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Sierra."
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			else
-				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra"
-				echo -e -n "${RESET}${TITLE}Press any key to continue... "
-				read -n 1
-				FINDDRIVE
-			fi
+			echo -e ""
+			echo -e "${RESET}${OSFOUND}${BOLD}                                  macOS Sierra"
+			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
+			read -n 1
+			FINDDRIVE
 		elif [[ "$installpath" == *'High Sierra.app'* ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
@@ -2936,8 +2934,8 @@ MANUALCREATEVERIFY()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS High Sierra"
-				echo -e -n "${RESET}${TITLE}Press any key to continue... "
+				echo -e "${RESET}${OSFOUND}${BOLD}                               macOS High Sierra"
+				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
 			fi
@@ -2961,8 +2959,8 @@ MANUALCREATEVERIFY()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Mojave"
-				echo -e -n "${RESET}${TITLE}Press any key to continue... "
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Mojave"
+				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
 			fi
@@ -2994,8 +2992,8 @@ MANUALCREATEVERIFY()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Catalina"
-				echo -e -n "${RESET}${TITLE}Press any key to continue... "
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Catalina"
+				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
 			fi
@@ -3018,8 +3016,8 @@ MANUALCREATEVERIFY()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Big Sur"
-				echo -e -n "${RESET}${TITLE}Press any key to continue... "
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Big Sur"
+				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
 			fi
@@ -3042,8 +3040,8 @@ MANUALCREATEVERIFY()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey"
-				echo -e -n "${RESET}${TITLE}Press any key to continue... "
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Monterey"
+				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
 			fi
@@ -3090,8 +3088,8 @@ MANUALCREATEVERIFY()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura"
-				echo -e -n "${RESET}${TITLE}Press any key to continue... "
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Ventura"
+				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
 			fi
@@ -3146,8 +3144,8 @@ MANUALCREATEVERIFY()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma"
-				echo -e -n "${RESET}${TITLE}Press any key to continue... "
+				echo -e "${RESET}${OSFOUND}${BOLD}                                  macOS Sonoma"
+				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
 			fi
@@ -3202,25 +3200,21 @@ MANUALCREATEVERIFY()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia"
-				echo -e -n "${RESET}${TITLE}Press any key to continue... "
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Sequoia"
+				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
 			fi
 		elif [[ "$installpath" == *'Mountain Lion.app'* ]]; then
 			echo -e ""
-			echo -e "${RESET}${OSFOUND}${BOLD}OS X Mountain Lion.${RESET}"
-			echo -e "${RESET}${WARNING}This installer is still in active devolopment and may not work.${RESET}"
-			echo -e "${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to continue... "
+			echo -e "${RESET}${OSFOUND}${BOLD}                               OS X Mountain Lion"
+			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
 		elif [[ "$installpath" == *'Mac OS X Lion.app'* ]]; then
 			echo -e ""
-			echo -e "${RESET}${OSFOUND}${BOLD}Mac OS X Lion.${RESET}"
-			echo -e "${RESET}${WARNING}This installer is still in active devolopment and may not work.${RESET}"
-			echo -e "${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to continue... "
+			echo -e "${RESET}${OSFOUND}${BOLD}                                 Mac OS X Lion"
+			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
 		elif [[ $installpath == 'q' || $installpath == 'Q' ]]; then
@@ -3233,7 +3227,7 @@ MANUALCREATEVERIFY()
 			WINDOWBAREND
 		else
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e -n "This is not a valid macOS Installer. Press any key to try again... "
+			echo -e -n "     This is not a valid macOS Installer. Press any key to try again... "
 			read -n 1
 		fi
 }
