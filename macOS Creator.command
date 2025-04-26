@@ -12,6 +12,7 @@
 #                   Completely redesigns both the First Time Menu and User Guide Menu.
 #                   Changing colors now feels much more fluid and user friendly.
 #                   Fixed some issues with macOS Sierra.
+#                   Fixed an issue where in Safe mode, script would not list drives.
 #
 #
 #
@@ -65,8 +66,6 @@ fi
 PreRun()
 {
 	UIAPPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
-	
-	
 	#Light Mode
 	if [[ ! "$UIAPPEARANCE" == "Dark" ]]; then
 		APP='\033["38;5;23m'
@@ -101,7 +100,7 @@ PreRun()
 		FOREST='\033[38;5;22m'
 		CINNAMON='\033[38;5;88m'
 		CLASSICBLACK='\033[38;5;0m'
-		CLASSICBLACKBW="Classic Black...................(5)"
+		CLASSICBLACKBW="   Classic Black..........................................................(5)"
 	else
 		if [[ "$UIAPPEARANCE" == "Dark" ]]; then
 			DEFAULTBLUE='\033[38;5;158m'
@@ -111,9 +110,9 @@ PreRun()
 			CLASSICBLACK='\033[38;5;255m'
 			APPLECHIP="\033[38;5;117mApp\033[38;5;111mle \033[38;5;135mSili\033[38;5;207mcone.......\033[38;5;208m...........\033[38;5;11m(1)"
 			if [[ $(uname -m) == "arm64" ]]; then
-				CLASSICBLACKBW="Classic White...................(6)"
+				CLASSICBLACKBW="   Classic White..........................................................(6)"
 			else
-				CLASSICBLACKBW="Classic White...................(5)"
+				CLASSICBLACKBW="   Classic White..........................................................(5)"
 			fi
 		else
 			DEFAULTBLUE='\033[38;5;23m'
@@ -123,9 +122,9 @@ PreRun()
 			CLASSICBLACK='\033[38;5;0m'
 			APPLECHIP="\033[38;5;33mApp\033[38;5;63mle \033[38;5;129mSili\033[38;5;163mcone.......\033[38;5;209m...........\033[38;5;214m(1)"
 			if [[ $(uname -m) == "arm64" ]]; then
-				CLASSICBLACKBW="Classic Black...................(6)"
+				CLASSICBLACKBW="   Classic Black..........................................................(6)"
 			else
-				CLASSICBLACKBW="Classic Black...................(5)"
+				CLASSICBLACKBW="   Classic Black..........................................................(5)"
 			fi
 		fi
 	fi
@@ -559,7 +558,7 @@ CLEANUP()
 					echo -n -e "${RESET}${DEFAULTBLUE}Press any key to restart... "
 					read -n 1
 					cd "$SCRIPTPATHMAIN"
-					sed -i '' '7848s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
+					sed -i '' '7889s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
 					if [[ $APPLESILICONE == "YES" ]]; then
 						COLORM1
 					else
@@ -637,7 +636,7 @@ MAINMENU()
 {
 	if [[ $FIRSTTIMEHERE=='TRUE' ]]; then
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '7847s/TRUE/FALSE/' macOS\ Creator.command
+		sed -i '' '7888s/TRUE/FALSE/' macOS\ Creator.command
 	fi
 	FIRSTTIMEHERE="FALSE"
 	ENTERHERE="TRUE"
@@ -689,14 +688,15 @@ RELEASENOTES()
 • Allows you to now choose macOS installer with GUI window.
 • Completely redesigns both the First Time Menu and User Guide Menu.
 • Changing colors now feels much more fluid and user friendly.
-• Fixed some issues with macOS Sierra."
+• Fixed some issues with macOS Sierra.
+• Fixed an issue where in Safe mode, script would not list drives."
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to get started... "
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '7848s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+		sed -i '' '7889s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 		if [[ $verbose == "1" ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 		elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -772,7 +772,7 @@ FIRSTTIME()
 		else
 			rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7848s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7889s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -786,24 +786,25 @@ FIRSTTIME()
 	else
 		FIRSTTIMEHERE="TRUE"
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Welcome to the macOS Creator${RESET}"
-		echo -e "${RESET}${TITLE}The all-in-one script for creating bootable macOS Installers"
+		echo -e "${RESET}${TITLE}${BOLD}                          Welcome to the macOS Creator${RESET}"
+		echo -e "${RESET}${BODY}          The all-in-one script for creating bootable macOS Installers"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Press any key to get started... "
+		echo -e ""
+		echo -n "                       Press any key to get started... "
 		read -n 1
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}If you wish to go straight to the Home Menu, press Q now."
-		echo -e "${BODY}Otherwise press any other key to continue."
+		echo -e "${RESET}${TITLE}            If you wish to go straight to the Home Menu, press Q now."
+		echo -e "${BODY}                 Otherwise press any other key to continue setup"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "                           Enter your option here: "
 		read -n 1 input
 		if [[ ! $input == 'q' || $input == 'Q' ]]; then
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7848s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
+			sed -i '' '7889s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
 			CHANGECOLORS
 		else
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7848s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '7889s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -929,7 +930,7 @@ GUIDE()
 												echo -n "Press any key to get started... "
 												read -n 1
 												cd "$SCRIPTPATHMAIN"
-												sed -i '' '7848s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+												sed -i '' '7889s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 												if [[ $verbose == "1" ]]; then
 													"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 												elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -1381,8 +1382,8 @@ OSHIGHSIERRA()
 		if [[ $APPLESILICONE == 'YES' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac has the Apple Silicone chip${RESET}"
-			echo -e "${ERROR}Currently you cannot install macOS High Sierra with this Mac."
+			echo -e "                      This Mac has the Apple Silicone chip${RESET}"
+			echo -e "${ERROR}          Currently you cannot install macOS High Sierra with this Mac"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1426,8 +1427,8 @@ OSMOJAVE()
 		if [[ $APPLESILICONE == 'YES' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac has the Apple Silicone chip${RESET}"
-			echo -e "${ERROR}Currently you cannot install macOS Mojave with this Mac."
+			echo -e "                      This Mac has the Apple Silicone chip${RESET}"
+			echo -e "${ERROR}             Currently you cannot install macOS Mojave with this Mac"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1471,8 +1472,8 @@ OSCATALINA()
 		if [[ $APPLESILICONE == 'YES' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac has the Apple Silicone chip${RESET}"
-			echo -e "${ERROR}Currently you cannot install macOS Catalina with this Mac."
+			echo -e "                      This Mac has the Apple Silicone chip${RESET}"
+			echo -e "${ERROR}             Currently you cannot install macOS Catalina with this Mac"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -2151,6 +2152,7 @@ OSDRIVECREATION()
 	elif [[ "$installpath" == *'OS X Lion.app'* ]]; then
 		LDRIVECREATION
 	else
+		sleep 2
 		clear
 		echo -e ""
 		echo -e "${RESET}${ERROR}${BOLD}The script has encountered an error... ${RESET}"
@@ -2917,8 +2919,8 @@ MANUALCREATEVERIFY()
 		elif [[ "$installpath" == *'High Sierra.app'* ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac has the Apple Silicone chip${RESET}"
-				echo -e "${ERROR}Currently you cannot install macOS High Sierra with this Mac."
+				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
+				echo -e "${ERROR}          Currently you cannot install macOS High Sierra with this Mac"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -2942,8 +2944,8 @@ MANUALCREATEVERIFY()
 		elif [[ "$installpath" == *'Mojave.app'* ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac has the Apple Silicone chip${RESET}"
-				echo -e "${ERROR}Currently you cannot install macOS Mojave with this Mac."
+				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
+				echo -e "${ERROR}             Currently you cannot install macOS Mojave with this Mac"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -2967,8 +2969,8 @@ MANUALCREATEVERIFY()
 		elif [[ "$installpath" == *'Catalina.app'* ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac has the Apple Silicone chip${RESET}"
-				echo -e "${ERROR}Currently you cannot install macOS Catalina with this Mac."
+				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
+				echo -e "${ERROR}             Currently you cannot install macOS Catalina with this Mac"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3283,7 +3285,7 @@ DOWNLOADMACOS()
 		elif [[ "$input" == '4' || "$input" == '10.12' || "$input" == 'Sierra' || "$input" == 'sierra' ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac has the Apple Silicone chip${RESET}"
+				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
 				echo -e "${ERROR}Currently you cannot install macOS Sierra with this Mac."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
@@ -3312,8 +3314,8 @@ DOWNLOADMACOS()
 		elif [[ "$input" == '5' || "$input" == '10.13' || "$input" == 'High Sierra' || "$input" == 'high sierra' || "$input" == 'High sierra' || "$input" == 'high Sierra' ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac has the Apple Silicone chip${RESET}"
-				echo -e "${ERROR}Currently you cannot install macOS High Sierra with this Mac."
+				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
+				echo -e "${ERROR}          Currently you cannot install macOS High Sierra with this Mac"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3341,8 +3343,8 @@ DOWNLOADMACOS()
 		elif [[ "$input" == '6' || "$input" == '10.14' || "$input" == 'Mojave' || "$input" == 'mojave' ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac has the Apple Silicone chip${RESET}"
-				echo -e "${ERROR}Currently you cannot install macOS Mojave with this Mac."
+				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
+				echo -e "${ERROR}             Currently you cannot install macOS Mojave with this Mac"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3370,8 +3372,8 @@ DOWNLOADMACOS()
 		elif [[ "$input" == '7' || "$input" == '10.15' || "$input" == 'Catalina' || "$input" == 'catalina' ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac has the Apple Silicone chip${RESET}"
-				echo -e "${ERROR}Currently you cannot install macOS Catalina with this Mac."
+				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
+				echo -e "${ERROR}             Currently you cannot install macOS Catalina with this Mac"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -4289,7 +4291,7 @@ TESTELIGIBILITY()
 SAVECOLORS()
 {
 	cd "$SCRIPTPATHMAIN"
-	sed -i '' '7848s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
+	sed -i '' '7889s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
 	if [[ $verbose == "1" ]]; then
 		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 	else
@@ -4318,25 +4320,22 @@ CHANGECOLORS()
 				while true; do
 					WINDOWBAR
 					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
-						echo -e "${RESET}${TITLE}${BOLD}To begin, choose the color style you like:"
+						echo -e "${RESET}${TITLE}${BOLD}                    To begin, choose the color style you like:"
 					else
-						echo -e "${RESET}${TITLE}${BOLD}Choose the color style you like:"
+						echo -e "${RESET}${TITLE}${BOLD}                         Choose the color style you like:"
 					fi
 					echo -e ""
 					echo -e "${RESET}$APPLECHIP"
-					echo -e "${RESET}${DEFAULTBLUE}Default Blue....................(2)"
-					echo -e "${RESET}${DESERT}Desert Sands....................(3)"
-					echo -e "${RESET}${FOREST}Forest Green....................(4)"
-					echo -e "${RESET}${CINNAMON}Cinnamon Apple..................(5)"
+					echo -e "   ${RESET}${DEFAULTBLUE}Default Blue...........................................................(2)"
+					echo -e "   ${RESET}${DESERT}Desert Sands...........................................................(3)"
+					echo -e "   ${RESET}${FOREST}Forest Green...........................................................(4)"
+					echo -e "   ${RESET}${CINNAMON}Cinnamon Apple.........................................................(5)"
 					echo -e "${RESET}${CLASSICBLACK}$CLASSICBLACKBW"
-					if [[ $IMAC == 'YES' ]]; then
-						echo -e "${RESET}${IMACCOLOR}This Mac........................(7)"
-					fi
 					echo -e ""
 					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 						echo -e "${RESET}${TITLE}You can change these colors at any point from Settings."
 					else
-						echo -e "${RESET}${TITLE}Current color:${APP}${BOLD} $SETTINGCOLOR"
+						echo -e "${RESET}${TITLE}   Current color:${APP}${BOLD} $SETTINGCOLOR"
 					fi
 					if [[ ! $ENTERHERE == 'TRUE' ]]; then
 						echo -e ""
@@ -4357,19 +4356,13 @@ CHANGECOLORS()
 						CINNAMONCOLOR
 					elif [[ $input == '6' ]]; then
 						COLORCLASSIC
-					elif [[ $input == '7' ]]; then
-						if [[ $IMAC == 'YES' ]]; then
-							COLORMAC
-						else
-							WINDOWERROR
-						fi
 					elif [[ $input == 'q' || $input == 'Q' ]]; then
 						if [[ $ENTERHERE == 'TRUE' ]]; then
 							SCRIPTLAYOUT
 						else
 							echo -e ""
 							echo -e ""
-							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
+							echo -n -e "${RESET}${ERROR}${BOLD}                 Please save your settings before you go back... "
 							read -n 1
 						fi
 					elif [[ $input == 'w' || $input == 'W' ]]; then
@@ -4378,7 +4371,7 @@ CHANGECOLORS()
 						else
 							echo -e ""
 							echo -e ""
-							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
+							echo -n -e "${RESET}${ERROR}${BOLD}                 Please save your settings before you go back... "
 							read -n 1
 						fi
 					elif [[ $input == 's' || $input == 'S' ]]; then
@@ -4390,7 +4383,13 @@ CHANGECOLORS()
 					elif [[ $input == '?' || $input == '/' ]]; then
 						HELPCOLORS
 					elif [[ $input == '' ]]; then
-						WINDOWBAREND
+						if [[ $ENTERHERE == 'TRUE' ]]; then
+							WINDOWBAREND
+						else
+							echo -e ""
+							echo -n -e "${RESET}${ERROR}${BOLD}                 Please save your settings before you cancel... "
+							read -n 1
+						fi
 					else
 						WINDOWERROR
 					fi
@@ -4407,25 +4406,25 @@ CHANGECOLORS()
 				while true; do
 					WINDOWBAR
 					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
-						echo -e "${RESET}${TITLE}${BOLD}To begin, choose the color style you like:"
+						echo -e "${RESET}${TITLE}${BOLD}                    To begin, choose the color style you like"
 					else
-						echo -e "${RESET}${TITLE}${BOLD}Choose the color style you like:"
+						echo -e "${RESET}${TITLE}${BOLD}                         Choose the color style you like"
 					fi
 					echo -e ""
-					echo -e "${RESET}${DEFAULTBLUE}Default Blue....................(1)"
-					echo -e "${RESET}${DESERT}Desert Sands....................(2)"
-					echo -e "${RESET}${FOREST}Forest Green....................(3)"
-					echo -e "${RESET}${CINNAMON}Cinnamon Apple..................(4)"
+					echo -e "   ${RESET}${DEFAULTBLUE}Default Blue...........................................................(1)"
+					echo -e "   ${RESET}${DESERT}Desert Sands...........................................................(2)"
+					echo -e "   ${RESET}${FOREST}Forest Green...........................................................(3)"
+					echo -e "   ${RESET}${CINNAMON}Cinnamon Apple.........................................................(4)"
 					echo -e "${RESET}${CLASSICBLACK}$CLASSICBLACKBW"
 					echo -e ""
 					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
-						echo -e "${RESET}${TITLE}You can change these colors at any point from Settings."
+						echo -e "${RESET}${TITLE}             You can change these colors at any point from Settings"
 					else
-						echo -e "${RESET}${TITLE}Current color:${APP}${BOLD} $SETTINGCOLOR"
+						echo -e "${RESET}${TITLE}   Current color:${APP}${BOLD} $SETTINGCOLOR"
 					fi
 					if [[ ! $ENTERHERE == 'TRUE' ]]; then
 						echo -e ""
-						echo -e "${RESET}${TITLE}${BOLD}Press (S) to save."
+						echo -e "${RESET}${TITLE}${BOLD}                               Press (S) to save"
 					fi
 					echo -e "${PROMPTSTYLE}${BOLD}"
 					echo -n "                           Enter your option here: "
@@ -4446,7 +4445,7 @@ CHANGECOLORS()
 						else
 							echo -e ""
 							echo -e ""
-							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
+							echo -n -e "${RESET}${ERROR}${BOLD}                 Please save your settings before you go back... "
 							read -n 1
 						fi
 					elif [[ $input == 'w' || $input == 'W' ]]; then
@@ -4455,7 +4454,7 @@ CHANGECOLORS()
 						else
 							echo -e ""
 							echo -e ""
-							echo -n -e "${RESET}${ERROR}${BOLD}Please save your settings before you go back... "
+							echo -n -e "${RESET}${ERROR}${BOLD}                 Please save your settings before you go back... "
 							read -n 1
 						fi
 					elif [[ $input == 's' || $input == 'S' ]]; then
@@ -4467,7 +4466,13 @@ CHANGECOLORS()
 					elif [[ $input == '?' || $input == '/' ]]; then
 						HELPCOLORS
 					elif [[ $input == '' ]]; then
-						WINDOWBAREND
+						if [[ $ENTERHERE == 'TRUE' ]]; then
+							WINDOWBAREND
+						else
+							echo -e ""
+							echo -n -e "${RESET}${ERROR}${BOLD}                 Please save your settings before you cancel... "
+							read -n 1
+						fi
 					else
 						WINDOWERROR
 					fi
@@ -4493,7 +4498,7 @@ COLORBLUE()
 		Output rm -R .colorm1setting
 		touch .defaultbluesetting
 	fi
-	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7889s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;23m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;24m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;23m/' macOS\ Creator.command
@@ -4531,7 +4536,7 @@ COLORSANDS()
 		Output rm -R .colorm1setting
 		touch .desertsandssetting
 	fi
-	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7889s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;130m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;172m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;130m/' macOS\ Creator.command
@@ -4565,7 +4570,7 @@ COLORFOREST()
 		Output rm -R .colorm1setting
 		touch .forestgreensetting
 	fi
-	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7889s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;22m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;65m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;22m/' macOS\ Creator.command
@@ -4599,7 +4604,7 @@ CINNAMONCOLOR()
 		Output rm -R .colorm1setting
 		touch .cinnamonapplecolor
 	fi
-	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7889s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;88m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;124m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;88m/' macOS\ Creator.command
@@ -4633,7 +4638,7 @@ COLORCLASSIC()
 		Output rm -R .colorm1setting
 		touch .classicsetting
 	fi
-	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7889s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;0m/' macOS\ Creator.command
@@ -4667,7 +4672,7 @@ COLORM1()
 		Output rm -R .defaultbluesetting
 		touch .colorm1setting
 	fi
-	sed -i '' '7848s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '7889s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;30m/"38;5;214m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;23m/"38;5;209m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;30m/"38;5;163m/' macOS\ Creator.command
@@ -7934,7 +7939,7 @@ elif [[ $safe == "2" ]]; then
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		MACVERIFY="NO"
-		
+		STARTUPDISK=000000000000000000000000000000000000000000000000000000000000000000
 		echo -e ""
 	else
 		echo -e ""
