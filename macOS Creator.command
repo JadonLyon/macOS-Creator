@@ -22,7 +22,6 @@
 #Script
 
 
-
 #PreRun Commands
 #This step will save temporary commands that will be used later throughout the script
 
@@ -36,7 +35,6 @@ elif [[ $PARAMETERS == *"-V"* || $PARAMETERS == *"-Verbose"* ]]; then
 	verbose="1"
 	set -x
 fi
-
 
 if [[ $PARAMETERS == *"-s"* || $PARAMETERS == *"-safe"* ]]; then
 	safe="1"
@@ -52,47 +50,61 @@ Output()
 		"$@" &>/dev/null
 	fi
 }
-
+PreRunOS()
+{
+	#Checks macOS Version
+	MACOSVERSION=$(sw_vers -productVersion | cut -d '.' -f 1,2)
+}
 
 #Determines Script Path
 SCRIPTPATH="${0}"
 
 SCRIPTPATHMAIN="${0%/*}"
 
-
+#Determines if script is running as application
 if [[ -e "$SCRIPTPATHMAIN/.homeuser" ]]; then
 	HOMEUSER="YES"
 fi
+
+LIGHTMODE()
+{
+	APP='\033["38;5;23m'
+	TITLE='\033["38;5;24m'
+	BODY='\033["38;5;23m'
+	PROMPTSTYLE='\033["38;5;66m'
+	OSFOUND='\033["38;5;67m'
+	WARNING='\033["38;5;160m'
+	ERROR='\033["38;5;9m'
+	CANCEL='\033["38;5;31m'
+	BOLD='\033[1m'
+	RESET='\033[0m'
+}
+DARKMODE()
+{
+	APP='\033["38;5;158m'
+	TITLE='\033["38;5;153m'
+	BODY='\033["38;5;158m'
+	PROMPTSTYLE='\033["38;5;152m'
+	OSFOUND='\033["38;5;111m'
+	WARNING='\033["38;5;160m'
+	ERROR='\033["38;5;196m'
+	CANCEL='\033["38;5;38m'
+	BOLD='\033[1m'
+	RESET='\033[0m'
+}
+
 PreRun()
 {
 	UIAPPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
-	#Light Mode
 	if [[ ! "$UIAPPEARANCE" == "Dark" ]]; then
-		APP='\033["38;5;23m'
-		TITLE='\033["38;5;24m'
-		BODY='\033["38;5;23m'
-		PROMPTSTYLE='\033["38;5;66m'
-		OSFOUND='\033["38;5;67m'
-		WARNING='\033["38;5;160m'
-		ERROR='\033["38;5;9m'
-		CANCEL='\033["38;5;31m'
-		BOLD='\033[1m'
-		RESET='\033[0m'
-	
-	#Dark Mode
+		LIGHTMODE
 	else
-		APP='\033["38;5;158m'
-		TITLE='\033["38;5;153m'
-		BODY='\033["38;5;158m'
-		PROMPTSTYLE='\033["38;5;152m'
-		OSFOUND='\033["38;5;111m'
-		WARNING='\033["38;5;160m'
-		ERROR='\033["38;5;196m'
-		CANCEL='\033["38;5;38m'
-		BOLD='\033[1m'
-		RESET='\033[0m'
+		if [[ "$MACOSVERSION" == 10.5 || "$MACOSVERSION" == 10.6 || "$MACOSVERSION" == 10.7 || "$MACOSVERSION" == 10.8 || "$MACOSVERSION" == 10.9 || "$MACOSVERSION" == 10.10 || "$MACOSVERSION" == 10.11 || "$MACOSVERSION" == 10.12 || "$MACOSVERSION" == 10.13 ]]; then
+			LIGHTMODE
+		else
+			DARKMODE
+		fi
 	fi
-	
 	#Settings Preview
 	if [[ "$MACOSVERSION" == 10.5 || "$MACOSVERSION" == 10.6 || "$MACOSVERSION" == 10.7 || "$MACOSVERSION" == 10.8 || "$MACOSVERSION" == 10.9 || "$MACOSVERSION" == 10.10 || "$MACOSVERSION" == 10.11 || "$MACOSVERSION" == 10.12 || "$MACOSVERSION" == 10.13 ]]; then
 		DEFAULTBLUE='\033[38;5;23m'
@@ -280,11 +292,6 @@ PreRunMac()
 			fi
 		fi
 	fi
-}
-PreRunOS()
-{
-	#Checks macOS Version
-	MACOSVERSION=$(sw_vers -productVersion | cut -d '.' -f 1,2)
 }
 
 #Text and commands
@@ -7990,9 +7997,9 @@ elif [[ $safe == "2" ]]; then
 	fi
 	SCRIPTLAYOUT
 else
+	PreRunOS
 	PreRun
 	PreRunMac
-	PreRunOS
 	SCRIPTLAYOUT
 fi
 }
