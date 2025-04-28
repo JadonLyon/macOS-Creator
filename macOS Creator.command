@@ -112,7 +112,7 @@ PreRun()
 		FOREST='\033[38;5;22m'
 		CINNAMON='\033[38;5;88m'
 		CLASSICBLACK='\033[38;5;0m'
-		CLASSICBLACKBW="   Classic Black..........................................................(5)"
+		CLASSICBLACKBW="      Classic Black....................................................(5)"
 	else
 		if [[ "$UIAPPEARANCE" == "Dark" ]]; then
 			DEFAULTBLUE='\033[38;5;158m'
@@ -120,11 +120,11 @@ PreRun()
 			FOREST='\033[38;5;108m'
 			CINNAMON='\033[38;5;124m'
 			CLASSICBLACK='\033[38;5;255m'
-			APPLECHIP="\033[38;5;117mApp\033[38;5;111mle \033[38;5;135mSili\033[38;5;207mcone.......\033[38;5;208m...........\033[38;5;11m(1)"
+			APPLECHIP="\033[38;5;117m      App\033[38;5;111mle \033[38;5;135mSili\033[38;5;207mcone...........................\033[38;5;208m........................\033[38;5;11m(1)"
 			if [[ $(uname -m) == "arm64" ]]; then
-				CLASSICBLACKBW="   Classic White..........................................................(6)"
+				CLASSICBLACKBW="      Classic White....................................................(6)"
 			else
-				CLASSICBLACKBW="   Classic White..........................................................(5)"
+				CLASSICBLACKBW="      Classic White....................................................(5)"
 			fi
 		else
 			DEFAULTBLUE='\033[38;5;23m'
@@ -132,11 +132,11 @@ PreRun()
 			FOREST='\033[38;5;22m'
 			CINNAMON='\033[38;5;88m'
 			CLASSICBLACK='\033[38;5;0m'
-			APPLECHIP="\033[38;5;33mApp\033[38;5;63mle \033[38;5;129mSili\033[38;5;163mcone.......\033[38;5;209m...........\033[38;5;214m(1)"
+			APPLECHIP="\033[38;5;33m      App\033[38;5;63mle \033[38;5;129mSili\033[38;5;163mcone...........................\033[38;5;209m........................\033[38;5;214m(1)"
 			if [[ $(uname -m) == "arm64" ]]; then
-				CLASSICBLACKBW="   Classic Black..........................................................(6)"
+				CLASSICBLACKBW="      Classic Black....................................................(6)"
 			else
-				CLASSICBLACKBW="   Classic Black..........................................................(5)"
+				CLASSICBLACKBW="      Classic Black....................................................(5)"
 			fi
 		fi
 	fi
@@ -424,7 +424,7 @@ TROUBLESHOOTGUIDE()
 TROUBLESHOOTGUIDEMAIN()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}Troubleshooting Guide"
+	echo -e "${RESET}${TITLE}${BOLD}                              Troubleshooting Guide"
 	echo -e "${RESET}${BODY}1) Make sure Terminal has access to your external drive (Security and Privacy)"
 	echo -e "2) Format the drive using Disk Utility (macOS Extended + GUID Partition map)"
 	echo -e "3) Try using a different drive"
@@ -441,34 +441,31 @@ CLEANUP()
 {
 	while true; do
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}Clean up"
-	echo -e "${RESET}${BODY}Remove Temporary files...............(1)"
-	echo -e "${RESET}${BODY}Remove macOS Installers..............(2)"
-	echo -e "${RESET}${BODY}Fix drive permissions................(3)"
-	if [[ "$HOMEUSER" == 'YES' ]]; then
-		echo -e "${RESET}${BODY}All of the above.....................(4)"
-		echo -e "${RESET}${BODY}Reset................................(5)"
-	else
-		echo -e "${RESET}${BODY}All of the above.....................(4)"
-	fi
+	echo -e "${RESET}${TITLE}${BOLD}                                    Clean up"
+	echo -e "${RESET}${BODY}                    Remove Temporary files...............(1)"
+	echo -e "${RESET}${BODY}                    Remove macOS Installers..............(2)"
+	echo -e "${RESET}${BODY}                    Fix drive permissions................(3)"
+	echo -e "${RESET}${BODY}                    All of the above.....................(4)"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 	read -n 1 input
 	if [[ $input == '1' ]]; then
 		echo -e ""
-		echo -e "${RESET}${TITLE}${BOLD}Cleaning up...${RESET}${TITLE}"
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                                 Cleaning up...${RESET}${TITLE}"
 		Output sudo rm -R /private/tmp/InstallAssistant.pkg
 		Output sudo rm -R /private/tmp/InstallmacOS.dmg
 		Output sudo rm -R /private/tmp/InstallmacOS.iso
 		Output sudo rm -R /private/tmp/InstallmacOS.zip
-		echo -e "${RESET}${TITLE}${BOLD}Files have been removed."
+		echo -e "${RESET}${TITLE}${BOLD} Files have been removed"
 		echo -e "${PROMPTSTYLE}${BOLD}"
 		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
 		SCRIPTLAYOUT
 	elif [[ $input == '2' ]]; then
 		echo -e ""
-		echo -e "${RESET}${TITLE}${BOLD}Cleaning up...${RESET}${TITLE}"
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                                 Cleaning up...${RESET}${TITLE}"
 		Output sudo rm -R /Applications/Install\ OS\ X\ Mavericks.app
 		Output sudo rm -R /Applications/Install\ OS\ X\ Yosemite.app
 		Output sudo rm -R /Applications/Install\ OS\ X\ El\ Capitan.app
@@ -483,109 +480,25 @@ CLEANUP()
 		Output sudo rm -R /Applications/Install\ macOS\ Sequoia.app
 		Output sudo rm -R /Applications/Install\ Mac\ OS\ X\ Lion.app
 		Output sudo rm -R /Applications/Install\ OS\ X\ Mountain\ Lion.app
-		echo -e "${RESET}${TITLE}${BOLD}Files have been removed."
+		echo -e "${RESET}${TITLE}${BOLD}                            Files have been removed"
 		echo -e "${PROMPTSTYLE}${BOLD}"
 		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
 		SCRIPTLAYOUT
 	elif [[ $input == '3' ]]; then
 		echo -e ""
-		echo -e "${RESET}${TITLE}${BOLD}Cleaning up...${RESET}${TITLE}"
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                                 Cleaning up...${RESET}${TITLE}"
 		Output sudo diskutil repairPermissions /
-		Output sudo discoveryutil mdnsflushcache; sudo discoveryutil udnsflushcaches
 		Output sudo /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain user
 		Output sudo mdutil -E /
-		echo -e "${RESET}${TITLE}${BOLD}Mac has been cleaned."
+		echo -e "${RESET}${TITLE}${BOLD} Mac has been cleaned"
 		echo -e "${PROMPTSTYLE}${BOLD}"
 		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
 		SCRIPTLAYOUT
 	elif [[ $input == '4' ]]; then
 		CLEANMAC
-	elif [[ $input == '5' ]]; then
-		if [[ $HOMEUSER == 'YES' ]]; then
-			while true; do
-				WINDOWBAR
-				echo -e "${RESET}${TITLE}${BOLD}Reset"
-				echo -e "${RESET}${BODY}Reset App Settings................(1)"
-				echo -e "${RESET}${BODY}Reset Color Settings..............(2)"
-				echo -e "${RESET}${BODY}Reset All Settings................(3)"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                           Enter your option here: "
-				read -n 1 input
-				if [[ $input == '1' ]]; then
-					CLEANED="TRUE"
-					echo -e ""
-					echo -e "${RESET}${TITLE}${BOLD}Clearing Settings...${RESET}${TITLE}"
-					DELETEMODES
-					Output sudo rm -R "$SCRIPTPATHMAIN/.launchall"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.launchonce"
-					sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
-					sudo cp -R "$SCRIPTPATHMAIN/normallaunch/normal.wflow" /Applications/macOS\ Creator.app/Contents/document.wflow
-					echo -e "${RESET}${TITLE}${BOLD}Settings have been reset."
-					echo -e ""
-					echo -n "${RESET}${TITLE}Press any key to restart... "
-					read -n 1
-					echo -e "${RESET}"
-					"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
-				elif [[ $input == '2' ]]; then
-					CLEANED="TRUE"
-					echo -e ""
-					echo -e "${RESET}${TITLE}${BOLD}Clearing Settings...${RESET}${TITLE}"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.defaultbluesetting"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.desertsandssetting"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.forestgreensetting"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.classicsetting"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.colorm1setting"
-					echo -e "${RESET}${DEFAULTBLUE}${BOLD}Color settings have been reset."
-					echo -e ""
-					echo -n -e "${RESET}${DEFAULTBLUE}Press any key to restart... "
-					read -n 1
-					if [[ $APPLESILICONE == "YES" ]]; then
-						COLORM1
-					else
-						COLORBLUE
-					fi
-				elif [[ $input == '3' ]]; then
-					CLEANED="TRUE"
-					echo -e ""
-					echo -e "${RESET}${TITLE}${BOLD}Resetting...${RESET}${TITLE}"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.defaultbluesetting"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.desertsandssetting"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.forestgreensetting"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.classicsetting"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.colorm1setting"
-					DELETEMODES
-					Output sudo rm -R "$SCRIPTPATHMAIN/.launchall"
-					Output sudo rm -R "$SCRIPTPATHMAIN/.launchonce"
-					sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
-					sudo cp -R "$SCRIPTPATHMAIN/normallaunch/normal.wflow" /Applications/macOS\ Creator.app/Contents/document.wflow
-					echo -e "${RESET}${DEFAULTBLUE}${BOLD}All settings have been reset to default."
-					echo -e ""
-					echo -n -e "${RESET}${DEFAULTBLUE}Press any key to restart... "
-					read -n 1
-					cd "$SCRIPTPATHMAIN"
-					sed -i '' '7889s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
-					if [[ $APPLESILICONE == "YES" ]]; then
-						COLORM1
-					else
-						COLORBLUE
-					fi
-				elif [[ $input == 'q' || $input == 'Q' ]]; then
-					SCRIPTLAYOUT
-				elif [[ $input == 'w' || $input == 'W' ]]; then
-					break
-				elif [[ $input == '?' || $input == '/' ]]; then
-					HELPRESET
-				elif [[ $input == '' ]]; then
-					WINDOWBAREND
-				else
-					WINDOWERROR
-				fi
-			done
-		else
-			WINDOWERROR
-		fi
 	elif [[ $input == 'q' || $input == 'Q' ]]; then
 		SCRIPTLAYOUT
 	elif [[ $input == 'w' || $input == 'W' ]]; then
@@ -599,10 +512,97 @@ CLEANUP()
 	fi
 	done
 }
+RESETSCRIPT()
+{
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${TITLE}${BOLD}                                      Reset"
+		echo -e "${RESET}${BODY}                    Reset App Settings...................(1)"
+		echo -e "${RESET}${BODY}                    Reset Color Settings.................(2)"
+		echo -e "${RESET}${BODY}                    Reset All Settings...................(3)"
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "                           Enter your option here: "
+		read -n 1 input
+		if [[ $input == '1' ]]; then
+			CLEANED="TRUE"
+			echo -e ""
+			echo -e ""
+			echo -e "${RESET}${TITLE}${BOLD}                               Clearing Settings...${RESET}${TITLE}"
+			DELETEMODES
+			Output sudo rm -R "$SCRIPTPATHMAIN/.launchall"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.launchonce"
+			Output sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
+			Output sudo cp -R "$SCRIPTPATHMAIN/normallaunch/normal.wflow" /Applications/macOS\ Creator.app/Contents/document.wflow
+			echo -e "${RESET}${TITLE}${BOLD}                           App settings have been reset"
+			echo -e ""
+			echo -e -n "${RESET}${TITLE} Press any key to restart... "
+			read -n 1
+			echo -e "${RESET}"
+			"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
+		elif [[ $input == '2' ]]; then
+			CLEANED="TRUE"
+			echo -e ""
+			echo -e ""
+			echo -e "${RESET}${TITLE}${BOLD}                               Clearing Settings...${RESET}${TITLE}"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.defaultbluesetting"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.desertsandssetting"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.forestgreensetting"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.classicsetting"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.colorm1setting"
+			echo -e "${RESET}${DEFAULTBLUE}${BOLD}                          Color settings have been reset"
+			echo -e ""
+			echo -n -e "${RESET}${DEFAULTBLUE}                           Press any key to restart... "
+			read -n 1
+			if [[ $APPLESILICONE == "YES" ]]; then
+				COLORM1
+			else
+				COLORBLUE
+			fi
+		elif [[ $input == '3' ]]; then
+			CLEANED="TRUE"
+			echo -e ""
+			echo -e ""
+			echo -e "${RESET}${TITLE}${BOLD}                                   Resetting...${RESET}${TITLE}"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.defaultbluesetting"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.desertsandssetting"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.forestgreensetting"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.classicsetting"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.colorm1setting"
+			DELETEMODES
+			Output sudo rm -R "$SCRIPTPATHMAIN/.launchall"
+			Output sudo rm -R "$SCRIPTPATHMAIN/.launchonce"
+			Output sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
+			Output sudo cp -R "$SCRIPTPATHMAIN/normallaunch/normal.wflow" /Applications/macOS\ Creator.app/Contents/document.wflow
+			echo -e "${RESET}${DEFAULTBLUE}${BOLD}                      All settings have been reset to default"
+			echo -e ""
+			echo -n -e "${RESET}${DEFAULTBLUE}                           Press any key to restart... "
+			read -n 1
+			cd "$SCRIPTPATHMAIN"
+			sed -i '' '7889s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
+			sed -i '' '7888s/FALSE/TRUE/' macOS\ Creator.command
+			if [[ $APPLESILICONE == "YES" ]]; then
+				COLORM1
+			else
+				COLORBLUE
+			fi
+		elif [[ $input == 'q' || $input == 'Q' ]]; then
+			SCRIPTLAYOUT
+		elif [[ $input == 'w' || $input == 'W' ]]; then
+			break
+		elif [[ $input == '?' || $input == '/' ]]; then
+			HELPRESET
+		elif [[ $input == '' ]]; then
+			WINDOWBAREND
+		else
+			WINDOWERROR
+		fi
+	done
+}
 CLEANMAC()
 {
 	echo -e ""
-	echo -e "${RESET}${TITLE}${BOLD}Cleaning up...${RESET}${TITLE}"
+	echo -e ""
+	echo -e "${RESET}${TITLE}${BOLD}                                 Cleaning up...${RESET}${TITLE}"
 	Output sudo rm -R /private/tmp/InstallAssistant.pkg
 	Output sudo rm -R /private/tmp/InstallmacOS.dmg
 	Output sudo rm -R /private/tmp/InstallmacOS.iso
@@ -622,7 +622,6 @@ CLEANMAC()
 	Output sudo rm -R /Applications/Install\ Mac\ OS\ X\ Lion.app
 	Output sudo rm -R /Applications/Install\ OS\ X\ Mountain\ Lion.app
 	Output sudo diskutil repairPermissions /
-	Output sudo discoveryutil mdnsflushcache; sudo discoveryutil udnsflushcaches
 	Output sudo /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain user
 	Output sudo mdutil -E /
 	if [[ $HOMEUSER == 'YES' ]]; then
@@ -633,7 +632,7 @@ CLEANMAC()
 		Output sudo rm -R "$SCRIPTPATHMAIN/.classicsetting"
 		Output sudo rm -R "$SCRIPTPATHMAIN/.colorm1setting"
 	fi
-	echo -e "${RESET}${TITLE}${BOLD}Mac has been completely cleaned."
+	echo -e "${RESET}${TITLE}${BOLD}                         Mac has been completely cleaned"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
@@ -1126,9 +1125,6 @@ HELPCLEAN()
 	echo -e "2) Removes macOS Installers inside of your Applications folder."
 	echo -e "3) Cleans up your Mac if files were tempered with during operation."
 	echo -e "4) Runs all three of these commands."
-	if [[ $HOMEUSER == 'YES' ]]; then
-		echo -e "5) Resets all settings to default."
-	fi
 	echo -e ""
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
@@ -1175,6 +1171,7 @@ HELPSETTINGS()
 	echo -e "Clean up lets you clean any extra files that were made during the operation."
 	if [[ $HOMEUSER == 'YES' ]]; then
 		echo -e "App configuration determines how the app launches the script."
+		echo -e "Reset allows you to reset certain settings back to their default."
 	fi
 	echo -e ""
 	echo -e "Press (Q) to return to the Home Menu"
@@ -4333,16 +4330,16 @@ CHANGECOLORS()
 					fi
 					echo -e ""
 					echo -e "${RESET}$APPLECHIP"
-					echo -e "   ${RESET}${DEFAULTBLUE}Default Blue...........................................................(2)"
-					echo -e "   ${RESET}${DESERT}Desert Sands...........................................................(3)"
-					echo -e "   ${RESET}${FOREST}Forest Green...........................................................(4)"
-					echo -e "   ${RESET}${CINNAMON}Cinnamon Apple.........................................................(5)"
+					echo -e "      ${RESET}${DEFAULTBLUE}Default Blue.....................................................(2)"
+					echo -e "      ${RESET}${DESERT}Desert Sands.....................................................(3)"
+					echo -e "      ${RESET}${FOREST}Forest Green.....................................................(4)"
+					echo -e "      ${RESET}${CINNAMON}Cinnamon Apple...................................................(5)"
 					echo -e "${RESET}${CLASSICBLACK}$CLASSICBLACKBW"
 					echo -e ""
 					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 						echo -e "${RESET}${TITLE}You can change these colors at any point from Settings."
 					else
-						echo -e "${RESET}${TITLE}   Current color:${APP}${BOLD} $SETTINGCOLOR"
+						echo -e "${RESET}${TITLE}      Current color:${APP}${BOLD} $SETTINGCOLOR"
 					fi
 					if [[ ! $ENTERHERE == 'TRUE' ]]; then
 						echo -e ""
@@ -4418,16 +4415,16 @@ CHANGECOLORS()
 						echo -e "${RESET}${TITLE}${BOLD}                         Choose the color style you like"
 					fi
 					echo -e ""
-					echo -e "   ${RESET}${DEFAULTBLUE}Default Blue...........................................................(1)"
-					echo -e "   ${RESET}${DESERT}Desert Sands...........................................................(2)"
-					echo -e "   ${RESET}${FOREST}Forest Green...........................................................(3)"
-					echo -e "   ${RESET}${CINNAMON}Cinnamon Apple.........................................................(4)"
+					echo -e "      ${RESET}${DEFAULTBLUE}Default Blue.....................................................(1)"
+					echo -e "      ${RESET}${DESERT}Desert Sands.....................................................(2)"
+					echo -e "      ${RESET}${FOREST}Forest Green.....................................................(3)"
+					echo -e "      ${RESET}${CINNAMON}Cinnamon Apple...................................................(4)"
 					echo -e "${RESET}${CLASSICBLACK}$CLASSICBLACKBW"
 					echo -e ""
 					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 						echo -e "${RESET}${TITLE}             You can change these colors at any point from Settings"
 					else
-						echo -e "${RESET}${TITLE}   Current color:${APP}${BOLD} $SETTINGCOLOR"
+						echo -e "${RESET}${TITLE}      Current color:${APP}${BOLD} $SETTINGCOLOR"
 					fi
 					if [[ ! $ENTERHERE == 'TRUE' ]]; then
 						echo -e ""
@@ -5098,12 +5095,13 @@ SETTINGSMENU()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Settings"
-		echo -e "${RESET}${BODY}Change Colors........................(1)"
-		echo -e "${RESET}${BODY}Advanced Mode........................(2)"
-		echo -e "${RESET}${BODY}Clean up.............................(3)"
+		echo -e "${RESET}${TITLE}${BOLD}                                    Settings"
+		echo -e "${RESET}${BODY}                    Change Colors........................(1)"
+		echo -e "${RESET}${BODY}                    Advanced Mode........................(2)"
+		echo -e "${RESET}${BODY}                    Clean up.............................(3)"
 		if [[ $HOMEUSER = 'YES' ]]; then
-			echo -e "${RESET}${BODY}App configuration....................(4)"
+			echo -e "${RESET}${BODY}                    App configuration....................(4)"
+			echo -e "${RESET}${BODY}                    Reset................................(5)"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "                           Enter your option here: "
@@ -5118,6 +5116,12 @@ SETTINGSMENU()
 			if [[ $HOMEUSER = 'YES' ]]; then
 				APPLY="YES"
 				APPCONFIG
+			else
+				WINDOWERROR
+			fi
+		elif [[ $input == '5' ]]; then
+			if [[ $HOMEUSER = 'YES' ]]; then
+				RESETSCRIPT
 			else
 				WINDOWERROR
 			fi
