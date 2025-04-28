@@ -300,7 +300,7 @@ WINDOWBAR()
 	if [[ $GRAPHICSSAFE == 'YES' ]]; then
 		clear
 		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                     macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                    macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
 		elif [[ $verbose == '1' ]]; then
 			echo -e "${APP}${BOLD}                           macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
 		elif [[ $safe == '1' || $safe == '2' ]]; then
@@ -312,9 +312,9 @@ WINDOWBAR()
 	else
 		clear
 		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                     macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                    macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
 		elif [[ $verbose == '1' ]]; then
-			echo -e "${APP}${BOLD}                           macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                          macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
 		elif [[ $safe == '1' || $safe == '2' ]]; then
 			echo -e "${APP}${BOLD}                         macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Safe Mode)${APP}${BOLD}"
 		else
@@ -352,7 +352,7 @@ WINDOWERROR()
 WINDOWERRORDRIVE()
 {
 	echo -e "${RESET}${ERROR}${BOLD}"
-	echo -n "This is not a valid drive. Press any key to try again... "
+	echo -n "           This is not a valid drive. Press any key to try again... "
 	read -n 1
 	echo -e "${RESET}"
 }
@@ -2085,7 +2085,7 @@ FINDDRIVE()
 						else
 							echo -e ""
 							echo -e ""
-							echo -e -n "${RESET}${ERROR}${BOLD}This is not a valid drive. Press any key to try again... "
+							echo -e -n "${RESET}${ERROR}${BOLD}           This is not a valid drive. Press any key to try again... "
 							read -n 1
 							echo -e ""
 							FINDDRIVE
@@ -2102,10 +2102,11 @@ PROVIDEDRIVE()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}Please drag the drive from the Finder into this window:"
-		echo -e "${RESET}${WARNING}${BOLD}WARNING! All data on the drive will be lost!"
+		echo -e "${RESET}${TITLE}${BOLD}                    Choose the drive to create the installer"
+		echo -e "       Please drag the drive into this window and press the return key... "
+		echo -e "${RESET}${WARNING}${BOLD}                  WARNING! All data on the drive will be lost!"
 		echo -e "${RESET}${BODY}"
-		read -p "Drive path: " installer_volume_path
+		read -p " Drive path: " installer_volume_path
 		if [[ $installer_volume_path = '' ]]; then
 			WINDOWBAREND
 		elif [[ $installer_volume_path = '?' || $installer_volume_path = '/' ]]; then
@@ -2159,7 +2160,7 @@ OSDRIVECREATION()
 		sleep 2
 		clear
 		echo -e ""
-		echo -e "${RESET}${ERROR}${BOLD}The script has encountered an error... ${RESET}"
+		echo -e "${RESET}${ERROR}${BOLD}The script has encountered an error. Refer to GitHub for more information${RESET}"
 		echo -e ""
 		exit
 	fi
@@ -3287,33 +3288,14 @@ DOWNLOADMACOS()
 				DOWNLOADELCAPITAN
 			fi
 		elif [[ "$input" == '4' || "$input" == '10.12' || "$input" == 'Sierra' || "$input" == 'sierra' ]]; then
-			if [[ $APPLESILICONE == 'YES' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
-				echo -e "${ERROR}Currently you cannot install macOS Sierra with this Mac."
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			fi
-			if [[ $MACOSVERSION == '10.7' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Sierra."
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			else
+			echo -e ""
+			echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra"
+			echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
+			read -n 1 input
+			if [[ $input == 's' || $input == 'S' ]]; then
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra"
-				echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
-				read -n 1 input
-				if [[ $input == 's' || $input == 'S' ]]; then
-					echo -e ""
-				else
-					DOWNLOADSIERRA
-				fi
+			else
+				DOWNLOADSIERRA
 			fi
 		elif [[ "$input" == '5' || "$input" == '10.13' || "$input" == 'High Sierra' || "$input" == 'high sierra' || "$input" == 'High sierra' || "$input" == 'high Sierra' ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
@@ -4707,11 +4689,11 @@ ADVANCEDMODE()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Advanced Mode"
-		echo -e "${RESET}${BODY}Start Normally..............................(1)"
-		echo -e "${RESET}${BODY}Start in Verbose Mode.......................(2)"
-		echo -e "${RESET}${BODY}Start in Safe Mode..........................(3)"
-		echo -e "${RESET}${BODY}Start in Verbose & Safe Mode................(4)"
+		echo -e "${RESET}${TITLE}${BOLD}                                  Advanced Mode"
+		echo -e "${RESET}${BODY}                    Start Normally.......................(1)"
+		echo -e "${RESET}${BODY}                    Start in Verbose Mode................(2)"
+		echo -e "${RESET}${BODY}                    Start in Safe Mode...................(3)"
+		echo -e "${RESET}${BODY}                    Start in Verbose & Safe Mode.........(4)"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "                           Enter your option here: "
 		read -n 1 input
@@ -4872,48 +4854,48 @@ APPCONFIG()
 ADJUSTVERBOSE()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}Adjusting the App... "
+	echo -e "${RESET}${TITLE}${BOLD}                              Adjusting the App... "
 	echo -e "${RESET}${TITLE}"
 	sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
 	sudo cp -R verbose.wflow /Applications/macOS\ Creator.app/Contents/document.wflow
 	echo -e "${RESET}${TITLE}"
-	echo -n "Please quit the script for changes to take affect... "
+	echo -n "              Please quit the script for changes to take effect... "
 	read -n 1
 	SCRIPTLAYOUT
 }
 ADJUSTSAFE()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}Adjusting the App... "
+	echo -e "${RESET}${TITLE}${BOLD}                              Adjusting the App... "
 	echo -e "${RESET}${TITLE}"
 	sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
 	sudo cp -R safe.wflow /Applications/macOS\ Creator.app/Contents/document.wflow
 	echo -e "${RESET}${TITLE}"
-	echo -n "Please quit the script for changes to take affect... "
+	echo -n "              Please quit the script for changes to take effect... "
 	read -n 1
 	SCRIPTLAYOUT
 }
 ADJUSTVERBOSESAFE()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}Adjusting the App... "
+	echo -e "${RESET}${TITLE}${BOLD}                              Adjusting the App... "
 	echo -e "${RESET}${TITLE}"
 	sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
 	sudo cp -R verbosesafe.wflow /Applications/macOS\ Creator.app/Contents/document.wflow
 	echo -e "${RESET}${TITLE}"
-	echo -n "Please quit the script for changes to take affect... "
+	echo -n "              Please quit the script for changes to take effect... "
 	read -n 1
 	SCRIPTLAYOUT
 }
 ADJUSTNORMAL()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}Adjusting the App... "
+	echo -e "${RESET}${TITLE}${BOLD}                              Adjusting the App... "
 	echo -e "${RESET}${TITLE}"
 	sudo rm -R /Applications/macOS\ Creator.app/Contents/document.wflow
 	sudo cp -R normal.wflow /Applications/macOS\ Creator.app/Contents/document.wflow
 	echo -e "${RESET}${TITLE}"
-	echo -n "Please quit the script for changes to take affect... "
+	echo -n "              Please quit the script for changes to take effect... "
 	read -n 1
 	SCRIPTLAYOUT
 }
@@ -7696,7 +7678,7 @@ ESMDRIVE()
 		else
 			if [[ ! "$drivepath" == */Volumes/* ]]; then
 				echo ""
-				echo -n "This is not a valid drive. Press any key to try again... "
+				echo -n "           This is not a valid drive. Press any key to try again... "
 				read -n 1
 			else
 				if [[ "$apppath" == *Mountain* ]]; then
