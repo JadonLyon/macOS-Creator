@@ -4742,21 +4742,22 @@ ADVANCEDMODE()
 }
 APPCONFIG()
 {
-	if [[ ! -d /Applications/macOS\ Creator.app ]]; then
+	if [[ -d /Applications/macOS\ Creator.app ]]; then
 		WINDOWBAR
-		echo -e "${RESET}${ERROR}${BOLD}The app cannot be found, please reinstall it."
+		echo -e "${RESET}${ERROR}${BOLD}                  The app cannot be found, please reinstall it"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Press any key to go back... "
+		echo -n "                          Press any key to go back... "
 		read -n 1
 		break
 	fi
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}App configuration"
-		echo -e "${RESET}${BODY}Adjust how script launches................(1)"
-		echo -e "${RESET}${BODY}Adjust script advanced mode...............(2)"
+		echo -e "${RESET}${TITLE}${BOLD}                                App configuration"
+		echo -e "${RESET}${BODY}                    Adjust how script launches...........(1)"
+		echo -e "${RESET}${BODY}                    Adjust script advanced mode..........(2)"
 		if [[ $APPLY == 'NO' ]]; then
-			echo -e "${RESET}${TITLE}Press the S key to apply..."
+			echo -e ""
+			echo -e "${RESET}${TITLE}                            Press the S key to apply"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "                           Enter your option here: "
@@ -4764,9 +4765,9 @@ APPCONFIG()
 		if [[ $input == '1' ]]; then
 			while true; do
 				WINDOWBAR
-				echo -e "${RESET}${TITLE}${BOLD}App configuration"
-				echo -e "${RESET}${BODY}Launch script as terminal command (Default).....................(1)"
-				echo -e "${RESET}${BODY}Launch script as one time only (Advanced Mode is disabled)......(2)"
+				echo -e "${RESET}${TITLE}${BOLD}                                App configuration"
+				echo -e "${RESET}${BODY}       Launch script as terminal command (Default)....................(1)"
+				echo -e "${RESET}${BODY}       Launch script as one time only (Advanced Mode is disabled).....(2)"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                           Enter your option here: "
 				read -n 1 input
@@ -4793,11 +4794,11 @@ APPCONFIG()
 		elif [[ $input == '2' ]]; then
 			while true; do
 				WINDOWBAR
-				echo -e "${RESET}${TITLE}${BOLD}App configuration"
-				echo -e "${RESET}${BODY}Launch normally (Default).................(1)"
-				echo -e "${RESET}${BODY}Launch in Verbose Mode....................(2)"
-				echo -e "${RESET}${BODY}Launch in Safe Mode.......................(3)"
-				echo -e "${RESET}${BODY}Launch in Verbose & Safe Mode.............(4)"
+				echo -e "${RESET}${TITLE}${BOLD}                                App configuration"
+				echo -e "${RESET}${BODY}                    Launch normally (Default)............(1)"
+				echo -e "${RESET}${BODY}                    Launch in Verbose Mode...............(2)"
+				echo -e "${RESET}${BODY}                    Launch in Safe Mode..................(3)"
+				echo -e "${RESET}${BODY}                    Launch in Verbose & Safe Mode........(4)"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                           Enter your option here: "
 				read -n 1 input
@@ -4833,7 +4834,7 @@ APPCONFIG()
 			if [[ $APPLY == 'NO' ]]; then
 				echo -e ""
 				echo -e "${RESET}${WARNING}"
-				echo -e "You have not applied these settings. Do you want to apply them now?"
+				echo -e -n "     You have not applied these settings. Do you want to apply them now? "
 				read -n 1 input
 				if [[ $input == 'y' || $input == 'Y' ]]; then
 					APPLYMODES
@@ -4849,7 +4850,7 @@ APPCONFIG()
 			if [[ $APPLY == 'NO' ]]; then
 				echo -e ""
 				echo -e "${RESET}${WARNING}"
-				echo -e "You have not applied these settings. Do you want to apply them now?"
+				echo -e -n "     You have not applied these settings. Do you want to apply them now? "
 				read -n 1 input
 				if [[ $input == 'y' || $input == 'Y' ]]; then
 					APPLYMODES
