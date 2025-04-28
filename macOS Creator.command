@@ -1243,7 +1243,8 @@ HELPAPP()
 APPLICATIONSCREATE()
 {
 	echo -e ""
-	echo -e "${TITLE}${BOLD}                      Searching for valid macOS Installers...${RESET}"
+	echo -e ""
+	echo -e "${RESET}${TITLE}                     Searching for valid macOS Installers...${RESET}"
 	if [[ -d /Applications/Install\ macOS\ Sequoia.app ]]; then
 		OSSEQUOIA
 	elif [[ -d /Applications/Install\ macOS\ Sonoma.app ]]; then
@@ -1273,6 +1274,7 @@ APPLICATIONSCREATE()
 	elif [[ -d /Applications/Install\ Mac\ OS\ X\ Lion.app ]]; then
 		OSL
 	else
+		sleep .4
 		OSNONE
 	fi
 }
@@ -1396,7 +1398,7 @@ OSHIGHSIERRA()
 		if [[ $MACOSVERSION == '10.7' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running Mac OS X Lion${RESET}"
+			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS High Sierra."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
@@ -1441,7 +1443,7 @@ OSMOJAVE()
 		if [[ $MACOSVERSION == '10.7' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running Mac OS X Lion${RESET}"
+			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Mojave."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
@@ -1486,7 +1488,7 @@ OSCATALINA()
 		if [[ $MACOSVERSION == '10.7' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running Mac OS X Lion${RESET}"
+			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
@@ -1495,7 +1497,7 @@ OSCATALINA()
 		elif [[ $MACOSVERSION == '10.8' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Mountain Lion${RESET}"
+			echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
 			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
@@ -1530,8 +1532,8 @@ OSBIGSUR()
 		if [[ $MACOSVERSION == '10.7' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running Mac OS X Lion${RESET}"
-			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
+			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+			echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Big Sur"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1539,8 +1541,8 @@ OSBIGSUR()
 		elif [[ $MACOSVERSION == '10.8' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Mountain Lion${RESET}"
-			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
+			echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+			echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Big Sur"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1574,8 +1576,8 @@ OSMONTEREY()
 		if [[ $MACOSVERSION == '10.7' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running Mac OS X Lion${RESET}"
-			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
+			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+			echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1583,8 +1585,8 @@ OSMONTEREY()
 		elif [[ $MACOSVERSION == '10.8' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Mountain Lion${RESET}"
-			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
+			echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+			echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1618,8 +1620,8 @@ OSVENTURA()
 		if [[ $MACOSVERSION == '10.7' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running Mac OS X Lion${RESET}"
-			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+			echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1627,8 +1629,8 @@ OSVENTURA()
 		elif [[ $MACOSVERSION == '10.8' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Mountain Lion${RESET}"
-			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+			echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+			echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1636,8 +1638,8 @@ OSVENTURA()
 		elif [[ $MACOSVERSION == '10.9' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Mavericks${RESET}"
-			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+			echo -e "                       This Mac is running OS X Mavericks${RESET}"
+			echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1645,8 +1647,8 @@ OSVENTURA()
 		elif [[ $MACOSVERSION == '10.10' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Yosemite${RESET}"
-			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+			echo -e "                       This Mac is running OS X Yosemite${RESET}"
+			echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1654,8 +1656,8 @@ OSVENTURA()
 		elif [[ $MACOSVERSION == '10.11' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X El Capitan${RESET}"
-			echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+			echo -e "                      This Mac is running OS X El Capitan${RESET}"
+			echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1689,8 +1691,8 @@ OSSONOMA()
 		if [[ $MACOSVERSION == '10.7' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running Mac OS X Lion${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1698,8 +1700,8 @@ OSSONOMA()
 		elif [[ $MACOSVERSION == '10.8' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Mountain Lion${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+			echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1707,8 +1709,8 @@ OSSONOMA()
 		elif [[ $MACOSVERSION == '10.9' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Mavericks${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+			echo -e "                       This Mac is running OS X Mavericks${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1716,8 +1718,8 @@ OSSONOMA()
 		elif [[ $MACOSVERSION == '10.10' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Yosemite${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+			echo -e "                       This Mac is running OS X Yosemite${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1725,8 +1727,8 @@ OSSONOMA()
 		elif [[ $MACOSVERSION == '10.11' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X El Capitan${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+			echo -e "                      This Mac is running OS X El Capitan${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1734,8 +1736,8 @@ OSSONOMA()
 		elif [[ $MACOSVERSION == '10.12' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running macOS Sierra${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+			echo -e "                        This Mac is running macOS Sierra${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1769,8 +1771,8 @@ OSSEQUOIA()
 		if [[ $MACOSVERSION == '10.7' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running Mac OS X Lion${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1778,8 +1780,8 @@ OSSEQUOIA()
 		elif [[ $MACOSVERSION == '10.8' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Mountain Lion${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+			echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1787,8 +1789,8 @@ OSSEQUOIA()
 		elif [[ $MACOSVERSION == '10.9' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Mavericks${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+			echo -e "                       This Mac is running OS X Mavericks${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1796,8 +1798,8 @@ OSSEQUOIA()
 		elif [[ $MACOSVERSION == '10.10' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X Yosemite${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+			echo -e "                       This Mac is running OS X Yosemite${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1805,8 +1807,8 @@ OSSEQUOIA()
 		elif [[ $MACOSVERSION == '10.11' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running OS X El Capitan${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+			echo -e "                      This Mac is running OS X El Capitan${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1814,8 +1816,8 @@ OSSEQUOIA()
 		elif [[ $MACOSVERSION == '10.12' ]]; then
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "This Mac is running macOS Sierra${RESET}"
-			echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+			echo -e "                        This Mac is running macOS Sierra${RESET}"
+			echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1887,26 +1889,28 @@ OSL()
 }
 OSNONE()
 {
-	WINDOWBAR
-	echo -e "${RESET}${OSFOUND}${BOLD}                          No macOS versions were found${RESET}${TITLE}"
-	echo -e "                             Press S to search again"
-	echo -e "${PROMPTSTYLE}${BOLD}"
-	echo -n "                           Enter your option here: "
-	read -n 1 input
-	if [[ $input == 's' || $input == 'S' ]]; then
-		echo -e "${RESET}"
-	elif [[ $input == 'q' || $input == 'Q' ]]; then
-		echo -e "${RESET}"
-		SCRIPTLAYOUT
-	elif [[ $input == 'w' || $input == 'W' ]]; then
-		break
-	elif [[ $input == '?' || $input == '/' ]]; then
-		HELPOSNONE
-	elif [[ $input == '' ]]; then
-		WINDOWBAREND
-	else
-		WINDOWERROR
-	fi
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${OSFOUND}${BOLD}                          No macOS versions were found${RESET}${TITLE}"
+		echo -e "                             Press S to search again"
+		echo -e "${PROMPTSTYLE}${BOLD}"
+		echo -n "                           Enter your option here: "
+		read -n 1 input
+		if [[ $input == 's' || $input == 'S' ]]; then
+			APPLICATIONSCREATE
+		elif [[ $input == 'q' || $input == 'Q' ]]; then
+			echo -e "${RESET}"
+			SCRIPTLAYOUT
+		elif [[ $input == 'w' || $input == 'W' ]]; then
+			break 2
+		elif [[ $input == '?' || $input == '/' ]]; then
+			HELPOSNONE
+		elif [[ $input == '' ]]; then
+			WINDOWBAREND
+		else
+			WINDOWERROR
+		fi
+	done
 }
 
 #Get Drive Path
@@ -2933,7 +2937,7 @@ MANUALCREATEVERIFY()
 			fi
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS High Sierra."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
@@ -2958,7 +2962,7 @@ MANUALCREATEVERIFY()
 			fi
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Mojave."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
@@ -2983,7 +2987,7 @@ MANUALCREATEVERIFY()
 			fi
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
@@ -2991,7 +2995,7 @@ MANUALCREATEVERIFY()
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
@@ -3007,16 +3011,16 @@ MANUALCREATEVERIFY()
 		elif [[ "$installpath" == *'Sur.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Big Sur"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Big Sur"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3031,16 +3035,16 @@ MANUALCREATEVERIFY()
 		elif [[ "$installpath" == *'Monterey.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3055,40 +3059,40 @@ MANUALCREATEVERIFY()
 		elif [[ "$installpath" == *'Ventura.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mavericks${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                       This Mac is running OS X Mavericks${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Yosemite${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                       This Mac is running OS X Yosemite${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X El Capitan${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                      This Mac is running OS X El Capitan${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3103,48 +3107,48 @@ MANUALCREATEVERIFY()
 		elif [[ "$installpath" == *'Sonoma.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mavericks${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                       This Mac is running OS X Mavericks${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Yosemite${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                       This Mac is running OS X Yosemite${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X El Capitan${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                      This Mac is running OS X El Capitan${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.12' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running macOS Sierra${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                        This Mac is running macOS Sierra${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3159,48 +3163,48 @@ MANUALCREATEVERIFY()
 		elif [[ "$installpath" == *'Sequoia.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mavericks${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                       This Mac is running OS X Mavericks${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Yosemite${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                       This Mac is running OS X Yosemite${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X El Capitan${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                      This Mac is running OS X El Capitan${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.12' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running macOS Sierra${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                        This Mac is running macOS Sierra${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3309,7 +3313,7 @@ DOWNLOADMACOS()
 			fi
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS High Sierra."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
@@ -3338,7 +3342,7 @@ DOWNLOADMACOS()
 			fi
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Mojave."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
@@ -3367,7 +3371,7 @@ DOWNLOADMACOS()
 			fi
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
@@ -3375,7 +3379,7 @@ DOWNLOADMACOS()
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
 				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
@@ -3395,16 +3399,16 @@ DOWNLOADMACOS()
 		elif [[ "$input" == '8' || "$input" == '11' || "$input" == 'Big Sur' || "$input" == 'big sur' || "$input" == 'Big sur' || "$input" == 'big Sur' ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Big Sur"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Big Sur."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Big Sur"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3423,16 +3427,16 @@ DOWNLOADMACOS()
 		elif [[ "$input" == '12' || "$input" == 'Monterey' || "$input" == 'monterey' ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3451,40 +3455,40 @@ DOWNLOADMACOS()
 		elif [[ "$input" == '13' || "$input" == 'Ventura' || "$input" == 'ventura' ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mavericks${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                       This Mac is running OS X Mavericks${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Yosemite${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                       This Mac is running OS X Yosemite${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X El Capitan${RESET}"
-				echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+				echo -e "                      This Mac is running OS X El Capitan${RESET}"
+				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3503,48 +3507,48 @@ DOWNLOADMACOS()
 		elif [[ "$input" == '14' || "$input" == 'Sonoma' || "$input" == 'sonoma' ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mavericks${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                       This Mac is running OS X Mavericks${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Yosemite${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                       This Mac is running OS X Yosemite${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X El Capitan${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                      This Mac is running OS X El Capitan${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.12' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running macOS Sierra${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+				echo -e "                        This Mac is running macOS Sierra${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3563,48 +3567,48 @@ DOWNLOADMACOS()
 		elif [[ "$input" == '15' || "$input" == 'Sequoia' || "$input" == 'sequoia' ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.9' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Mavericks${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                       This Mac is running OS X Mavericks${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.10' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X Yosemite${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                       This Mac is running OS X Yosemite${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.11' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running OS X El Capitan${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                      This Mac is running OS X El Capitan${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
 				SCRIPTLAYOUT
 			elif [[ $MACOSVERSION == '10.12' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "This Mac is running macOS Sierra${RESET}"
-				echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+				echo -e "                        This Mac is running macOS Sierra${RESET}"
+				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3636,16 +3640,16 @@ DOWNLOADMACOS()
 				if [[ "$input" == '1' || "$input" == '12' || "$input" == 'Monterey' || "$input" == 'monterey' ]]; then
 					if [[ $MACOSVERSION == '10.7' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running Mac OS X Lion${RESET}"
-						echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
+						echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+						echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.8' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Mountain Lion${RESET}"
-						echo -e "${ERROR}You need OS X Mavericks or later to install macOS Monterey."
+						echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+						echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
@@ -3664,40 +3668,40 @@ DOWNLOADMACOS()
 				elif [[ "$input" == '2' || "$input" == '13' || "$input" == 'Ventura' || "$input" == 'ventura' ]]; then
 					if [[ $MACOSVERSION == '10.7' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running Mac OS X Lion${RESET}"
-						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+						echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+						echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.8' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Mountain Lion${RESET}"
-						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+						echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+						echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.9' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Mavericks${RESET}"
-						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+						echo -e "                       This Mac is running OS X Mavericks${RESET}"
+						echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.10' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Yosemite${RESET}"
-						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+						echo -e "                       This Mac is running OS X Yosemite${RESET}"
+						echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.11' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X El Capitan${RESET}"
-						echo -e "${ERROR}You need macOS Sierra or later to install macOS Ventura."
+						echo -e "                      This Mac is running OS X El Capitan${RESET}"
+						echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
@@ -3716,48 +3720,48 @@ DOWNLOADMACOS()
 				elif [[ "$input" == '3' || "$input" == '14' || "$input" == 'Sonoma' || "$input" == 'sonoma' ]]; then
 					if [[ $MACOSVERSION == '10.7' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running Mac OS X Lion${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+						echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.8' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Mountain Lion${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+						echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.9' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Mavericks${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+						echo -e "                       This Mac is running OS X Mavericks${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.10' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Yosemite${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+						echo -e "                       This Mac is running OS X Yosemite${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.11' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X El Capitan${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+						echo -e "                      This Mac is running OS X El Capitan${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.12' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running macOS Sierra${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sonoma."
+						echo -e "                        This Mac is running macOS Sierra${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
@@ -3776,48 +3780,48 @@ DOWNLOADMACOS()
 				elif [[ "$input" == '4' || "$input" == '15' || "$input" == 'Sequoia' || "$input" == 'sequoia' ]]; then
 					if [[ $MACOSVERSION == '10.7' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running Mac OS X Lion${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+						echo -e "                       This Mac is running Mac OS X Lion${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.8' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Mountain Lion${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+						echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.9' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Mavericks${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+						echo -e "                       This Mac is running OS X Mavericks${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.10' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X Yosemite${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+						echo -e "                       This Mac is running OS X Yosemite${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.11' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running OS X El Capitan${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+						echo -e "                      This Mac is running OS X El Capitan${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ $MACOSVERSION == '10.12' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "This Mac is running macOS Sierra${RESET}"
-						echo -e "${ERROR}You need macOS High Sierra or later to install macOS Sequoia."
+						echo -e "                        This Mac is running macOS Sierra${RESET}"
+						echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 						echo -n "                  Press any key to return to the Home Menu... "
 						read -n 1
