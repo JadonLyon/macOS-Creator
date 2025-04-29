@@ -1,0 +1,16 @@
+                                           License Agreement
+
+This script uses an executable file designed by Apple found in almost every macOS Installer. For older OS X Versions, the script simply restores the InstallESD disk image to the USB drive. macOS Sierra modifications DO NOT modify macOS itself; it simply modifies the USB drive required to boot. 
+
+In order for the macOS Creator to find macOS Installers automatically, it must search in your Applications folder. The script was designed to only search for macOS Installers, and your personal apps are not collected. The script also will not delete any personal files, including macOS Installers, without your permission.
+
+The script will collect utility information about your Mac upon launch. Such information includes: Mac Model, macOS Version, chip type, Startup Drive name. This information is used ONLY for drive creation purposes. No information is sent to GitHub, Apple, or Omega Platforms.
+
+Downloading macOS requires an internet connection. The macOS Creator will connect to either Apple or Internet Archive to download macOS. No information is sent to either company.
+
+The script will write hidden files to your Mac in order to preserve settings. These files DO NOT have any purpose besides this. If you wish to remove them, use the Clean Up Tool in the macOS Creator.
+
+This script ABSOLUTELY DOES NOT collect your personal information. All information collected is for utility purposes and is not shared.
+
+
+Last updated: 04:29:2025 1:09 EST

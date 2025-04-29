@@ -8,6 +8,7 @@
 #Release notes:
 #              V6.0 Introduces a new UI, refined colors, and easier texts for a brand-new, much more simplified experience.
 #                   Introduces Tips, where you can see helpful tips during a particular section.
+#                   Introduces a new window: License Agreement.
 #                   Allows you to now choose macOS installer with GUI window.
 #                   Completely redesigns both the First Time Menu and User Guide Menu.
 #                   Changing colors now feels much more fluid and user friendly.
@@ -653,12 +654,12 @@ MAINMENU()
 	echo -e "${CANCEL}                     To show the help menu, press the ${BOLD}? ${RESET}${CANCEL}key${RESET}"
 	echo -e ""
 	echo -e "${TITLE}${BOLD}                            Please choose an option:${RESET}"
-	echo -e "   ${BODY}Search for macOS installer in your Applications folder.................(1)"
-	echo -e "   Manually provide macOS Installer.......................................(2)"
-	echo -e "   Download macOS Installer...............................................(3)"
-	echo -e "   Identify Mac model.....................................................(4)"
-	echo -e "   Review troubleshooting guide...........................................(5)"
-	echo -e "   Settings...............................................................(6)${RESET}"
+	echo -e "     ${BODY}Search for macOS installer in your Applications folder.............(1)"
+	echo -e "     Manually provide macOS Installer...................................(2)"
+	echo -e "     Download macOS Installer...........................................(3)"
+	echo -e "     Identify Mac model.................................................(4)"
+	echo -e "     Review troubleshooting guide.......................................(5)"
+	echo -e "     Settings...........................................................(6)${RESET}"
 	echo -e "${PROMPTSTYLE}${BOLD}"
 	echo -n "                           Enter your option here: "
 }
@@ -685,6 +686,24 @@ CREDITS()
 	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
 }
+LICENSEAGREEMENT()
+{
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${TITLE}${BOLD}                                License Agreement"
+		echo -e ""
+		echo -e "${RESET}${BODY}${BOLD}          By using this software, you agree to this License Agreement:"
+		echo -e "${RESET}${BODY}                     Press (S) to see the License Agreement"
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "                  Press any key to return to the Home Menu... "
+		read -n 1 input
+		if [[ $input == 's' || $input == 'S' ]]; then
+			open -a "TextEdit" "$SCRIPTPATHMAIN/License Agreement.txt"
+		else
+			break
+		fi
+	done
+}
 RELEASENOTES()
 {
 	WINDOWBAR
@@ -693,6 +712,7 @@ RELEASENOTES()
 	echo -e "${RESET}${BODY}• Introduces a new UI, refined colors, and simplified texts.
 • Introduces Tips, where you can see helpful tips during a particular section.
 • Allows you to now choose macOS installer with GUI window.
+• Introduces a new window: License Agreement.
 • Completely redesigns both the First Time Menu and User Guide Menu.
 • Changing colors now feels much more fluid and user friendly.
 • Fixed some issues with macOS Sierra.
@@ -849,6 +869,7 @@ CONTROLS()
 	echo -e " Press the C key to see credits."
 	echo -e " Press the R key to see release notes for this update."
 	echo -e " Press the I key to see Mac information."
+	echo -e " Press the A key to see License Agreement."
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -n "                  Press any key to return to the Home Menu... "
 	read -n 1
@@ -7957,6 +7978,8 @@ SCRIPTLAYOUT()
 				CONTROLS
 			elif [[ $maininput == 'c' || $maininput == 'C' ]]; then
 				CREDITS
+			elif [[ $maininput == 'a' || $maininput == 'A' ]]; then
+				LICENSEAGREEMENT
 			elif [[ $maininput == 'r' || $maininput == 'R' ]]; then
 				RELEASENOTES
 			elif [[ $maininput == 'i' || $maininput == 'I' ]]; then
