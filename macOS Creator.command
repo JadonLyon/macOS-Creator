@@ -1067,6 +1067,7 @@ BETAHELP()
 	echo -e "${RESET}${TITLE}BETA Builds are tools that are still in active development."
 	echo -e "You may or may not notice any issues while using this tool."
 	echo -e "If you do notice issues, you can report them at GitHub."
+	echo -e "This tool WILL NOT obtain the new UI until fully tested."
 	echo -e "Press (Y) to continue."
 	echo -e ""
 	echo -e "Press (Q) to return to the Home Menu"
