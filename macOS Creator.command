@@ -7576,7 +7576,7 @@ ESMOSSEQUOIA()
 	echo "macOS Sequoia was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSSONOMA()
@@ -7585,7 +7585,7 @@ ESMOSSONOMA()
 	echo "macOS Sonoma was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSVENTURA()
@@ -7594,7 +7594,7 @@ ESMOSVENTURA()
 	echo "macOS Ventura was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSMONTEREY()
@@ -7603,7 +7603,7 @@ ESMOSMONTEREY()
 	echo "macOS Monterey was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSBIGSUR()
@@ -7612,7 +7612,7 @@ ESMOSBIGSUR()
 	echo "macOS Big Sur was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSCATALINA()
@@ -7621,7 +7621,7 @@ ESMOSCATALINA()
 	echo "macOS Catalina was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSMOJAVE()
@@ -7630,7 +7630,7 @@ ESMOSMOJAVE()
 	echo "macOS Mojave was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSHIGHSIERRA()
@@ -7639,7 +7639,7 @@ ESMOSHIGHSIERRA()
 	echo "macOS High Sierra was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSSIERRA()
@@ -7648,7 +7648,7 @@ ESMOSSIERRA()
 	echo "macOS Sierra was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSELCAPITAN()
@@ -7657,7 +7657,7 @@ ESMOSELCAPITAN()
 	echo "OS X El Capitan was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSYOSEMITE()
@@ -7666,7 +7666,7 @@ ESMOSYOSEMITE()
 	echo "OS X Yosemite was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSMAVERICKS()
@@ -7675,7 +7675,7 @@ ESMOSMAVERICKS()
 	echo "OS X Mavericks was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSNONE()
@@ -7683,14 +7683,14 @@ ESMOSNONE()
 	ESMWINDOWBAR
 	echo "No Mac OS X Version was found"
 	echo ""
-	echo -n "                  Press any key to return to the Home Menu... "
+	echo -n "Press any key to return to the Home Menu... "
 	read -n 1
 }
 ESMOSL()
 {
 	ESMWINDOWBAR
 	echo "Mac OS X Lion was found"
-	echo "                        Press Y to use this OS Version."
+	echo "Press Y to use this OS Version."
 	echo ""
 	echo -n "Press any other key to go back... "
 	read -n 1 input
@@ -7703,7 +7703,7 @@ ESMOSML()
 {
 	ESMWINDOWBAR
 	echo "OS X Mountain Lion was found"
-	echo "                        Press Y to use this OS Version."
+	echo "Press Y to use this OS Version."
 	echo ""
 	echo -n "Press any other key to go back... "
 	read -n 1 input
@@ -7723,10 +7723,14 @@ ESMDRIVE()
 		read -p "Drive path: " drivepath
 		if [[ "$drivepath" == '' ]]; then
 			ESMWINDOWBAREND
+		elif [[ "$drivepath" == 'q' || "$drivepath" == 'Q' ]]; then
+			ESM
+		elif [[ "$drivepath" == 'w' || "$drivepath" == 'W' ]]; then
+			break
 		else
 			if [[ ! "$drivepath" == */Volumes/* ]]; then
 				echo ""
-				echo -n "           This is not a valid drive. Press any key to try again... "
+				echo -n "This is not a valid drive. Press any key to try again... "
 				read -n 1
 			else
 				if [[ "$apppath" == *Mountain* ]]; then
@@ -7757,7 +7761,7 @@ ESMMLCREATE()
 		echo ""
 		echo "Operation Failed"
 		echo ""
-		echo -n "                  Press any key to return to the Home Menu... "
+		echo -n "Press any key to return to go back... "
 		read -n 1
 		ESM
 	fi
@@ -7781,7 +7785,7 @@ ESMLCREATE()
 		echo ""
 		echo "Operation Failed"
 		echo ""
-		echo -n "                  Press any key to return to the Home Menu... "
+		echo -n "Press any key to return to go back... "
 		read -n 1
 		ESM
 	fi
@@ -7797,6 +7801,10 @@ ESMPROVIDE()
 		read -p "Mac OS X Installer path: " apppath
 		if [[ "$apppath" == '' ]]; then
 			ESMWINDOWBAREND
+		elif [[ "$apppath" == 'q' || "$apppath" == 'Q' ]]; then
+			ESM
+		elif [[ "$apppath" == 'w' || "$apppath" == 'W' ]]; then
+			break
 		elif [[ ! "$apppath" == *Lion* ]]; then
 			echo ""
 			echo -n "This is not a valid Mac OS X Installer. Press any key to try again... "
@@ -7897,7 +7905,7 @@ SCRIPTLAYOUT()
 {
 	if [[ "$MACOSVERSION" == 10.6 ]]; then
 		clear
-		echo "macOS Creator ${RESET}${APP}V6.0${BOLD}"
+		echo "macOS Creator V6.0"
 		echo ""
 		echo "This Mac is running Mac OS X Snow Leopard"
 		echo "You can run this script in ESM (Extended Support Mode)"
@@ -7912,7 +7920,7 @@ SCRIPTLAYOUT()
 		fi
 	elif [[ "$MACOSVERSION" == 10.5 ]]; then
 		clear
-		echo "macOS Creator ${RESET}${APP}V6.0${BOLD}"
+		echo "macOS Creator V6.0"
 		echo ""
 		echo "This Mac is running Mac OS X Leopard"
 		echo "You can run this script in ESM (Extended Support Mode)"
