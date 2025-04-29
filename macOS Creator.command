@@ -1399,7 +1399,7 @@ OSHIGHSIERRA()
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
 			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-			echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS High Sierra."
+			echo -e "${ERROR}        You need OS X Mountain Lion or later to install macOS High Sierra"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1444,7 +1444,7 @@ OSMOJAVE()
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
 			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-			echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Mojave."
+			echo -e "${ERROR}          You need OS X Mountain Lion or later to install macOS Mojave"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1489,7 +1489,7 @@ OSCATALINA()
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
 			echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
+			echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Catalina"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -1498,7 +1498,7 @@ OSCATALINA()
 			echo -e ""
 			echo -e "${RESET}${ERROR}${BOLD}"
 			echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
-			echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
+			echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Catalina"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "                  Press any key to return to the Home Menu... "
 			read -n 1
@@ -2938,7 +2938,7 @@ MANUALCREATEVERIFY()
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS High Sierra."
+				echo -e "${ERROR}        You need OS X Mountain Lion or later to install macOS High Sierra"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -2963,7 +2963,7 @@ MANUALCREATEVERIFY()
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Mojave."
+				echo -e "${ERROR}          You need OS X Mountain Lion or later to install macOS Mojave"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -2988,7 +2988,7 @@ MANUALCREATEVERIFY()
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Catalina"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -2996,7 +2996,7 @@ MANUALCREATEVERIFY()
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Catalina"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3314,7 +3314,7 @@ DOWNLOADMACOS()
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS High Sierra."
+				echo -e "${ERROR}        You need OS X Mountain Lion or later to install macOS High Sierra"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3343,7 +3343,7 @@ DOWNLOADMACOS()
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mountain Lion or later to install macOS Mojave."
+				echo -e "${ERROR}          You need OS X Mountain Lion or later to install macOS Mojave"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3372,7 +3372,7 @@ DOWNLOADMACOS()
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Catalina"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
@@ -3380,7 +3380,7 @@ DOWNLOADMACOS()
 			elif [[ $MACOSVERSION == '10.8' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}You need OS X Mavericks or later to install macOS Catalina."
+				echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Catalina"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				echo -n "                  Press any key to return to the Home Menu... "
 				read -n 1
