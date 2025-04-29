@@ -5175,13 +5175,13 @@ IDMAC()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Identify Mac Model"
-		echo -e "${RESET}${BODY}You can use this tool to identify this Mac or another one"
-		echo -e "Use this tool to determine the latest compatible macOS Version for the Mac."
+		echo -e "${RESET}${TITLE}${BOLD}                               Identify Mac Model"
+		echo -e "    ${RESET}${BODY}${BOLD}Use this tool to determine the latest compatible macOS Version for a Mac"
+		echo -e "                  ${RESET}${BODY}You can identify this Mac or a different one"
 		echo -e ""
-		echo -e "${RESET}${WARNING}${BOLD}WARNING:${RESET}${WARNING} This tool is still in BETA."
+		echo -e "${RESET}${WARNING}${BOLD}                       WARNING:${RESET}${WARNING} This tool is still in BETA"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Do you wish to continue?... "
+		echo -n "                          Do you wish to continue?... "
 		read -n 1 input
 		if [[ "$input" == 'y' || "$input" == 'Y' ]]; then
 			while true; do
@@ -5190,7 +5190,7 @@ IDMAC()
 			echo -e "${BODY}Identify this Mac........................................................(1)"
 			echo -e "${BODY}Identify another Mac.....................................................(2)"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "                           Enter your option here: "
+			echo -n "Enter your option here: "
 			read -n 1 input
 			if [[ "$input" == '1' ]]; then
 				if [[ $MACVERSION == 'MacBook5,1' ]]; then
@@ -6587,7 +6587,7 @@ IDMAC()
 				echo -e "${BODY}Laptop...................................................................(1)"
 				echo -e "Desktop..................................................................(2)"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                           Enter your option here: "
+				echo -n "Enter your option here: "
 				read -n 1 input
 				if [[ "$input" == '1' ]]; then
 					while true; do
@@ -6597,7 +6597,7 @@ IDMAC()
 					echo -e "MacBook Pro..............................................................(2)"
 					echo -e "MacBook Air..............................................................(3)"
 					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "                           Enter your option here: "
+					echo -n "Enter your option here: "
 					read -n 1 input
 					if [[ "$input" == '1' ]]; then
 						while true; do
@@ -6607,7 +6607,7 @@ IDMAC()
 						echo -e "MacBook (Unibody)........................................................(2)"
 						echo -e "MacBook (Retina).........................................................(3)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "                           Enter your option here: "
+						echo -n "Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							while true; do
@@ -6616,14 +6616,14 @@ IDMAC()
 							echo -e "${BODY}Early 2009 / Mid 2009....................................................(1)"
 							echo -e "Late 2009 / Mid 2010.....................................................(2)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                           Enter your option here: "
+							echo -n "Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Early 2009/Mid 2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -6631,7 +6631,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Late 2009/Mid 2010)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -6656,7 +6656,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Aluminum, Late 2008)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT
 						elif [[ "$input" == '3' ]]; then
@@ -6667,14 +6667,14 @@ IDMAC()
 							echo -e "2016.....................................................................(2)"
 							echo -e "2017.....................................................................(3)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                           Enter your option here: "
+							echo -n "Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Retina, 2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -6682,7 +6682,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Retina, 2016)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '3' ]]; then
@@ -6690,7 +6690,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook (Retina, 2017)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -6727,7 +6727,7 @@ IDMAC()
 						echo -e "16-inch Display..........................................................(4)"
 						echo -e "17-inch Display..........................................................(5)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "                           Enter your option here: "
+						echo -n "Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							while true; do
@@ -6736,7 +6736,7 @@ IDMAC()
 							echo -e "${BODY}LCD Display..............................................................(1)"
 							echo -e "Retina Display...........................................................(2)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                           Enter your option here: "
+							echo -n "Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								while true; do
@@ -6746,14 +6746,14 @@ IDMAC()
 								echo -e "2010-2011................................................................(2)"
 								echo -e "2012.....................................................................(3)"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                           Enter your option here: "
+								echo -n "Enter your option here: "
 								read -n 1 input
 								if [[ "$input" == '1' ]]; then
 									WINDOWBAR
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2009)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '2' ]]; then
@@ -6761,7 +6761,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2010-2011)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '3' ]]; then
@@ -6769,7 +6769,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '' ]]; then
@@ -6794,14 +6794,14 @@ IDMAC()
 								echo -e "2017.....................................................................(4)"
 								echo -e "2018 or later............................................................(5)"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                           Enter your option here: "
+								echo -n "Enter your option here: "
 								read -n 1 input
 								if [[ "$input" == '1' ]]; then
 									WINDOWBAR
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012-2013)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '2' ]]; then
@@ -6809,7 +6809,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2013-2014)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '3' ]]; then
@@ -6817,7 +6817,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2015-2016)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '4' ]]; then
@@ -6825,7 +6825,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2017)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '5' ]]; then
@@ -6833,7 +6833,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2018 or later)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '' ]]; then
@@ -6865,7 +6865,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro 14-inch"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT								
 						elif [[ "$input" == '3' ]]; then
@@ -6875,7 +6875,7 @@ IDMAC()
 							echo -e "${BODY}LCD Display..............................................................(1)"
 							echo -e "Retina Display...........................................................(2)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                           Enter your option here: "
+							echo -n "Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								while true; do
@@ -6885,14 +6885,14 @@ IDMAC()
 								echo -e "2010-2011................................................................(2)"
 								echo -e "2012.....................................................................(3)"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                           Enter your option here: "
+								echo -n "Enter your option here: "
 								read -n 1 input
 								if [[ "$input" == '1' ]]; then
 									WINDOWBAR
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2008-2009)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '2' ]]; then
@@ -6900,7 +6900,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2010-2011)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '3' ]]; then
@@ -6908,7 +6908,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '' ]]; then
@@ -6933,14 +6933,14 @@ IDMAC()
 								echo -e "2017.....................................................................(4)"
 								echo -e "2018 or later............................................................(5)"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                           Enter your option here: "
+								echo -n "Enter your option here: "
 								read -n 1 input
 									if [[ "$input" == '1' ]]; then
 									WINDOWBAR
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2012-2013)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '2' ]]; then
@@ -6948,7 +6948,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2013-2014)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '3' ]]; then
@@ -6956,7 +6956,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2015-2016)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '4' ]]; then
@@ -6964,7 +6964,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2017)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '5' ]]; then
@@ -6972,7 +6972,7 @@ IDMAC()
 									echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2018 or later)"
 									echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "                  Press any key to return to the Home Menu... "
+									echo -n "Press any key to return to the Home Menu... "
 									read -n 1
 									SCRIPTLAYOUT								
 								elif [[ "$input" == '' ]]; then
@@ -7004,7 +7004,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro 16-inch"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT								
 						elif [[ "$input" == '5' ]]; then
@@ -7014,14 +7014,14 @@ IDMAC()
 							echo -e "${BODY}2008-2009................................................................(1)"
 							echo -e "2010-2011................................................................(2)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                           Enter your option here: "
+							echo -n "Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2008-2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -7029,7 +7029,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Pro (2010-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -7064,7 +7064,7 @@ IDMAC()
 						echo -e "13-inch Display..........................................................(2)"
 						echo -e "15-inch Display..........................................................(3)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "                           Enter your option here: "
+						echo -n "Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							while true; do
@@ -7075,14 +7075,14 @@ IDMAC()
 							echo -e "2013-2014................................................................(3)"
 							echo -e "2015.....................................................................(4)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                           Enter your option here: "
+							echo -n "Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2010-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -7090,7 +7090,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2012)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '3' ]]; then
@@ -7098,7 +7098,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2013-2014)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '4' ]]; then
@@ -7106,7 +7106,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ $input == '?' || $input == '/' ]]; then
@@ -7133,14 +7133,14 @@ IDMAC()
 							echo -e "2018-2019................................................................(6)"
 							echo -e "2020 or later............................................................(7)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                           Enter your option here: "
+							echo -n "Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -7148,7 +7148,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2010-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '3' ]]; then
@@ -7156,7 +7156,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2012)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '4' ]]; then
@@ -7164,7 +7164,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2013-2014)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '5' ]]; then
@@ -7172,7 +7172,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2015 or 2017)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '6' ]]; then
@@ -7180,7 +7180,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2018-2019)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sonoma ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '7' ]]; then
@@ -7188,7 +7188,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air (2020 or later)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -7208,7 +7208,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is a MacBook Air 15-inch"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT
 						elif [[ "$input" == '' ]]; then
@@ -7244,7 +7244,7 @@ IDMAC()
 					echo -e "Mac Pro..................................................................(3)"
 					echo -e "Mac Studio...............................................................(4)"
 					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "                           Enter your option here: "
+					echo -n "Enter your option here: "
 					read -n 1 input
 					if [[ "$input" == '1' ]]; then
 						while true; do
@@ -7253,7 +7253,7 @@ IDMAC()
 						echo -e "${BODY}iMac.....................................................................(1)"
 						echo -e "iMac Pro.................................................................(2)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "                           Enter your option here: "
+						echo -n "Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							while true; do
@@ -7267,14 +7267,14 @@ IDMAC()
 							echo -e "2017.....................................................................(6)"
 							echo -e "2029 or later............................................................(7)"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                           Enter your option here: "
+							echo -n "Enter your option here: "
 							read -n 1 input
 							if [[ "$input" == '1' ]]; then
 								WINDOWBAR
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2009)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '2' ]]; then
@@ -7282,7 +7282,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2009-2011)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '3' ]]; then
@@ -7290,7 +7290,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2012-2013)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '4' ]]; then
@@ -7298,7 +7298,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2014-2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '5' ]]; then
@@ -7306,7 +7306,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2015)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '6' ]]; then
@@ -7314,7 +7314,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2017)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '7' ]]; then
@@ -7322,7 +7322,7 @@ IDMAC()
 								echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac (2019 or later)"
 								echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "                  Press any key to return to the Home Menu... "
+								echo -n "Press any key to return to the Home Menu... "
 								read -n 1
 								SCRIPTLAYOUT
 							elif [[ "$input" == '' ]]; then
@@ -7342,7 +7342,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an iMac Pro"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '' ]]; then
@@ -7368,14 +7368,14 @@ IDMAC()
 						echo -e "2014.....................................................................(5)"
 						echo -e "2018 or later............................................................(6)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "                           Enter your option here: "
+						echo -n "Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							WINDOWBAR
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2009)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '2' ]]; then
@@ -7383,7 +7383,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2010)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '3' ]]; then
@@ -7391,7 +7391,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2011)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '4' ]]; then
@@ -7399,7 +7399,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2012)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '5' ]]; then
@@ -7407,7 +7407,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2014)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '6' ]]; then
@@ -7415,7 +7415,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2018 or later)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '' ]]; then
@@ -7439,14 +7439,14 @@ IDMAC()
 						echo -e "2013.....................................................................(3)"
 						echo -e "2019 or later............................................................(4)"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "                           Enter your option here: "
+						echo -n "Enter your option here: "
 						read -n 1 input
 						if [[ "$input" == '1' ]]; then
 							WINDOWBAR
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Pro (2009)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '2' ]]; then
@@ -7455,7 +7455,7 @@ IDMAC()
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
 							echo -e "${RESET}${TITLE}If you have a Metal Graphics card: ${BOLD}macOS Mojave ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '3' ]]; then
@@ -7463,7 +7463,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Pro (2013)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '4' ]]; then
@@ -7471,7 +7471,7 @@ IDMAC()
 							echo -e "${RESET}${OSFOUND}${BOLD}This is an Mac Mini (2019 or later)"
 							echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "                  Press any key to return to the Home Menu... "
+							echo -n "Press any key to return to the Home Menu... "
 							read -n 1
 							SCRIPTLAYOUT						
 						elif [[ "$input" == '' ]]; then
@@ -7491,7 +7491,7 @@ IDMAC()
 						echo -e "${RESET}${OSFOUND}${BOLD}This is a Mac Studio"
 						echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
 						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "                  Press any key to return to the Home Menu... "
+						echo -n "Press any key to return to the Home Menu... "
 						read -n 1
 						SCRIPTLAYOUT
 					elif [[ "$input" == '' ]]; then
