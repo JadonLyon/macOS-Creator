@@ -17,12 +17,10 @@
 #                   Fixed hundreds of minor issues to make experience completely refined.
 #
 #
-#
 #                   To see older release notes, go to Github.com
 
 
 #Script
-
 
 #PreRun Commands
 #This step will save temporary commands that will be used later throughout the script
@@ -751,15 +749,15 @@ MACINFO()
 	else
 		if [[ $APPLESILICONE == 'YES' ]]; then
 			if [[ "$APP" == '\033["38;5;0m' || "$APP" == '\033["38;5;255m' ]]; then
-				echo -e "${RESET}${TITLE} • Apple Silicone"
+				echo -e "${RESET}${TITLE} • Chip Type: Apple Silicone"
 			else
-				echo -e "${RESET}${TITLE} • ${BOLD}$APPLECHIPINFO"
+				echo -e "${RESET}${TITLE} • Chip Type: ${BOLD}$APPLECHIPINFO"
 			fi
 		else
 			if [[ "$APP" == '\033["38;5;0m' || "$APP" == '\033["38;5;255m' ]]; then
-				echo -e "${RESET}${TITLE} • Intel Based Mac"
+				echo -e "${RESET}${TITLE} • Chip Type: Intel Based Mac"
 			else
-				echo -e "${RESET}${TITLE} • ${RESET}${DEFAULTBLUE}${BOLD}Intel Based Mac"
+				echo -e "${RESET}${TITLE} • Chip Type: ${RESET}${BOLD}\033[38;5;39mIntel Based Mac"
 			fi
 		fi
 	fi
@@ -768,7 +766,37 @@ MACINFO()
 	else
 		echo -e "${RESET}${TITLE} • Mac model: ${BODY}${BOLD}$MACVERSION ${RESET}${BODY}(Press I for details)"
 	fi
-	echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}$MACOSVERSION"
+	if [[ $MACOSVERSION == '10.7' ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}Mac OS X Lion ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == '10.8' ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}OS X Mountain Lion ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == '10.9' ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}OS X Mavericks ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == '10.10' ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}OS X Yosemite ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == '10.11' ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}OS X El Capitan ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == '10.12' ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Sierra ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == '10.13' ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS High Sierra ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == '10.14' ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Mojave ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == '10.15' ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Catalina ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == *11* ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Big Sur ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == *12* ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Monterey ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == *13* ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Ventura ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == *14* ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Sonoma ${RESET}${BODY}($MACOSVERSION)"
+	elif [[ $MACOSVERSION == *15* ]]; then
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Sequioia ${RESET}${BODY}($MACOSVERSION)"
+	else
+		echo -e "${RESET}${TITLE} • macOS Version:"
+	fi
 	echo -e "${RESET}${TITLE} • Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
 	echo -e ""
 	if [[ $APPLESILICONE == 'YES' ]]; then
