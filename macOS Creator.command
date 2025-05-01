@@ -14,6 +14,7 @@
 #                   Changing colors now feels much more fluid and user friendly.
 #                   Fixed some issues with macOS Sierra.
 #                   Fixed an issue where in Safe mode, script would not list drives.
+#                   Fixed hundreds of minor issues to make experience completely refined.
 #
 #
 #
@@ -716,7 +717,8 @@ RELEASENOTES()
 • Completely redesigns both the First Time Menu and User Guide Menu.
 • Changing colors now feels much more fluid and user friendly.
 • Fixed some issues with macOS Sierra.
-• Fixed an issue where in Safe mode, script would not list drives."
+• Fixed an issue where in Safe mode, script would not list drives.
+• Fixed hundreds of minor issues to make experience completely refined."
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to get started... "
