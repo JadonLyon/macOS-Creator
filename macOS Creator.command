@@ -710,15 +710,15 @@ RELEASENOTES()
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}${BOLD}                     macOS Creator Version 6.0 ${RESET}${TITLE}Release Notes"
 	echo -e ""
-	echo -e "${RESET}${BODY}• Introduces a new UI, refined colors, and simplified texts.
-• Introduces Tips, where you can see helpful tips during a particular section.
-• Allows you to now choose macOS installer with GUI window.
-• Introduces a new window: License Agreement.
-• Completely redesigns both the First Time Menu and User Guide Menu.
-• Changing colors now feels much more fluid and user friendly.
-• Fixed some issues with macOS Sierra.
-• Fixed an issue where in Safe mode, script would not list drives.
-• Fixed hundreds of minor issues to make experience completely refined."
+	echo -e "${RESET}${BODY} • Introduces a new UI, refined colors, and simplified texts.
+ • Introduces Tips, where you can see helpful tips during a particular section.
+ • Allows you to now choose macOS installer with GUI window.
+ • Introduces a new window: License Agreement.
+ • Completely redesigns both the First Time Menu and User Guide Menu.
+ • Changing colors now feels much more fluid and user friendly.
+ • Fixed some issues with macOS Sierra.
+ • Fixed an issue where in Safe mode, script would not list drives.
+ • Fixed hundreds of minor issues to make experience completely refined."
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to get started... "
