@@ -1053,7 +1053,7 @@ HELPOSFOUND()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1067,7 +1067,7 @@ HELPOSFOUNDLEGACY()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1080,7 +1080,7 @@ HELPDRIVE()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1093,7 +1093,7 @@ HELPDRAGDRIVE()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1108,7 +1108,7 @@ HELPOSNONE()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1124,7 +1124,7 @@ BETAHELP()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1137,7 +1137,7 @@ HELPID()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1149,7 +1149,7 @@ HELPIDMAC()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1162,7 +1162,7 @@ HELPMANUAL()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1175,7 +1175,7 @@ HELPCHOOSEMANUAL()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1190,7 +1190,7 @@ HELPCLEAN()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1204,7 +1204,7 @@ HELPRESET()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1220,7 +1220,7 @@ HELPDOWNLOAD()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1238,7 +1238,7 @@ HELPSETTINGS()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1253,7 +1253,7 @@ HELPCOLORS()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1266,7 +1266,7 @@ HELPADVANCED()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1280,7 +1280,7 @@ HELPAPPMAIN()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
@@ -1296,7 +1296,7 @@ HELPAPP()
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
 	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "Press any key to return... "
+	echo -n "                           Press any key to return... "
 	read -n 1
 	echo -e ""
 }
