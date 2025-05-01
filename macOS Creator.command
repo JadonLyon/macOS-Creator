@@ -3278,23 +3278,25 @@ DOWNLOADMACOS()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Downlaod macOS Installer"
-		echo -e "${RESET}"
-		echo -e "${RESET}${BODY}"
-		echo -e "OS X Mavericks.....(1)"
-		echo -e "OS X Yosemite......(2)"
-		echo -e "OS X El Capitan....(3)"
-		echo -e "macOS Sierra.......(4)"
-		echo -e "macOS High Sierra..(5)"
-		echo -e "macOS Mojave.......(6)"
-		echo -e "macOS Catalina.....(7)"
-		echo -e "macOS Big Sur......(8)"
-		echo -e "Next page..........(9)"
+		echo -e "${RESET}${TITLE}${BOLD}                            Downlaod macOS Installer"
+		echo -e "${RESET}${BODY}                                Press S to search"
+		echo -e ""
+		echo -e "                    OS X Mavericks.......................(1)"
+		echo -e "                    OS X Yosemite........................(2)"
+		echo -e "                    OS X El Capitan......................(3)"
+		echo -e "                    macOS Sierra.........................(4)"
+		echo -e "                    macOS High Sierra....................(5)"
+		echo -e "                    macOS Mojave.........................(6)"
+		echo -e "                    macOS Catalina.......................(7)"
+		echo -e "                    macOS Big Sur........................(8)"
+		echo -e "                    macOS Monetery.......................(9)"
+		echo -e "                    Next page............................(E)"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		read -p "                           Enter your option here: " input
-		if [[ "$input" == '1' || "$input" == '10.9' || "$input" == 'Mavericks' || "$input" == 'mavericks' ]]; then
+		echo -n "                           Enter your option here: "
+		read -n 1 input
+		if [[ "$input" == '1' ]]; then
 			echo -e ""
-			echo -e "${RESET}${OSFOUND}${BOLD}OS X Mavericks"
+			echo -e "${RESET}${OSFOUND}${BOLD}                                 OS X Mavericks"
 			echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 			read -n 1 input
 			if [[ $input == 's' || $input == 'S' ]]; then
@@ -3302,9 +3304,9 @@ DOWNLOADMACOS()
 			else
 				DOWNLOADMAVERICKS
 			fi
-		elif [[ "$input" == '2' || "$input" == '10.10' || "$input" == 'Yosemite' || "$input" == 'yosemite' ]]; then
+		elif [[ "$input" == '2' ]]; then
 			echo -e ""
-			echo -e "${RESET}${OSFOUND}${BOLD}OS X Yosemite"
+			echo -e "${RESET}${OSFOUND}${BOLD}                                 OS X Yosemite"
 			echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 			read -n 1 input
 			if [[ $input == 's' || $input == 'S' ]]; then
@@ -3312,9 +3314,9 @@ DOWNLOADMACOS()
 			else
 				DOWNLOADYOSEMITE
 			fi
-		elif [[ "$input" == '3' || "$input" == '10.11' || "$input" == 'El Capitan' || "$input" == 'el capitan' || "$input" == 'El capitan' || "$input" == 'el Capitan' ]]; then
+		elif [[ "$input" == '3' ]]; then
 			echo -e ""
-			echo -e "${RESET}${OSFOUND}${BOLD}OS X El Capitan"
+			echo -e "${RESET}${OSFOUND}${BOLD}                                OS X El Capitan"
 			echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 			read -n 1 input
 			if [[ $input == 's' || $input == 'S' ]]; then
@@ -3322,9 +3324,9 @@ DOWNLOADMACOS()
 			else
 				DOWNLOADELCAPITAN
 			fi
-		elif [[ "$input" == '4' || "$input" == '10.12' || "$input" == 'Sierra' || "$input" == 'sierra' ]]; then
+		elif [[ "$input" == '4' ]]; then
 			echo -e ""
-			echo -e "${RESET}${OSFOUND}${BOLD}macOS Sierra"
+			echo -e "${RESET}${OSFOUND}${BOLD}                                  macOS Sierra"
 			echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 			read -n 1 input
 			if [[ $input == 's' || $input == 'S' ]]; then
@@ -3332,7 +3334,7 @@ DOWNLOADMACOS()
 			else
 				DOWNLOADSIERRA
 			fi
-		elif [[ "$input" == '5' || "$input" == '10.13' || "$input" == 'High Sierra' || "$input" == 'high sierra' || "$input" == 'High sierra' || "$input" == 'high Sierra' ]]; then
+		elif [[ "$input" == '5' ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
@@ -3352,7 +3354,7 @@ DOWNLOADMACOS()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS High Sierra"
+				echo -e "${RESET}${OSFOUND}${BOLD}                               macOS High Sierra"
 				echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 				read -n 1 input
 				if [[ $input == 's' || $input == 'S' ]]; then
@@ -3361,7 +3363,7 @@ DOWNLOADMACOS()
 					DOWNLOADHIGHSIERRA
 				fi
 			fi
-		elif [[ "$input" == '6' || "$input" == '10.14' || "$input" == 'Mojave' || "$input" == 'mojave' ]]; then
+		elif [[ "$input" == '6' ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
@@ -3381,7 +3383,7 @@ DOWNLOADMACOS()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Mojave"
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Mojave"
 				echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 				read -n 1 input
 				if [[ $input == 's' || $input == 'S' ]]; then
@@ -3390,7 +3392,7 @@ DOWNLOADMACOS()
 					DOWNLOADMOJAVE
 				fi
 			fi
-		elif [[ "$input" == '7' || "$input" == '10.15' || "$input" == 'Catalina' || "$input" == 'catalina' ]]; then
+		elif [[ "$input" == '7' ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
@@ -3418,7 +3420,7 @@ DOWNLOADMACOS()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Catalina"
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Catalina"
 				echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 				read -n 1 input
 				if [[ $input == 's' || $input == 'S' ]]; then
@@ -3427,7 +3429,7 @@ DOWNLOADMACOS()
 					DOWNLOADCATALINA
 				fi
 			fi
-		elif [[ "$input" == '8' || "$input" == '11' || "$input" == 'Big Sur' || "$input" == 'big sur' || "$input" == 'Big sur' || "$input" == 'big Sur' ]]; then
+		elif [[ "$input" == '8' ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3446,7 +3448,7 @@ DOWNLOADMACOS()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Big Sur"
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Big Sur"
 				echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 				read -n 1 input
 				if [[ $input == 's' || $input == 'S' ]]; then
@@ -3455,7 +3457,7 @@ DOWNLOADMACOS()
 					DOWNLOADBIGSUR
 				fi
 			fi
-		elif [[ "$input" == '12' || "$input" == 'Monterey' || "$input" == 'monterey' ]]; then
+		elif [[ "$input" == '9' ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3474,7 +3476,7 @@ DOWNLOADMACOS()
 				SCRIPTLAYOUT
 			else
 				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey"
+				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Monterey"
 				echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 				read -n 1 input
 				if [[ $input == 's' || $input == 'S' ]]; then
@@ -3483,220 +3485,19 @@ DOWNLOADMACOS()
 					DOWNLOADMONTEREY
 				fi
 			fi
-		elif [[ "$input" == '13' || "$input" == 'Ventura' || "$input" == 'ventura' ]]; then
-			if [[ $MACOSVERSION == '10.7' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.8' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.9' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                       This Mac is running OS X Mavericks${RESET}"
-				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.10' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                       This Mac is running OS X Yosemite${RESET}"
-				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.11' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                      This Mac is running OS X El Capitan${RESET}"
-				echo -e "${ERROR}            You need macOS Sierra or later to install macOS Ventura"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			else
-				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura"
-				echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
-				read -n 1 input
-				if [[ $input == 's' || $input == 'S' ]]; then
-					echo -e ""
-				else
-					DOWNLOADVENTURA
-				fi
-			fi
-		elif [[ "$input" == '14' || "$input" == 'Sonoma' || "$input" == 'sonoma' ]]; then
-			if [[ $MACOSVERSION == '10.7' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.8' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.9' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                       This Mac is running OS X Mavericks${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.10' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                       This Mac is running OS X Yosemite${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.11' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                      This Mac is running OS X El Capitan${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.12' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                        This Mac is running macOS Sierra${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sonoma"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			else
-				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma"
-				echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
-				read -n 1 input
-				if [[ $input == 's' || $input == 'S' ]]; then
-					echo -e ""
-				else
-					DOWNLOADSONOMA
-				fi
-			fi
-		elif [[ "$input" == '15' || "$input" == 'Sequoia' || "$input" == 'sequoia' ]]; then
-			if [[ $MACOSVERSION == '10.7' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.8' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.9' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                       This Mac is running OS X Mavericks${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.10' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                       This Mac is running OS X Yosemite${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.11' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                      This Mac is running OS X El Capitan${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			elif [[ $MACOSVERSION == '10.12' ]]; then
-				echo -e "${RESET}${ERROR}${BOLD}"
-				echo -e "                        This Mac is running macOS Sierra${RESET}"
-				echo -e "${ERROR}           You need macOS High Sierra or later to install macOS Sequoia"
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "                  Press any key to return to the Home Menu... "
-				read -n 1
-				SCRIPTLAYOUT
-			else
-				echo -e ""
-				echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia"
-				echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
-				read -n 1 input
-				if [[ $input == 's' || $input == 'S' ]]; then
-					echo -e ""
-				else
-					DOWNLOADSEQUOIA
-				fi
-			fi
-		elif [[ "$input" == '9' ]]; then
+		elif [[ "$input" == 'e' || "$input" == 'E' ]]; then
 			while true; do
 				WINDOWBAR
-				echo -e "${RESET}${TITLE}${BOLD}Choose the version of macOS you wish to download... "
-				echo -e "${RESET}${BODY}Press the return key after making a selection."
-				echo -e "${RESET}${BODY}"
-				echo -e "macOS Monterey.....(1)"
-				echo -e "macOS Ventura......(2)"
-				echo -e "macOS Sonoma.......(3)"
-				echo -e "macOS Sequoia......(4)"
-				echo -e "Previous Page......(9)"
+				echo -e "${RESET}${TITLE}${BOLD}                            Downlaod macOS Installer"
+				echo -e "${RESET}${BODY}                                Press S to search"
+				echo -e ""
+				echo -e "                    macOS Ventura........................(1)"
+				echo -e "                    macOS Sonoma.........................(2)"
+				echo -e "                    macOS Sequoia........................(3)"
+				echo -e "                    Previous Page........................(E)"
 				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 				read -p "                           Enter your option here: " input
-				if [[ "$input" == '1' || "$input" == '12' || "$input" == 'Monterey' || "$input" == 'monterey' ]]; then
-					if [[ $MACOSVERSION == '10.7' ]]; then
-						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "                       This Mac is running Mac OS X Lion${RESET}"
-						echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
-						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "                  Press any key to return to the Home Menu... "
-						read -n 1
-						SCRIPTLAYOUT
-					elif [[ $MACOSVERSION == '10.8' ]]; then
-						echo -e "${RESET}${ERROR}${BOLD}"
-						echo -e "                     This Mac is running OS X Mountain Lion${RESET}"
-						echo -e "${ERROR}            You need OS X Mavericks or later to install macOS Monterey"
-						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "                  Press any key to return to the Home Menu... "
-						read -n 1
-						SCRIPTLAYOUT
-					else
-						echo -e ""
-						echo -e "${RESET}${OSFOUND}${BOLD}macOS Monterey"
-						echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
-						read -n 1 input
-						if [[ $input == 's' || $input == 'S' ]]; then
-							echo -e ""
-						else
-							DOWNLOADMONTEREY
-						fi
-					fi
-				elif [[ "$input" == '2' || "$input" == '13' || "$input" == 'Ventura' || "$input" == 'ventura' ]]; then
+				if [[ "$input" == '1' ]]; then
 					if [[ $MACOSVERSION == '10.7' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
 						echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3739,7 +3540,7 @@ DOWNLOADMACOS()
 						SCRIPTLAYOUT
 					else
 						echo -e ""
-						echo -e "${RESET}${OSFOUND}${BOLD}macOS Ventura"
+						echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Ventura"
 						echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 						read -n 1 input
 						if [[ $input == 's' || $input == 'S' ]]; then
@@ -3748,7 +3549,7 @@ DOWNLOADMACOS()
 							DOWNLOADVENTURA
 						fi
 					fi
-				elif [[ "$input" == '3' || "$input" == '14' || "$input" == 'Sonoma' || "$input" == 'sonoma' ]]; then
+				elif [[ "$input" == '2' ]]; then
 					if [[ $MACOSVERSION == '10.7' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
 						echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3799,7 +3600,7 @@ DOWNLOADMACOS()
 						SCRIPTLAYOUT
 					else
 						echo -e ""
-						echo -e "${RESET}${OSFOUND}${BOLD}macOS Sonoma"
+						echo -e "${RESET}${OSFOUND}${BOLD}                                  macOS Sonoma"
 						echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 						read -n 1 input
 						if [[ $input == 's' || $input == 'S' ]]; then
@@ -3808,7 +3609,7 @@ DOWNLOADMACOS()
 							DOWNLOADSONOMA
 						fi
 					fi
-				elif [[ "$input" == '4' || "$input" == '15' || "$input" == 'Sequoia' || "$input" == 'sequoia' ]]; then
+				elif [[ "$input" == '3' ]]; then
 					if [[ $MACOSVERSION == '10.7' ]]; then
 						echo -e "${RESET}${ERROR}${BOLD}"
 						echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3859,7 +3660,7 @@ DOWNLOADMACOS()
 						SCRIPTLAYOUT
 					else
 						echo -e ""
-						echo -e "${RESET}${OSFOUND}${BOLD}macOS Sequoia"
+						echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Sequoia"
 						echo -e -n "${RESET}${TITLE}Press any key to download (Press S to choose a different macOS Version)... "
 						read -n 1 input
 						if [[ $input == 's' || $input == 'S' ]]; then
@@ -3870,12 +3671,10 @@ DOWNLOADMACOS()
 					fi
 				elif [[ $input == 'q' || $input == 'Q' ]]; then
 					SCRIPTLAYOUT
-				elif [[ $input == 'w' || $input == 'W' ]]; then
+				elif [[ $input == 'w' || $input == 'W' || $input == 'e' || $input == 'E' ]]; then
 					break
 				elif [[ $input == '?' || $input == '/' ]]; then
 					HELPDOWNLOAD
-				elif [[ $input == '9' ]]; then
-					break
 				elif [[ $input == '' ]]; then
 					WINDOWBAREND
 				else
