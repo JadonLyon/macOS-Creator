@@ -3278,8 +3278,8 @@ DOWNLOADMACOS()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Choose the version of macOS you wish to download... "
-		echo -e "${RESET}${BODY}Press the return key after making a selection."
+		echo -e "${RESET}${TITLE}${BOLD}Downlaod macOS Installer"
+		echo -e "${RESET}"
 		echo -e "${RESET}${BODY}"
 		echo -e "OS X Mavericks.....(1)"
 		echo -e "OS X Yosemite......(2)"
