@@ -459,7 +459,7 @@ CLEANUP()
 		Output sudo rm -R /private/tmp/InstallmacOS.dmg
 		Output sudo rm -R /private/tmp/InstallmacOS.iso
 		Output sudo rm -R /private/tmp/InstallmacOS.zip
-		echo -e "${RESET}${TITLE}${BOLD} Files have been removed"
+		echo -e "${RESET}${TITLE}${BOLD}                            Files have been removed"
 		echo -e "${PROMPTSTYLE}${BOLD}"
 		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
@@ -494,7 +494,7 @@ CLEANUP()
 		Output sudo diskutil repairPermissions /
 		Output sudo /System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/lsregister -kill -r -domain local -domain user
 		Output sudo mdutil -E /
-		echo -e "${RESET}${TITLE}${BOLD} Mac has been cleaned"
+		echo -e "${RESET}${TITLE}${BOLD}                             Mac has been cleaned"
 		echo -e "${PROMPTSTYLE}${BOLD}"
 		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1
