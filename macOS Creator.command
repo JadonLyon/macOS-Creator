@@ -767,15 +767,15 @@ MACINFO()
 		echo -e "${RESET}${TITLE} • Mac model: ${BODY}${BOLD}$MACVERSION ${RESET}${BODY}(Press I for details)"
 	fi
 	if [[ $MACOSVERSION == '10.7' ]]; then
-		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}Mac OS X Lion ${RESET}${BODY}($MACOSVERSION)"
+		echo -e "${RESET}${TITLE} • Mac OS X Version: ${BODY}${BOLD}Mac OS X Lion ${RESET}${BODY}($MACOSVERSION)"
 	elif [[ $MACOSVERSION == '10.8' ]]; then
-		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}OS X Mountain Lion ${RESET}${BODY}($MACOSVERSION)"
+		echo -e "${RESET}${TITLE} • OS X Version: ${BODY}${BOLD}OS X Mountain Lion ${RESET}${BODY}($MACOSVERSION)"
 	elif [[ $MACOSVERSION == '10.9' ]]; then
-		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}OS X Mavericks ${RESET}${BODY}($MACOSVERSION)"
+		echo -e "${RESET}${TITLE} • OS X Version: ${BODY}${BOLD}OS X Mavericks ${RESET}${BODY}($MACOSVERSION)"
 	elif [[ $MACOSVERSION == '10.10' ]]; then
-		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}OS X Yosemite ${RESET}${BODY}($MACOSVERSION)"
+		echo -e "${RESET}${TITLE} • OS X Version: ${BODY}${BOLD}OS X Yosemite ${RESET}${BODY}($MACOSVERSION)"
 	elif [[ $MACOSVERSION == '10.11' ]]; then
-		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}OS X El Capitan ${RESET}${BODY}($MACOSVERSION)"
+		echo -e "${RESET}${TITLE} • OS X Version: ${BODY}${BOLD}OS X El Capitan ${RESET}${BODY}($MACOSVERSION)"
 	elif [[ $MACOSVERSION == '10.12' ]]; then
 		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Sierra ${RESET}${BODY}($MACOSVERSION)"
 	elif [[ $MACOSVERSION == '10.13' ]]; then
@@ -1049,20 +1049,6 @@ HELPOSFOUND()
 {
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}Press (Y) to continue with the drive creation process"
-	echo -e ""
-	echo -e "Press (Q) to return to the Home Menu"
-	echo -e "Press the return key to cancel"
-	echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-	echo -n "                           Press any key to return... "
-	read -n 1
-	echo -e ""
-}
-HELPOSFOUNDLEGACY()
-{
-	WINDOWBAR
-	echo -e "${RESET}${TITLE}This installer may fail, but due to lack of devolopment in this script."
-	echo -e "If you do notice issues, you can report them at GitHub."
-	echo -e "Press (Y) to continue with the drive creation process"
 	echo -e ""
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
@@ -1917,7 +1903,7 @@ OSML()
 	elif [[ $input == 'w' || $input == 'W' ]]; then
 		break
 	elif [[ $input == '?' || $input == '/' ]]; then
-		HELPOSFOUNDLEGACY
+		HELPOSFOUND
 	elif [[ $input == '' ]]; then
 		WINDOWBAREND
 	else
@@ -1941,7 +1927,7 @@ OSL()
 	elif [[ $input == 'w' || $input == 'W' ]]; then
 		break
 	elif [[ $input == '?' || $input == '/' ]]; then
-		HELPOSFOUNDLEGACY
+		HELPOSFOUND
 	elif [[ $input == '' ]]; then
 		WINDOWBAREND
 	else
