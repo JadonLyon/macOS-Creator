@@ -3755,7 +3755,7 @@ DOWNLOADMAVERICKS()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Downloading OS X Mavericks...${RESET}${BODY}"
+		echo -e "${RESET}${TITLE}${BOLD}                     Downloading OS X Mavericks...${RESET}${BODY}"
 		if [[ -e /private/tmp/InstallmacOS.zip ]]; then
 			sudo rm -R /private/tmp/InstallmacOS.zip
 		fi
@@ -3767,9 +3767,7 @@ DOWNLOADMAVERICKS()
 				echo -e "Copy the macOS Installer into your Applications folder... "
 				echo -n "Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -4129,7 +4127,7 @@ DOWNLOADFAIL()
 	echo -e "${RESET}${ERROR}${BOLD}Download failed."
 	echo -e "${RESET}${ERROR}Make sure you have an internet connection.${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -e ""
-	echo -n "Press any key to cancel. Press S to try again. Press Q to return home."
+	echo -n "     Press any key to return to the Home Menu (Press S to try again)..."
 	read -n 1 input
 	if [[ "$input" == 's' || "$input" == 'S' ]]; then
 		echo ""
