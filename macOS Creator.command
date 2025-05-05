@@ -3757,8 +3757,6 @@ DOWNLOADMACOS()
 					SCRIPTLAYOUT
 				elif [[ $input == 'w' || $input == 'W' || $input == '0' ]]; then
 					break
-				elif [[ $input == 's' || $input == 'S' ]]; then
-					SMARTDOWNLOAD
 				elif [[ $input == '?' || $input == '/' ]]; then
 					HELPDOWNLOAD
 				elif [[ $input == '' ]]; then
@@ -3771,8 +3769,6 @@ DOWNLOADMACOS()
 			SCRIPTLAYOUT
 		elif [[ $input == 'w' || $input == 'W' ]]; then
 			break
-		elif [[ $input == 's' || $input == 'S' ]]; then
-			SMARTDOWNLOAD
 		elif [[ $input == '?' || $input == '/' ]]; then
 			HELPDOWNLOAD
 		elif [[ $input == '' ]]; then
