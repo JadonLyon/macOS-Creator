@@ -1227,10 +1227,8 @@ HELPDOWNLOAD()
 {
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}Choose the macOS Version you wish to download."
-	echo -e "If you do not see the macOS Version listed, type out its name (i.e. Sequoia)"
-	echo -e "Or, type out its version number (i.e. Sequoia = 15 | High Sierra = 10.13)"
-	echo -e "Or press 9 to see the next page."
-	echo -e "After making a selection, press the return key to download."
+	echo -e "Use the Identify Mac Model tool to determine which version to download."
+	echo -e "Press 0 to see the next page."
 	echo -e ""
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
@@ -3324,7 +3322,7 @@ DOWNLOADMACOS()
 	while true; do
 		WINDOWBAR
 		echo -e "${RESET}${TITLE}${BOLD}                            Downlaod macOS Installer"
-		echo -e "${RESET}${BODY}                                Press S to search"
+		echo -e "${RESET}${BODY}                     Choose one of the available Installers"
 		echo -e ""
 		echo -e "                    OS X Mavericks.......................(1)"
 		echo -e "                    OS X Yosemite........................(2)"
@@ -3554,7 +3552,7 @@ DOWNLOADMACOS()
 			while true; do
 				WINDOWBAR
 				echo -e "${RESET}${TITLE}${BOLD}                            Downlaod macOS Installer"
-				echo -e "${RESET}${BODY}                                Press S to search"
+				echo -e "${RESET}${BODY}                     Choose one of the available Installers"
 				echo -e ""
 				echo -e "                    macOS Ventura........................(1)"
 				echo -e "                    macOS Sonoma.........................(2)"
@@ -3759,6 +3757,8 @@ DOWNLOADMACOS()
 					SCRIPTLAYOUT
 				elif [[ $input == 'w' || $input == 'W' || $input == '0' ]]; then
 					break
+				elif [[ $input == 's' || $input == 'S' ]]; then
+					SMARTDOWNLOAD
 				elif [[ $input == '?' || $input == '/' ]]; then
 					HELPDOWNLOAD
 				elif [[ $input == '' ]]; then
@@ -3771,6 +3771,8 @@ DOWNLOADMACOS()
 			SCRIPTLAYOUT
 		elif [[ $input == 'w' || $input == 'W' ]]; then
 			break
+		elif [[ $input == 's' || $input == 'S' ]]; then
+			SMARTDOWNLOAD
 		elif [[ $input == '?' || $input == '/' ]]; then
 			HELPDOWNLOAD
 		elif [[ $input == '' ]]; then
