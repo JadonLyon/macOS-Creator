@@ -308,7 +308,7 @@ ANIMATION()
 }
 ANIMATIONDOWNLOAD()
 {
-	local frames=("" "." ".." "...")
+	local frames=("   " ".  " ".. " "...")
 		while true; do
 			for frame in "${frames[@]}"; do
 				echo -ne "\r                                Downloading$frame   "
