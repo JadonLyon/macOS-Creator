@@ -3788,16 +3788,24 @@ DOWNLOADMAVERICKS()
 			sudo rm -R /private/tmp/InstallmacOS.zip
 		fi
 		Output sudo curl https://ia801805.us.archive.org/35/items/os-x-mavericks/Install%20OS%20X%20Mavericks.zip -o /private/tmp/InstallmacOS.zip
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallmacOS.zip ]]; then
-				sudo open /private/tmp/InstallmacOS.zip
+				open /private/tmp/InstallmacOS.dmg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Copy the macOS Installer into your Applications folder... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "                 Follow the on-screen instructions to install... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
 				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
@@ -3830,20 +3838,26 @@ DOWNLOADYOSEMITE()
 			sudo rm -R /private/tmp/InstallmacOS.dmg
 		fi
 		Output sudo curl http://updates-http.cdn-apple.com/2019/cert/061-41343-20191023-02465f92-3ab5-4c92-bfe2-b725447a070d/InstallMacOSX.dmg -o /private/tmp/InstallmacOS.dmg
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallmacOS.dmg ]]; then
-				sudo open /private/tmp/InstallmacOS.dmg
+				open /private/tmp/InstallmacOS.dmg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Follow the on-screen instructions to install... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "                 Follow the on-screen instructions to install... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -3873,20 +3887,26 @@ DOWNLOADELCAPITAN()
 			sudo rm -R /private/tmp/InstallmacOS.dmg
 		fi
 		Output sudo curl http://updates-http.cdn-apple.com/2019/cert/061-41424-20191024-218af9ec-cf50-4516-9011-228c78eda3d2/InstallMacOSX.dmg -o /private/tmp/InstallmacOS.dmg
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallmacOS.dmg ]]; then
-				sudo open /private/tmp/InstallmacOS.dmg
+				open /private/tmp/InstallmacOS.dmg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Follow the on-screen instructions to install... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "                 Follow the on-screen instructions to install... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -3916,20 +3936,26 @@ DOWNLOADSIERRA()
 			sudo rm -R /private/tmp/InstallmacOS.dmg
 		fi
 		Output sudo curl http://updates-http.cdn-apple.com/2019/cert/061-39476-20191023-48f365f4-0015-4c41-9f44-39d3d2aca067/InstallOS.dmg -o /private/tmp/InstallmacOS.dmg
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallmacOS.dmg ]]; then
-				sudo open /private/tmp/InstallmacOS.dmg
+				open /private/tmp/InstallmacOS.dmg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Follow the on-screen instructions to install... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "                 Follow the on-screen instructions to install... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -3959,20 +3985,26 @@ DOWNLOADHIGHSIERRA()
 			sudo rm -R /private/tmp/InstallmacOS.zip
 		fi
 		Output sudo curl https://ia803405.us.archive.org/5/items/high-sierra-installer/Install%20macOS%20High%20Sierra.zip -o /private/tmp/InstallmacOS.zip
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallmacOS.zip ]]; then
-				sudo open /private/tmp/InstallmacOS.zip
+				open /private/tmp/InstallmacOS.zip
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Copy the macOS Installer into your Applications folder... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "               Copy the installer to your Applications folder... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -4002,20 +4034,26 @@ DOWNLOADMOJAVE()
 			sudo rm -R /private/tmp/InstallmacOS.dmg
 		fi
 		Output sudo curl https://dn720701.ca.archive.org/0/items/macOS_Mojave/macOS_Mojave.dmg -o /private/tmp/InstallmacOS.dmg
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallmacOS.dmg ]]; then
-				sudo open /private/tmp/InstallmacOS.dmg
+				open /private/tmp/InstallmacOS.dmg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Copy the macOS Installer into your Applications folder... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "               Copy the installer to your Applications folder... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -4045,20 +4083,26 @@ DOWNLOADCATALINA()
 			sudo rm -R /private/tmp/InstallmacOS.iso
 		fi
 		Output sudo curl https://dn720003.ca.archive.org/0/items/macOS-Catalina-IOS/macOSCatalina.iso -o /private/tmp/InstallmacOS.iso
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallmacOS.iso ]]; then
-				sudo open /private/tmp/InstallmacOS.iso
+				open /private/tmp/InstallmacOS.iso
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Copy the macOS Installer into your Applications folder... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "               Copy the installer to your Applications folder... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -4088,20 +4132,26 @@ DOWNLOADBIGSUR()
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
 		Output sudo curl https://swcdn.apple.com/content/downloads/14/38/042-45246-A_NLFOFLCJFZ/jk992zbv98sdzz3rgc7mrccjl3l22ruk1c/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
-				sudo open /private/tmp/InstallAssistant.pkg
+				open /private/tmp/InstallAssistant.pkg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Follow the on-screen instructions to install... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "                 Follow the on-screen instructions to install... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -4131,20 +4181,26 @@ DOWNLOADMONTEREY()
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
 		Output sudo curl https://swcdn.apple.com/content/downloads/46/57/052-60131-A_KM2RH04C2D/9yzvba1uvpem2wuo95r459qno57qaizwf2/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
-				sudo open /private/tmp/InstallAssistant.pkg
+				open /private/tmp/InstallAssistant.pkg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Follow the on-screen instructions to install... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "                 Follow the on-screen instructions to install... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -4174,20 +4230,26 @@ DOWNLOADVENTURA()
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
 		Output sudo curl https://swcdn.apple.com/content/downloads/29/47/072-09024-A_8G5EY3SPX2/l6ecgngkrhhbc6q4mae5cwe42pxp49co7w/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
-				sudo open /private/tmp/InstallAssistant.pkg
+				open /private/tmp/InstallAssistant.pkg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Follow the on-screen instructions to install... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "                 Follow the on-screen instructions to install... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -4217,20 +4279,26 @@ DOWNLOADSONOMA()
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
 		Output sudo curl https://swcdn.apple.com/content/downloads/43/40/072-61299-A_Y6TZ03D5E8/dpzudbub2uj7lqy3cko50k4moqsu2lq5ui/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
-				sudo open /private/tmp/InstallAssistant.pkg
+				open /private/tmp/InstallAssistant.pkg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Follow the on-screen instructions to install... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "                 Follow the on-screen instructions to install... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
@@ -4260,20 +4328,26 @@ DOWNLOADSEQUOIA()
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
 		Output sudo curl https://swcdn.apple.com/content/downloads/08/08/072-12353-A_IUBHH68MQT/sv48ma68gmhl96fa9anqfj3i2fnb1ur2wh/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		if [ $? -eq 0 ]; then
+			DOWNLOAD="YES"
+		else
+			DOWNLOAD="NO"
+		fi
 		if [[ ! $verbose == '1' ]]; then
 			kill "$anim_pid" >/dev/null 2>&1
 			wait "$anim_pid" 2>/dev/null
 		fi
-		if [ $? -eq 0 ]; then
+		if [ $DOWNLOAD == 'YES' ]; then
 			if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
-				sudo open /private/tmp/InstallAssistant.pkg
+				open /private/tmp/InstallAssistant.pkg
+				echo -e "\033[1A\033[0K\033[1A\033[0K"
+				echo -e ""
+				echo -e "${BOLD}                               Download Complete"
 				echo -e "${RESET}${TITLE}"
-				echo -e "Follow the on-screen instructions to install... "
-				echo -n "Once completed, press any key to return home, or S to install... "
+				echo -e "                 Follow the on-screen instructions to install... "
+				echo -n "       Once completed, press any key to return home, or S to install... "
 				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					WINDOWBAREND
-				elif [[ "$input" == 's' || "$input" == 'S' ]]; then
+				if [[ "$input" == 's' || "$input" == 'S' ]]; then
 					APPLICATIONSCREATE
 				else
 					SCRIPTLAYOUT
