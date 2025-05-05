@@ -12,13 +12,13 @@
 #                   Allows you to now choose macOS installer with GUI window.
 #                   Completely redesigns both the First Time Menu and User Guide Menu.
 #                   Changing colors now feels much more fluid and user friendly.
+#                   Now downloads the latest version of macOS Sequoia and Ventura from Apple.
 #                   Fixed some issues with macOS Sierra.
 #                   Fixed an issue where in Safe mode, script would not list drives.
 #                   Fixed hundreds of minor issues to make experience completely refined.
 #
 #
 #                   To see older release notes, go to Github.com
-
 
 #Script
 
@@ -728,15 +728,16 @@ RELEASENOTES()
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}${BOLD}                     macOS Creator Version 6.0 ${RESET}${TITLE}Release Notes"
 	echo -e ""
-	echo -e "${RESET}${BODY} • Introduces a new UI, refined colors, and simplified texts.
- • Introduces Tips, where you can see helpful tips during a particular section.
- • Allows you to now choose macOS installer with GUI window.
- • Introduces a new window: License Agreement.
- • Completely redesigns both the First Time Menu and User Guide Menu.
- • Changing colors now feels much more fluid and user friendly.
- • Fixed some issues with macOS Sierra.
- • Fixed an issue where in Safe mode, script would not list drives.
- • Fixed hundreds of minor issues to make experience completely refined."
+	echo -e "${RESET}${BODY} • Introduces a new UI, refined colors, and simplified texts
+ • Introduces Tips, where you can see helpful tips during a particular section
+ • Allows you to now choose macOS installer with GUI window
+ • Introduces a new window: License Agreement
+ • Completely redesigns both the First Time Menu and User Guide Menu
+ • Changing colors now feels much more fluid and user friendly
+ • Now downloads the latest version of macOS Sequoia and Ventura from Apple
+ • Fixed some issues with macOS Sierra
+ • Fixed an issue where in Safe mode, script would not list drives
+ • Fixed hundreds of minor issues to make experience completely refined"
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to get started... "
@@ -4229,7 +4230,7 @@ DOWNLOADVENTURA()
 		if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
-		Output sudo curl https://swcdn.apple.com/content/downloads/29/47/072-09024-A_8G5EY3SPX2/l6ecgngkrhhbc6q4mae5cwe42pxp49co7w/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		Output sudo curl https://swcdn.apple.com/content/downloads/61/08/082-11327-A_JKF2NNDDY8/aaxgevztdm1i5v6q6xousfc44xa90ykmk0/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
 		if [ $? -eq 0 ]; then
 			DOWNLOAD="YES"
 		else
@@ -4327,7 +4328,7 @@ DOWNLOADSEQUOIA()
 		if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
-		Output sudo curl https://swcdn.apple.com/content/downloads/08/08/072-12353-A_IUBHH68MQT/sv48ma68gmhl96fa9anqfj3i2fnb1ur2wh/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		Output sudo curl https://swcdn.apple.com/content/downloads/09/16/082-33200-A_9FRARUF9NM/jnf31ewnvxlmf5ld7l7n7hzv6lkd6fiuz9/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
 		if [ $? -eq 0 ]; then
 			DOWNLOAD="YES"
 		else
