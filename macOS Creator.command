@@ -717,7 +717,15 @@ LICENSEAGREEMENT()
 		echo -n "                  Press any key to return to the Home Menu... "
 		read -n 1 input
 		if [[ $input == 's' || $input == 'S' ]]; then
-			open -a "TextEdit" "$SCRIPTPATHMAIN/License Agreement.txt"
+			if [[ -e "$SCRIPTPATHMAIN/License Agreement.txt" ]]; then
+				open -a "TextEdit" "$SCRIPTPATHMAIN/License Agreement.txt"
+			else
+				echo -e ""
+				echo -e ""
+				echo -e -n "${RESET}${ERROR}${BOLD}              The License Agreement Document is not available... "
+				echo -n ""
+				read -n 1
+			fi
 		else
 			break
 		fi
