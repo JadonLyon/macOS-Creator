@@ -301,7 +301,7 @@ ANIMATION()
 	local frames=("..." "   " ".  " ".. ")
 		while true; do
 			for frame in "${frames[@]}"; do
-				echo -ne "\r                             Creating the drive$frame   "
+				echo -ne "\r                              Creating the drive$frame   "
 				sleep 0.7
 			done
 		done
