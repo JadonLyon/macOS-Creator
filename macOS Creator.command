@@ -298,10 +298,10 @@ PreRunMac()
 #Text and commands
 ANIMATION()
 {
-	local frames=("" "." ".." "...")
+	local frames=("   " ".  " ".. " "...")
 		while true; do
 			for frame in "${frames[@]}"; do
-				echo -ne "\rCreating the drive$frame   "
+				echo -ne "\r                             Creating the drive$frame   "
 				sleep 0.5
 			done
 		done
@@ -2801,9 +2801,15 @@ SONOMADRIVECREATION()
 SEQUOIADRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Sequoia${RESET}${TITLE}. Please Enter Your "
+	echo -e "${RESET}${TITLE}                     Creating the drive for ${BOLD}macOS Sequoia"
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATIONDOWNLOAD &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
