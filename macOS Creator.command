@@ -68,27 +68,27 @@ fi
 
 LIGHTMODE()
 {
-	APP='\033["38;5;130m'
-	TITLE='\033["38;5;172m'
-	BODY='\033["38;5;130m'
-	PROMPTSTYLE='\033["38;5;208m'
-	OSFOUND='\033["38;5;166m'
+	APP='\033["38;5;23m'
+	TITLE='\033["38;5;24m'
+	BODY='\033["38;5;23m'
+	PROMPTSTYLE='\033["38;5;66m'
+	OSFOUND='\033["38;5;67m'
 	WARNING='\033["38;5;160m'
 	ERROR='\033["38;5;9m'
-	CANCEL='\033["38;5;1m'
+	CANCEL='\033["38;5;31m'
 	BOLD='\033[1m'
 	RESET='\033[0m'
 }
 DARKMODE()
 {
-	APP='\033["38;5;180m'
-	TITLE='\033["38;5;215m'
-	BODY='\033["38;5;180m'
-	PROMPTSTYLE='\033["38;5;208m'
-	OSFOUND='\033["38;5;166m'
+	APP='\033["38;5;158m'
+	TITLE='\033["38;5;153m'
+	BODY='\033["38;5;158m'
+	PROMPTSTYLE='\033["38;5;152m'
+	OSFOUND='\033["38;5;111m'
 	WARNING='\033["38;5;160m'
 	ERROR='\033["38;5;196m'
-	CANCEL='\033["38;5;197m'
+	CANCEL='\033["38;5;38m'
 	BOLD='\033[1m'
 	RESET='\033[0m'
 }
@@ -580,8 +580,8 @@ RESETSCRIPT()
 			echo -n -e "${RESET}${DEFAULTBLUE}                           Press any key to restart... "
 			read -n 1
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '8166s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
-			sed -i '' '8165s/FALSE/TRUE/' macOS\ Creator.command
+			sed -i '' '8208s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
+			sed -i '' '8207s/FALSE/TRUE/' macOS\ Creator.command
 			if [[ $APPLESILICONE == "YES" ]]; then
 				COLORM1
 			else
@@ -644,7 +644,7 @@ MAINMENU()
 {
 	if [[ $FIRSTTIMEHERE=='TRUE' ]]; then
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '8165s/TRUE/FALSE/' macOS\ Creator.command
+		sed -i '' '8207s/TRUE/FALSE/' macOS\ Creator.command
 	fi
 	FIRSTTIMEHERE="FALSE"
 	ENTERHERE="TRUE"
@@ -732,7 +732,7 @@ RELEASENOTES()
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '8166s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+		sed -i '' '8208s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 		if [[ $verbose == "1" ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 		elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -846,7 +846,7 @@ FIRSTTIME()
 		else
 			rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '8166s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '8208s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -874,11 +874,11 @@ FIRSTTIME()
 		read -n 1 input
 		if [[ ! $input == 'q' || $input == 'Q' ]]; then
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '8166s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
+			sed -i '' '8208s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
 			CHANGECOLORS
 		else
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '8166s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '8208s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -917,140 +917,178 @@ GUIDE()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}macOS Creator User guide."
-		echo -e "${RESET}${TITLE}This quick guide will show you how to use the macOS Creator."
+		echo -e "${RESET}${TITLE}${BOLD}                                   User Guide"
+		echo -e "${RESET}${TITLE}    Review these quick steps to familiarize yourslef with the macOS Creator"
 		echo -e ""
-		echo -e "${RESET}${BODY}Commands will be listed like this.........................................(1)"
-		echo -e "${RESET}${BODY}Simply find the number corresponding to that command......................(2)"
-		echo -e "${RESET}${BODY}To begin, choose this command here........................................(3)"
-		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "When choosing a command, type the number corresponding to that command: "
-		read -n 1 input
-		if [[ "$input" == '3' ]]; then
-			while true; do
-				WINDOWBAR
-				echo -e "${RESET}${TITLE}${BOLD}Perfect"
-				echo -e "${RESET}${TITLE}If you wish to cancel at any point, press the return key."
-				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-				echo -n "Press the return key now: "
-				read -n 1 input
-				if [[ "$input" == '' ]]; then
-					echo -e ""
-					echo -e -n "${RESET}${CANCEL}${BOLD}Script Canceled"
-					echo -e ""
-					echo -e "${RESET}${BODY}You will be asked to confirm with Q."
-					echo -e "${RESET}${BODY}This is how to exit the script at any point."
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Press any key to continue: "
-					read -n 1		
-					while true; do
-						WINDOWBAR
-						echo -e "${RESET}${TITLE}If you wish to return to the Home Menu, press Q at any point:"
-						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-						echo -n "Press Q now: "
-						read -n 1 input
-						if [[ "$input" == 'q' || "$input" == 'Q' ]]; then
-							echo -e ""
-							echo -e ""
-							echo -e "${RESET}${BODY}This will take you back to the first screen and start over."
-							echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-							echo -n "Press any key to continue: "
-							read -n 1
-							while true; do
-								WINDOWBAR
-								echo -e "${RESET}${TITLE}If you made a mistake and wish to go back, press W at any point:"
-								echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-								echo -n "Press W now: "
-								read -n 1 input
-								if [[ "$input" == 'w' || "$input" == 'W' ]]; then
-									echo -e ""
-									echo -e ""
-									echo -e "${RESET}${BODY}This will take you back one step."
-									echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-									echo -n "Press any key to continue: "
-									read -n 1
-									while true; do
-										WINDOWBAR
-										echo -e "${RESET}${TITLE}If you do not understand a certain topic, you can check out the Help Menu:"
-										echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-										echo -n "Press ? or / now: "
-										read -n 1 input
-										if [[ $input == '?' || $input == '/' ]]; then
-											echo -e ""
-											echo -e ""
-											echo -e "${RESET}${BODY}This will show you information about the topic."
-											echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-											echo -n "Press any key to continue: "
-											read -n 1
-											WINDOWBAR
-											echo -e "${RESET}${BODY}The script may ask you to drag a file or drive into this window."
-											echo -e "${RESET}${BODY}Simply drag the item from the Finder into this window."
-											echo -e "${RESET}${BODY}Once finished, press the return key for the script to accept the item."
-											echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-											echo -n "Press any key to continue: "
-											read -n 1
-											WINDOWBAR
-											echo -e "${RESET}${BODY}If you do not like this color of the text, you can change it."
-											echo -e "${RESET}${BODY}From the Home Menu, press 6 to check out settings."
-											echo -e "Choose the color style you prefer."
-											echo -e "There are several other ways you can configure this script in settings."
-											echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-											echo -n "Press any key to continue: "
-											read -n 1
-											if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
-												WINDOWBAR
-												echo -e "${RESET}${TITLE}This is all you need to know."
-												echo -e "${BOLD}Welcome to the macOS Creator!"
-												echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-												echo -n "Press any key to get started... "
-												read -n 1
-												cd "$SCRIPTPATHMAIN"
-												sed -i '' '8166s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
-												if [[ $verbose == "1" ]]; then
-													"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
-												elif [[ $safe == "1" || $safe == "2" ]]; then
-													"$SCRIPTPATHMAIN"/macOS\ Creator.command -S && exit
-												elif [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-													"$SCRIPTPATHMAIN"/macOS\ Creator.command -s -v && exit
-												else
-													"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
-												fi
-											else
-												WINDOWBAR
-												echo -e "${RESET}${TITLE}${BOLD}This is all you need to know to use the macOS Creator."
-												echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-												echo -n "Press any key to return home... "
-												read -n 1
-												echo -e ""
-												SCRIPTLAYOUT											
-											fi
-										else
-											WINDOWERROR
-										fi
-									done
-								else
-									WINDOWERROR
-								fi
-							done
-						else
-							WINDOWERROR
-						fi
-					done
-				else
-					WINDOWERROR
-				fi
-			done
+		echo -e "${RESET}${BODY}${BOLD}             First, begin by pressing a number to highlight a command"
+		echo -e "${RESET}${BODY}"
+		if [[ $COMMAND == '1' ]]; then
+			echo -e "${RESET}${TITLE}${BOLD}     Tools and commands will be listed like this........................(1)"
 		else
-			echo -e ""
-			echo -e "${RESET}${ERROR}${BOLD}"
-			echo -e "Invalid Command."
-			echo -e ""
-			echo -e "${RESET}${BODY}If you do enter a number that is not valid, this will appear."
-			echo -e "${RESET}${BODY}If this happens, simply press any key to try again."
+			echo -e "${RESET}${BODY}     Tools and commands will be listed like this........................(1)"
+		fi
+		if [[ $COMMAND == '2' ]]; then
+			echo -e "${RESET}${TITLE}${BOLD}     Each command has a number corresponding to it......................(2)"
+		else
+			echo -e "${RESET}${BODY}     Each command has a number corresponding to it......................(2)"
+		fi
+		if [[ $COMMAND == '3' ]]; then
+			echo -e "${RESET}${TITLE}${BOLD}     To choose a command, press its corresponding number................(3)"
+		else
+			echo -e "${RESET}${BODY}     To choose a command, press its corresponding number................(3)"
+		fi
+		if [[ $COMMAND == '4' ]]; then
+			echo -e "${RESET}${TITLE}${BOLD}     For example, press 4 to select this command........................(4)"
+		else
+			echo -e "${RESET}${BODY}     For example, press 4 to select this command........................(4)"
+		fi
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                       To move to the next step, press Y"
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "                           Enter your option here: "
+		read -n 1 input
+		if [[ $input == '1' ]]; then
+			COMMAND="1"
+		elif [[ $input == '2' ]]; then
+			COMMAND="2"
+		elif [[ $input == '3' ]]; then
+			COMMAND="3"
+		elif [[ $input == '4' ]]; then
+			COMMAND="4"
+		elif [[ $input == 'y' || $input == 'Y' ]]; then
+			STEP2
+		elif [[ $input == 'q' || $input == 'Q' ]]; then
+			SCRIPTLAYOUT
+		elif [[ $input == 'w' || $input == 'W' ]]; then
+			break
+		elif [[ $input == '' ]]; then
+			WINDOWBAREND
+		else
+			WINDOWERROR
+		fi
+	done
+		
+}
+STEP2()
+{
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${TITLE}${BOLD}                                   User Guide"
+		echo -e "${RESET}${TITLE}                               Confirming with Y"
+		echo -e ""
+		echo -e "${RESET}${BODY}${BOLD}              At some point the script may ask you this question:"
+		echo -e ""
+		echo -e "${RESET}${PROMPTSTYLE}                             Do you want to continue?... "
+		echo -e ""
+		echo -e "${RESET}${BODY}${BOLD}         In order to continue, press the Y key. Y always refers to Yes."
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "                           Enter your option here: "
+		read -n 1 input
+		if [[ $input == 'y' || $input == 'Y' ]]; then
+			STEP3
+		elif [[ $input == 'q' || $input == 'Q' ]]; then
+			SCRIPTLAYOUT
+		elif [[ $input == 'w' || $input == 'W' ]]; then
+			break
+		elif [[ $input == '' ]]; then
+			WINDOWBAREND
+		else
+			WINDOWERROR
+		fi
+	done
+}
+STEP3()
+{
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${TITLE}${BOLD}                                   User Guide"
+		echo -e "${RESET}${TITLE}                                Providing a file"
+		echo -e ""
+		echo -e "${RESET}${BODY}${BOLD}                   The script may ask you to provide a folder"
+		echo -e "${RESET}${BODY}      This is easy, simply drag the file from the Finder into this window"
+		echo -e "                   When finished, simply press the return key"
+		echo -e "        If the file you provided is invalid, press any key to try again"
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                       To move to the next step, press Y"
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "                           Enter your option here: "
+		read -n 1 input
+		if [[ $input == 'y' || $input == 'Y' ]]; then
+			STEP4
+		elif [[ $input == 'q' || $input == 'Q' ]]; then
+			SCRIPTLAYOUT
+		elif [[ $input == 'w' || $input == 'W' ]]; then
+			break
+		elif [[ $input == '' ]]; then
+			WINDOWBAREND
+		else
+			WINDOWERROR
+		fi
+	done
+}
+STEP4()
+{
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${TITLE}${BOLD}                                   User Guide"
+		echo -e "${RESET}${TITLE}                                  Getting Help"
+		echo -e ""
+		echo -e "${RESET}${BODY}${BOLD}        If you are ever confused about something, macOS Creator can help"
+		echo -e "${RESET}${BODY}        At any point, you can press the ? or / key to show the Help Menu"
+		echo -e "            This menu provides simple explinations and instructions"
+		echo -e "         When finished, press any key to return back to where you were"
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                       To move to the next step, press Y"
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "                           Enter your option here: "
+		read -n 1 input
+		if [[ $input == 'y' || $input == 'Y' ]]; then
+			LASTSTEP
+		elif [[ $input == 'q' || $input == 'Q' ]]; then
+			SCRIPTLAYOUT
+		elif [[ $input == 'w' || $input == 'W' ]]; then
+			break
+		elif [[ $input == '' ]]; then
+			WINDOWBAREND
+		else
+			WINDOWERROR
+		fi
+	done
+}
+LASTSTEP()
+{
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${TITLE}${BOLD}                                   User Guide"
+		echo -e "${RESET}${TITLE}                                   Conclusion"
+		echo -e ""
+		echo -e "${RESET}${BODY}${BOLD}                          This is all you need to know"
+		echo -e "${RESET}${BODY}           If you have experience issues, you can report them to GitHub"
+		echo -e "      You can reopen this guide at any point to review these instructions"
+		echo -e "            This is the all-in-one guide for creating macOS Installer"
+		echo -e ""
+		echo -e "${RESET}${BODY}${BOLD}                    Thank you for choosing the macOS Creator!"
+		if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-			echo -n "Press any key to try again: "
+			echo -n "                        Press any key to get started... "
 			read -n 1
-			echo -e ""
+			Output rm -R /private/tmp/.macOSCreatorUpdate
+			cd "$SCRIPTPATHMAIN"
+			sed -i '' '8208s/GUIDE/MAINMENU/' macOS\ Creator.command
+			if [[ $verbose == "1" ]]; then
+				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
+			elif [[ $safe == "1" || $safe == "2" ]]; then
+				"$SCRIPTPATHMAIN"/macOS\ Creator.command -S && exit
+			elif [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
+				"$SCRIPTPATHMAIN"/macOS\ Creator.command -s -v && exit
+			else
+				"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
+			fi
+		else
+			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+			echo -n "                  Press any key to return to the Home Menu... "
+			read -n 1
+			SCRIPTLAYOUT
 		fi
 	done
 }
@@ -4515,7 +4553,11 @@ TESTELIGIBILITY()
 SAVECOLORS()
 {
 	cd "$SCRIPTPATHMAIN"
-	sed -i '' '8166s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
+	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
+		sed -i '' '8208s/CHANGECOLORS/GUIDE/' macOS\ Creator.command
+	else
+		sed -i '' '8208s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
+	fi
 	if [[ $verbose == "1" ]]; then
 		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 	else
@@ -4557,13 +4599,13 @@ CHANGECOLORS()
 					echo -e "${RESET}${CLASSICBLACK}$CLASSICBLACKBW"
 					echo -e ""
 					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
-						echo -e "${RESET}${TITLE}You can change these colors at any point from Settings."
+						echo -e "${RESET}${TITLE}             You can change these colors at any point from Settings."
 					else
 						echo -e "${RESET}${TITLE}                    Current color:${APP}${BOLD} $SETTINGCOLOR"
 					fi
 					if [[ ! $ENTERHERE == 'TRUE' ]]; then
 						echo -e ""
-						echo -e "${RESET}${TITLE}${BOLD}Press (S) to save."
+						echo -e "${RESET}${TITLE}${BOLD}                               Press (S) to save."
 					fi
 					echo -e "${PROMPTSTYLE}${BOLD}"
 					echo -n "                           Enter your option here: "
@@ -4572,9 +4614,9 @@ CHANGECOLORS()
 						echo -e ""
 						echo -e ""
 						if [[ $UIAPPEARANCE == 'Dark' ]]; then
-							echo -e -n "${RESET}${BOLD}                                \033[38;5;117mPlease \033[38;5;111mwait..."
+							echo -e -n "${RESET}${BOLD}                                \033[38;5;117mPlease \033[38;5;111mwait... "
 						else
-							echo -e -n "${RESET}${BOLD}                                \033[38;5;33mPlease \033[38;5;63mwait..."
+							echo -e -n "${RESET}${BOLD}                                \033[38;5;33mPlease \033[38;5;63mwait... "
 						fi
 						COLORM1
 					elif [[ $input == '2' ]]; then
@@ -4759,7 +4801,7 @@ COLORBLUE()
 		Output rm -R .colorm1setting
 		touch .defaultbluesetting
 	fi
-	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8208s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;23m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;24m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;23m/' macOS\ Creator.command
@@ -4797,7 +4839,7 @@ COLORSANDS()
 		Output rm -R .colorm1setting
 		touch .desertsandssetting
 	fi
-	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8208s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;130m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;172m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;130m/' macOS\ Creator.command
@@ -4831,7 +4873,7 @@ COLORFOREST()
 		Output rm -R .colorm1setting
 		touch .forestgreensetting
 	fi
-	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8208s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;22m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;65m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;22m/' macOS\ Creator.command
@@ -4865,7 +4907,7 @@ CINNAMONCOLOR()
 		Output rm -R .colorm1setting
 		touch .cinnamonapplecolor
 	fi
-	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8208s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;88m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;124m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;88m/' macOS\ Creator.command
@@ -4899,7 +4941,7 @@ COLORCLASSIC()
 		Output rm -R .colorm1setting
 		touch .classicsetting
 	fi
-	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8208s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;0m/' macOS\ Creator.command
@@ -4933,7 +4975,7 @@ COLORM1()
 		Output rm -R .defaultbluesetting
 		touch .colorm1setting
 	fi
-	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8208s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;30m/"38;5;214m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;23m/"38;5;209m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;30m/"38;5;163m/' macOS\ Creator.command

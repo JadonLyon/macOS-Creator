@@ -67,8 +67,8 @@ BUILDAPP()
 	sudo chmod +x /$HOME/macOS\ Creator/macOS\ Creator.command
 	chflags hidden /$HOME/macOS\ Creator
 	touch /$HOME/macOS\ Creator/.homeuser
-	sed -i '' '7848s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
-	sed -i '' '7847s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
+	sed -i '' '8208s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
+	sed -i '' '8207s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
 	if [[ ! $UPGRADE == 'YES' ]]; then
 		if [[ $(uname -m) == "arm64" ]]; then
 			touch /$HOME/macOS\ Creator/.colorm1setting
