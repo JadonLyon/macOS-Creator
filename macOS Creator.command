@@ -298,21 +298,21 @@ PreRunMac()
 #Text and commands
 ANIMATION()
 {
-	local frames=("   " ".  " ".. " "...")
+	local frames=("..." "   " ".  " ".. ")
 		while true; do
 			for frame in "${frames[@]}"; do
 				echo -ne "\r                             Creating the drive$frame   "
-				sleep 0.5
+				sleep 0.7
 			done
 		done
 }
 ANIMATIONDOWNLOAD()
 {
-	local frames=("   " ".  " ".. " "...")
+	local frames=("..." "   " ".  " ".. ")
 		while true; do
 			for frame in "${frames[@]}"; do
 				echo -ne "\r                                Downloading$frame   "
-				sleep 1
+				sleep 0.7
 			done
 		done
 }
@@ -400,7 +400,7 @@ SUCCESS()
 {
 	echo -e ""
 	echo -e ""
-	echo -e "${RESET}${CANCEL}${BOLD}Thank you for using the macOS Creator."
+	echo -e "${RESET}${CANCEL}${BOLD}                     Thank you for using the macOS Creator"
 	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 		echo -e "${RESET}${APP}${BOLD}"
 		echo -e "»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
@@ -411,7 +411,7 @@ SUCCESS()
 SUCCESSRETURN()
 {
 	echo -e ""
-	echo -e "${RESET}${CANCEL}${BOLD}Thank you for using the macOS Creator."
+	echo -e "${RESET}${CANCEL}${BOLD}                     Thank you for using the macOS Creator"
 	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
 		echo -e "${RESET}${APP}${BOLD}"
 		echo -e "»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
@@ -2248,16 +2248,26 @@ OSDRIVECREATION()
 MAVERICKSDRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}OS X Mavericks${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                    Creating the drive for ${BOLD}OS X Mavericks..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Done"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2269,10 +2279,10 @@ MAVERICKSDRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2283,8 +2293,8 @@ MAVERICKSDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2298,16 +2308,26 @@ MAVERICKSDRIVECREATION()
 YOSEMITEDRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}OS X Yosemite${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                     Creating the drive for ${BOLD}OS X Yosemite..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Done"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2319,10 +2339,10 @@ YOSEMITEDRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2333,8 +2353,8 @@ YOSEMITEDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2348,16 +2368,26 @@ YOSEMITEDRIVECREATION()
 ELCAPITANDRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}OS X El Capitan${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                    Creating the drive for ${BOLD}OS X El Capitan..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Done"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2369,10 +2399,10 @@ ELCAPITANDRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2383,8 +2413,8 @@ ELCAPITANDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2398,9 +2428,11 @@ ELCAPITANDRIVECREATION()
 SIERRADRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Sierra${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                     Creating the drive for ${BOLD}macOS Sierra..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
 	if [[ -d /Volumes/OS\ X\ Install\ ESD/ ]]; then
 		Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
 	fi
@@ -2421,7 +2453,7 @@ SIERRADRIVECREATION()
 	Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
 	if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
 		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2434,10 +2466,10 @@ SIERRADRIVECREATION()
 		fi
 	else
 		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "                                Operation Failed  "
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2451,16 +2483,26 @@ SIERRADRIVECREATION()
 HIGHSIERRADRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS High Sierra${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                   Creating the drive for ${BOLD}macOS High Sierra..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Done"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2472,10 +2514,10 @@ HIGHSIERRADRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2486,8 +2528,8 @@ HIGHSIERRADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2501,16 +2543,26 @@ HIGHSIERRADRIVECREATION()
 MOJAVEDRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Mojave${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                      Creating the drive for ${BOLD}macOS Mojave..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Install media now available"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2522,10 +2574,10 @@ MOJAVEDRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2536,8 +2588,8 @@ MOJAVEDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2551,16 +2603,26 @@ MOJAVEDRIVECREATION()
 CATALINADRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Catalina${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                    Creating the drive for ${BOLD}macOS Catalina..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Install media now available"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2572,10 +2634,10 @@ CATALINADRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2586,8 +2648,8 @@ CATALINADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2601,16 +2663,26 @@ CATALINADRIVECREATION()
 BIGSURDRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Big Sur${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                     Creating the drive for ${BOLD}macOS Big Sur..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Install media now available"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2622,10 +2694,10 @@ BIGSURDRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2636,8 +2708,8 @@ BIGSURDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2651,16 +2723,26 @@ BIGSURDRIVECREATION()
 MONTEREYDRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Monterey${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                     Creating the drive for ${BOLD}macOS Monterey..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Install media now available"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2672,10 +2754,10 @@ MONTEREYDRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2686,8 +2768,8 @@ MONTEREYDRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2701,16 +2783,26 @@ MONTEREYDRIVECREATION()
 VENTURADRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Ventura${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                     Creating the drive for ${BOLD}macOS Ventura..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Install media now available"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2722,10 +2814,10 @@ VENTURADRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2736,8 +2828,8 @@ VENTURADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2751,16 +2843,26 @@ VENTURADRIVECREATION()
 SONOMADRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}macOS Sonoma${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                      Creating the drive for ${BOLD}macOS Sonoma..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Install media now available"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2772,10 +2874,10 @@ SONOMADRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2786,8 +2888,8 @@ SONOMADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2807,16 +2909,20 @@ SEQUOIADRIVECREATION()
 	sudo echo ""
 	echo -e "\033[1A\033[0K${BODY}"
 	if [[ ! $verbose == '1' ]]; then
-		ANIMATIONDOWNLOAD &
+		ANIMATION &
 		anim_pid=$!
 	fi
 	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ $verbose == "1" ]]; then
 		echo -e "$error"
 	fi
 	if [[ "$error" == *"Install media now available"* ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2828,10 +2934,10 @@ SEQUOIADRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}The Installer cannot be found Please try again."
+			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
 			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
 		elif [[ "$error" == *"large enough"* ]]; then
@@ -2842,8 +2948,8 @@ SEQUOIADRIVECREATION()
 			echo -e "${RESET}${ERROR}An unknown error has occured."
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2857,13 +2963,23 @@ SEQUOIADRIVECREATION()
 MLDRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}OS X Mountain Lion${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                  Creating the drive for ${BOLD}OS X Mountain Lion..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	Output sudo asr restore -source "$installpath/Contents/SharedSupport/InstallESD.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ -d /Volumes/Mac\ OS\ X\ Install\ ESD/Install\ OS\ X\ Mountain\ Lion.app ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2875,11 +2991,11 @@ MLDRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -2893,13 +3009,23 @@ MLDRIVECREATION()
 LDRIVECREATION()
 {
 	WINDOWBAR
-	echo -e -n "${RESET}${TITLE}Creating the drive for ${BOLD}Mac OS X Lion${RESET}${TITLE}. Please Enter Your "
+	echo -e -n "${RESET}${TITLE}                     Creating the drive for ${BOLD}Mac OS X Lion..."
+	echo -e ""
+	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
-	echo -e "${RESET}${BODY}Please wait... "
+	echo -e "\033[1A\033[0K${BODY}"
+	if [[ ! $verbose == '1' ]]; then
+		ANIMATION &
+		anim_pid=$!
+	fi
 	Output sudo asr restore -source "$installpath/Contents/SharedSupport/InstallESD.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
+	if [[ ! $verbose == '1' ]]; then
+		kill "$anim_pid" >/dev/null 2>&1
+		wait "$anim_pid" 2>/dev/null
+	fi
 	if [[ -d /Volumes/Mac\ OS\ X\ Install\ ESD/Install\ Mac\ OS\ X\ Lion.app ]]; then
-		echo -e "${RESET}${TITLE}"
-		echo -n "The drive has been created successfully. Press any key to quit... "
+		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+		echo -n "       The drive has been created successfully. Press any key to quit... "
 		read -n 1 input
 		if [[ $input == 'q' || $input == 'Q' ]]; then
 			SCRIPTLAYOUT
@@ -2911,11 +3037,11 @@ LDRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "Operation Failed"
+		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+		echo -e "                                Operation Failed  "
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "Press S to try again, or Y to review troubleshooting steps."
-		echo -n "(Press any other key to go home)... "
+		echo -e "           Press S to try again, or Y to review troubleshooting steps"
+		echo -n "                     (Press any other key to go home)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			TROUBLESHOOTGUIDE
@@ -3815,7 +3941,7 @@ DOWNLOADMAVERICKS()
 				open /private/tmp/InstallmacOS.dmg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "                 Follow the on-screen instructions to install... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -3865,7 +3991,7 @@ DOWNLOADYOSEMITE()
 				open /private/tmp/InstallmacOS.dmg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "                 Follow the on-screen instructions to install... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -3914,7 +4040,7 @@ DOWNLOADELCAPITAN()
 				open /private/tmp/InstallmacOS.dmg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "                 Follow the on-screen instructions to install... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -3963,7 +4089,7 @@ DOWNLOADSIERRA()
 				open /private/tmp/InstallmacOS.dmg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "                 Follow the on-screen instructions to install... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -4012,7 +4138,7 @@ DOWNLOADHIGHSIERRA()
 				open /private/tmp/InstallmacOS.zip
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "               Copy the installer to your Applications folder... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -4061,7 +4187,7 @@ DOWNLOADMOJAVE()
 				open /private/tmp/InstallmacOS.dmg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "               Copy the installer to your Applications folder... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -4110,7 +4236,7 @@ DOWNLOADCATALINA()
 				open /private/tmp/InstallmacOS.iso
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "               Copy the installer to your Applications folder... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -4159,7 +4285,7 @@ DOWNLOADBIGSUR()
 				open /private/tmp/InstallAssistant.pkg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "                 Follow the on-screen instructions to install... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -4208,7 +4334,7 @@ DOWNLOADMONTEREY()
 				open /private/tmp/InstallAssistant.pkg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "                 Follow the on-screen instructions to install... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -4257,7 +4383,7 @@ DOWNLOADVENTURA()
 				open /private/tmp/InstallAssistant.pkg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "                 Follow the on-screen instructions to install... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -4306,7 +4432,7 @@ DOWNLOADSONOMA()
 				open /private/tmp/InstallAssistant.pkg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "                 Follow the on-screen instructions to install... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -4355,7 +4481,7 @@ DOWNLOADSEQUOIA()
 				open /private/tmp/InstallAssistant.pkg
 				echo -e "\033[1A\033[0K\033[1A\033[0K"
 				echo -e ""
-				echo -e "${BOLD}                               Download Complete"
+				echo -e "${BOLD}                               Download Complete   "
 				echo -e "${RESET}${TITLE}"
 				echo -e "                 Follow the on-screen instructions to install... "
 				echo -n "       Once completed, press any key to return home, or S to install... "
@@ -4376,7 +4502,7 @@ DOWNLOADSEQUOIA()
 DOWNLOADFAIL()
 {
 	echo -e "\033[1A\033[0K"
-	echo -e "${RESET}${ERROR}${BOLD}                                Download failed"
+	echo -e "${RESET}${ERROR}${BOLD}                                Download failed   "
 	echo -e "${RESET}${ERROR}                    Make sure you have an internet connection${RESET}${PROMPTSTYLE}${BOLD}"
 	echo -e ""
 	echo -n "      Press any key to return to the Home Menu (Press S to try again)... "
