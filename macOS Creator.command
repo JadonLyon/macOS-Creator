@@ -728,7 +728,7 @@ RELEASENOTES()
  • Fixed hundreds of minor issues to make experience completely refined"
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -n "Press any key to get started... "
+		echo -n "                        Press any key to get started... "
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
@@ -836,10 +836,10 @@ FIRSTTIME()
 	if [[ -e /private/tmp/.macOSCreatorUpdate ]]; then
 		FIRSTTIMEHERE="TRUE"
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}Upgrade successful.${RESET}"
-		echo -e "${RESET}${BODY}The macOS Creator has been upgraded to ${RESET}${APP}V6.0${BOLD}"
+		echo -e "${RESET}${TITLE}${BOLD}                               Upgrade successful${RESET}"
+		echo -e "${RESET}${BODY}${BOLD}                      Welcome to macOS Creator Version 6.0"
 		echo -e ""
-		echo -e -n "${RESET}${BODY}Would you like to see the release notes?... "
+		echo -e -n "${RESET}${BODY}                  Would you like to see the release notes?... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			RELEASENOTES
@@ -7781,11 +7781,11 @@ ESMWINDOWBAR()
 ESMWINDOWBAREND()
 {
 	echo ""
-	echo -n "Press Q to quit... "
+	echo -n "                               Press Q to quit... "
 	read -n 1 input
 	if [[ $input == 'q' || $input == 'Q' ]]; then
 		echo ""
-		echo -e "\033[1A\033[0KScript Canceled"
+		echo -e "\033[1A\033[0K                                Script Canceled"
 		echo ""
 		exit
 	fi
@@ -7794,7 +7794,7 @@ ESMWINDOWBARERROR()
 {
 	echo ""
 	echo ""
-	echo -n "This is not a valid command, press any key to try again... "
+	echo -n "          This is not a valid command, press any key to try again... "
 	read -n 1
 }
 ESMOSSEQUOIA()
@@ -7803,7 +7803,7 @@ ESMOSSEQUOIA()
 	echo "macOS Sequoia was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSSONOMA()
@@ -7812,7 +7812,7 @@ ESMOSSONOMA()
 	echo "macOS Sonoma was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSVENTURA()
@@ -7821,7 +7821,7 @@ ESMOSVENTURA()
 	echo "macOS Ventura was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSMONTEREY()
@@ -7830,7 +7830,7 @@ ESMOSMONTEREY()
 	echo "macOS Monterey was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSBIGSUR()
@@ -7839,7 +7839,7 @@ ESMOSBIGSUR()
 	echo "macOS Big Sur was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSCATALINA()
@@ -7848,7 +7848,7 @@ ESMOSCATALINA()
 	echo "macOS Catalina was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSMOJAVE()
@@ -7857,7 +7857,7 @@ ESMOSMOJAVE()
 	echo "macOS Mojave was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSHIGHSIERRA()
@@ -7866,7 +7866,7 @@ ESMOSHIGHSIERRA()
 	echo "macOS High Sierra was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "Press any key to go back... "
 	read -n 1
 }
 ESMOSSIERRA()
@@ -7875,7 +7875,7 @@ ESMOSSIERRA()
 	echo "macOS Sierra was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSELCAPITAN()
@@ -7884,7 +7884,7 @@ ESMOSELCAPITAN()
 	echo "OS X El Capitan was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSYOSEMITE()
@@ -7893,7 +7893,7 @@ ESMOSYOSEMITE()
 	echo "OS X Yosemite was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSMAVERICKS()
@@ -7902,7 +7902,7 @@ ESMOSMAVERICKS()
 	echo "OS X Mavericks was found"
 	echo "This macOS Verison is not compatible in ESM"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSNONE()
@@ -7910,7 +7910,7 @@ ESMOSNONE()
 	ESMWINDOWBAR
 	echo "No Mac OS X Version was found"
 	echo ""
-	echo -n "Press any key to return to the Home Menu... "
+	echo -n "                          Press any key to go back... "
 	read -n 1
 }
 ESMOSL()
@@ -7919,7 +7919,7 @@ ESMOSL()
 	echo "Mac OS X Lion was found"
 	echo "Press Y to use this OS Version."
 	echo ""
-	echo -n "Press any other key to go back... "
+	echo -n "                        Press any other key to go back... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		apppath="/Applications/Install Mac OS X Lion.app"
@@ -7932,7 +7932,7 @@ ESMOSML()
 	echo "OS X Mountain Lion was found"
 	echo "Press Y to use this OS Version."
 	echo ""
-	echo -n "Press any other key to go back... "
+	echo -n "                        Press any other key to go back... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		apppath="/Applications/Install OS X Mountain Lion.app"
@@ -7957,7 +7957,7 @@ ESMDRIVE()
 		else
 			if [[ ! "$drivepath" == */Volumes/* ]]; then
 				echo ""
-				echo -n "This is not a valid drive. Press any key to try again... "
+				echo -n "          This is not a valid drive. Press any key to try again... "
 				read -n 1
 			else
 				if [[ "$apppath" == *Mountain* ]]; then
@@ -7986,9 +7986,9 @@ ESMMLCREATE()
 	else
 		echo ""
 		echo ""
-		echo "Operation Failed"
+		echo "                                  Operation Failed"
 		echo ""
-		echo -n "Press any key to return to go back... "
+		echo -n "                          Press any key to go back... "
 		read -n 1
 		ESM
 	fi
@@ -8010,9 +8010,9 @@ ESMLCREATE()
 	else
 		echo ""
 		echo ""
-		echo "Operation Failed"
+		echo "                                  Operation Failed"
 		echo ""
-		echo -n "Press any key to return to go back... "
+		echo -n "                          Press any key to go back... "
 		read -n 1
 		ESM
 	fi
@@ -8039,14 +8039,14 @@ ESMPROVIDE()
 		else
 			if [[ "$apppath" == *Mountain* ]]; then
 				echo ""
-				echo "OS X Mountain Lion"
-				echo -n "Press any key to use this OS... "
+				echo "                                OS X Mountain Lion"
+				echo -n "                       Press any key to use this OS... "
 				read -n 1
 				ESMDRIVE
 			else
 				echo ""
-				echo "Mac OS X Lion"
-				echo -n "Press any key to use this OS... "
+				echo "                                  Mac OS X Lion"
+				echo -n "                       Press any key to use this OS... "
 				read -n 1
 				ESMDRIVE
 			fi
@@ -8057,12 +8057,12 @@ ESM()
 {
 	while true; do
 		ESMWINDOWBAR
-		echo "Welcome to the macOS Creator (ESM)"
-		echo "Please choose one of the folowing options..."
+		echo "                       Welcome to the macOS Creator (ESM)"
+		echo "                   Please choose one of the folowing options"
 		echo ""
-		echo "Search for Mac OS X Installer in Applications folder..........(1)"
-		echo "Manually provide path for Mac OS X Installer..................(2)"
-		echo "(ESM) Help....................................................(3)"
+		echo "       Search for Mac OS X Installer in Applications folder..........(1)"
+		echo "       Manually provide path for Mac OS X Installer..................(2)"
+		echo "       (ESM) Help....................................................(3)"
 		echo ""
 		echo -n "                           Enter your option here: "
 		read -n 1 input
@@ -8132,12 +8132,12 @@ SCRIPTLAYOUT()
 {
 	if [[ "$MACOSVERSION" == 10.6 ]]; then
 		clear
-		echo "macOS Creator V6.0"
+		echo "                               macOS Creator V6.0"
 		echo ""
-		echo "This Mac is running Mac OS X Snow Leopard"
-		echo "You can run this script in ESM (Extended Support Mode)"
+		echo "                    This Mac is running Mac OS X Snow Leopard"
+		echo "              You can run this script in ESM (Extended Support Mode)"
 		echo ""
-		echo -n "Press (Y) if you wish to continue (Press any other key to cancel)... "
+		echo -n "     Press (Y) if you wish to continue (Press any other key to cancel)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			ESM
@@ -8147,12 +8147,12 @@ SCRIPTLAYOUT()
 		fi
 	elif [[ "$MACOSVERSION" == 10.5 ]]; then
 		clear
-		echo "macOS Creator V6.0"
+		echo "                               macOS Creator V6.0"
 		echo ""
-		echo "This Mac is running Mac OS X Leopard"
-		echo "You can run this script in ESM (Extended Support Mode)"
+		echo "                      This Mac is running Mac OS X Leopard"
+		echo "              You can run this script in ESM (Extended Support Mode)"
 		echo ""
-		echo -n "Press (Y) if you wish to continue (Press any other key to cancel)... "
+		echo -n "     Press (Y) if you wish to continue (Press any other key to cancel)... "
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			ESM
