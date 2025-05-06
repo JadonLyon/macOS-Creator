@@ -7,7 +7,6 @@
 #Version 6.0
 #Release notes:
 #              V6.0 Introduces a new UI, refined colors, and easier texts for a brand-new, much more simplified experience.
-#                   Introduces Tips, where you can see helpful tips during a particular section.
 #                   Introduces a new window: License Agreement.
 #                   Allows you to now choose macOS installer with GUI window.
 #                   Completely redesigns both the First Time Menu and User Guide Menu.
@@ -19,6 +18,7 @@
 #
 #
 #                   To see older release notes, go to Github.com
+
 
 #Script
 
@@ -68,27 +68,27 @@ fi
 
 LIGHTMODE()
 {
-	APP='\033["38;5;23m'
-	TITLE='\033["38;5;24m'
-	BODY='\033["38;5;23m'
-	PROMPTSTYLE='\033["38;5;66m'
-	OSFOUND='\033["38;5;67m'
+	APP='\033["38;5;130m'
+	TITLE='\033["38;5;172m'
+	BODY='\033["38;5;130m'
+	PROMPTSTYLE='\033["38;5;208m'
+	OSFOUND='\033["38;5;166m'
 	WARNING='\033["38;5;160m'
 	ERROR='\033["38;5;9m'
-	CANCEL='\033["38;5;31m'
+	CANCEL='\033["38;5;1m'
 	BOLD='\033[1m'
 	RESET='\033[0m'
 }
 DARKMODE()
 {
-	APP='\033["38;5;158m'
-	TITLE='\033["38;5;153m'
-	BODY='\033["38;5;158m'
-	PROMPTSTYLE='\033["38;5;152m'
-	OSFOUND='\033["38;5;111m'
+	APP='\033["38;5;180m'
+	TITLE='\033["38;5;215m'
+	BODY='\033["38;5;180m'
+	PROMPTSTYLE='\033["38;5;208m'
+	OSFOUND='\033["38;5;166m'
 	WARNING='\033["38;5;160m'
 	ERROR='\033["38;5;196m'
-	CANCEL='\033["38;5;38m'
+	CANCEL='\033["38;5;197m'
 	BOLD='\033[1m'
 	RESET='\033[0m'
 }
@@ -377,25 +377,6 @@ WINDOWERRORDRIVE()
 	read -n 1
 	echo -e "${RESET}"
 }
-WINDOWBARENDANY()
-{
-	echo -e ""
-	echo -e ""
-	echo -n -e "${RESET}${CANCEL}${BOLD}Press Q to cancel... "
-	read -n 1 input
-	if [[ $input == 'q' || $input == 'Q' ]]; then
-		echo -e ""
-		echo -e "\033[1A\033[0KScript Canceled"
-		if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
-			echo -e "${RESET}${APP}${BOLD}"
-			echo -e "»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
-			echo -e "${RESET}"
-		fi
-		exit
-	else
-		echo -e "${RESET}"
-	fi
-}
 SUCCESS()
 {
 	echo -e ""
@@ -599,8 +580,8 @@ RESETSCRIPT()
 			echo -n -e "${RESET}${DEFAULTBLUE}                           Press any key to restart... "
 			read -n 1
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7931s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
-			sed -i '' '7930s/FALSE/TRUE/' macOS\ Creator.command
+			sed -i '' '8166s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
+			sed -i '' '8165s/FALSE/TRUE/' macOS\ Creator.command
 			if [[ $APPLESILICONE == "YES" ]]; then
 				COLORM1
 			else
@@ -663,7 +644,7 @@ MAINMENU()
 {
 	if [[ $FIRSTTIMEHERE=='TRUE' ]]; then
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '7930s/TRUE/FALSE/' macOS\ Creator.command
+		sed -i '' '8165s/TRUE/FALSE/' macOS\ Creator.command
 	fi
 	FIRSTTIMEHERE="FALSE"
 	ENTERHERE="TRUE"
@@ -737,7 +718,6 @@ RELEASENOTES()
 	echo -e "${RESET}${TITLE}${BOLD}                     macOS Creator Version 6.0 ${RESET}${TITLE}Release Notes"
 	echo -e ""
 	echo -e "${RESET}${BODY} • Introduces a new UI, refined colors, and simplified texts
- • Introduces Tips, where you can see helpful tips during a particular section
  • Allows you to now choose macOS installer with GUI window
  • Introduces a new window: License Agreement
  • Completely redesigns both the First Time Menu and User Guide Menu
@@ -752,7 +732,7 @@ RELEASENOTES()
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '7931s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+		sed -i '' '8166s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 		if [[ $verbose == "1" ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 		elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -866,7 +846,7 @@ FIRSTTIME()
 		else
 			rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7931s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '8166s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -894,11 +874,11 @@ FIRSTTIME()
 		read -n 1 input
 		if [[ ! $input == 'q' || $input == 'Q' ]]; then
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7931s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
+			sed -i '' '8166s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
 			CHANGECOLORS
 		else
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '7931s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '8166s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -1025,7 +1005,7 @@ GUIDE()
 												echo -n "Press any key to get started... "
 												read -n 1
 												cd "$SCRIPTPATHMAIN"
-												sed -i '' '7931s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+												sed -i '' '8166s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 												if [[ $verbose == "1" ]]; then
 													"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 												elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -2280,17 +2260,17 @@ MAVERICKSDRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2340,17 +2320,17 @@ YOSEMITEDRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2400,17 +2380,17 @@ ELCAPITANDRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2437,20 +2417,21 @@ SIERRADRIVECREATION()
 		Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
 	fi
 	echo -e ""
-	echo -e "Step 1 of 7..."
+	echo -e "                                 Step 1 of 7..."
 	Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg"
-	echo -e "\033[1A\033[0KStep 2 of 7..."
+	echo -e "\033[1A\033[0K                                 Step 2 of 7..."
 	Output sudo asr restore -source "/Volumes/OS X Install ESD/BaseSystem.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
-	echo -e "\033[1A\033[0KStep 3 of 7..."
+	echo -e "\033[1A\033[0KS                                 tep 3 of 7..."
 	Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/Packages
-	echo -e "\033[1A\033[0KStep 4 of 7..."
+	echo -e "\033[1A\033[0K                                 Step 4 of 7..."
 	Output cp -R "/Volumes/OS X Install ESD/Packages" /Volumes/OS\ X\ Base\ System/System/Installation/
-	echo -e "\033[1A\033[0KStep 5 of 7..."
+	echo -e "\033[1A\033[0K                                 Step 5 of 7..."
 	Output cp "/Volumes/OS X Install ESD/BaseSystem.dmg" /Volumes/OS\ X\ Base\ System/
-	echo -e "\033[1A\033[0KStep 6 of 7..."
+	echo -e "\033[1A\033[0K                                 Step 6 of 7..."
 	Output cp "/Volumes/OS X Install ESD/BaseSystem.chunklist" /Volumes/OS\ X\ Base\ System/
-	echo -e "\033[1A\033[0KStep 7 of 7..."
+	echo -e "\033[1A\033[0K                                 Step 7 of 7..."
 	Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
+	echo -e "\033[1A\033[0K                                    Finished"
 	if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
 		echo -e "${RESET}${TITLE}"
 		echo -n "       The drive has been created successfully. Press any key to quit... "
@@ -2465,8 +2446,8 @@ SIERRADRIVECREATION()
 			SUCCESS
 		fi
 	else
-		echo -e "${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "${RESET}${ERROR}${BOLD}\033[1A\033[0K\033[1A\033[0K"
+		echo -e "                                Operation Failed   "
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
 		echo -n "                     (Press any other key to go home)... "
@@ -2515,17 +2496,17 @@ HIGHSIERRADRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2575,17 +2556,17 @@ MOJAVEDRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2635,17 +2616,17 @@ CATALINADRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2695,17 +2676,17 @@ BIGSURDRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2755,17 +2736,17 @@ MONTEREYDRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2815,17 +2796,17 @@ VENTURADRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2875,17 +2856,17 @@ SONOMADRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		if [[ "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2935,17 +2916,17 @@ SEQUOIADRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
-		if [[ "$error" == *"command not found"* ]]; then
+		echo -e "                                Operation Failed   "
+		if [[ ! "$error" == *"command not found"* ]]; then
 			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
 		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}The drive cannot be erased, try formating it with Disk Utility."
+			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
 		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}This drive is too small. Try using a drive with a larger capacity."
+			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
 		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}The installer has been corrupted. Try redownloading a new copy."
+			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
 		else
-			echo -e "${RESET}${ERROR}An unknown error has occured."
+			echo -e "${RESET}${ERROR}                         An unknown error has occured"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
@@ -2992,7 +2973,7 @@ MLDRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
 		echo -n "                     (Press any other key to go home)... "
@@ -3038,7 +3019,7 @@ LDRIVECREATION()
 		fi
 	else
 		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed  "
+		echo -e "                                Operation Failed   "
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -e "           Press S to try again, or Y to review troubleshooting steps"
 		echo -n "                     (Press any other key to go home)... "
@@ -4534,7 +4515,7 @@ TESTELIGIBILITY()
 SAVECOLORS()
 {
 	cd "$SCRIPTPATHMAIN"
-	sed -i '' '7931s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
+	sed -i '' '8166s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
 	if [[ $verbose == "1" ]]; then
 		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 	else
@@ -4599,27 +4580,27 @@ CHANGECOLORS()
 					elif [[ $input == '2' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${DEFAULTBLUE}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${DEFAULTBLUE}${BOLD}                                Please wait... "
 						COLORBLUE
 					elif [[ $input == '3' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${DESERT}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${DESERT}${BOLD}                                Please wait... "
 						COLORSANDS
 					elif [[ $input == '4' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${FOREST}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${FOREST}${BOLD}                                Please wait... "
 						COLORFOREST
 					elif [[ $input == '5' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${CINNAMON}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${CINNAMON}${BOLD}                                Please wait... "
 						CINNAMONCOLOR
 					elif [[ $input == '6' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${CLASSICBLACK}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${CLASSICBLACK}${BOLD}                                Please wait... "
 						COLORCLASSIC
 					elif [[ $input == 'q' || $input == 'Q' ]]; then
 						if [[ $ENTERHERE == 'TRUE' ]]; then
@@ -4697,27 +4678,27 @@ CHANGECOLORS()
 					if [[ $input == '1' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${DEFAULTBLUE}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${DEFAULTBLUE}${BOLD}                                Please wait... "
 						COLORBLUE
 					elif [[ $input == '2' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${DESERT}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${DESERT}${BOLD}                                Please wait... "
 						COLORSANDS
 					elif [[ $input == '3' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${FOREST}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${FOREST}${BOLD}                                Please wait... "
 						COLORFOREST
 					elif [[ $input == '4' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${CINNAMON}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${CINNAMON}${BOLD}                                Please wait... "
 						CINNAMONCOLOR
 					elif [[ $input == '5' ]]; then
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${CLASSICBLACK}${BOLD}                                Please wait..."
+						echo -e -n "${RESET}${CLASSICBLACK}${BOLD}                                Please wait... "
 						COLORCLASSIC
 					elif [[ $input == 'q' || $input == 'Q' ]]; then
 						if [[ $ENTERHERE == 'TRUE' ]]; then
@@ -4778,7 +4759,7 @@ COLORBLUE()
 		Output rm -R .colorm1setting
 		touch .defaultbluesetting
 	fi
-	sed -i '' '7931s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;23m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;24m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;23m/' macOS\ Creator.command
@@ -4816,7 +4797,7 @@ COLORSANDS()
 		Output rm -R .colorm1setting
 		touch .desertsandssetting
 	fi
-	sed -i '' '7931s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;130m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;172m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;130m/' macOS\ Creator.command
@@ -4850,7 +4831,7 @@ COLORFOREST()
 		Output rm -R .colorm1setting
 		touch .forestgreensetting
 	fi
-	sed -i '' '7931s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;22m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;65m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;22m/' macOS\ Creator.command
@@ -4884,7 +4865,7 @@ CINNAMONCOLOR()
 		Output rm -R .colorm1setting
 		touch .cinnamonapplecolor
 	fi
-	sed -i '' '7931s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;88m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;124m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;88m/' macOS\ Creator.command
@@ -4918,7 +4899,7 @@ COLORCLASSIC()
 		Output rm -R .colorm1setting
 		touch .classicsetting
 	fi
-	sed -i '' '7931s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;0m/' macOS\ Creator.command
@@ -4952,7 +4933,7 @@ COLORM1()
 		Output rm -R .defaultbluesetting
 		touch .colorm1setting
 	fi
-	sed -i '' '7931s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8166s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;30m/"38;5;214m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;23m/"38;5;209m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;30m/"38;5;163m/' macOS\ Creator.command
