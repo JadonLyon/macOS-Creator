@@ -61,6 +61,7 @@ BUILDAPP()
 	fi
 	echo -e "Copying macOS Creator..."
 	sudo cp -R "$SCRIPTPATHMAIN/macOS Creator.command" /$HOME/macOS\ Creator/
+	sudo cp -R "$SCRIPTPATHMAIN/License Agreement.txt" /$HOME/macOS\ Creator/
 	echo -e "Fixing Permissions..."
 	sudo chmod -R u+w /Applications/macOS\ Creator.app
 	sudo chmod +x /Applications/macOS\ Creator.app

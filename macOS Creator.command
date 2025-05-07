@@ -5041,7 +5041,7 @@ ADVANCEDMODE()
 }
 APPCONFIG()
 {
-	if [[ -d /Applications/macOS\ Creator.app ]]; then
+	if [[ ! -d /Applications/macOS\ Creator.app ]]; then
 		WINDOWBAR
 		echo -e "${RESET}${ERROR}${BOLD}                  The app cannot be found, please reinstall it"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
