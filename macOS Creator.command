@@ -4,17 +4,10 @@
 #This is where the script code is located
 #Caution: Modifying the script may cause it to break!
 
-#Version 6.0
+#Version 6.1
 #Release notes:
-#              V6.0 Introduces a new UI, refined colors, and easier texts for a brand-new, much more simplified experience.
-#                   Introduces a new window: License Agreement.
-#                   Allows you to now choose macOS installer with GUI window.
-#                   Completely redesigns both the First Time Menu and User Guide Menu.
-#                   Changing colors now feels much more fluid and user friendly.
-#                   Now downloads the latest version of macOS Sequoia and Ventura from Apple.
-#                   Fixed some issues with macOS Sierra.
-#                   Fixed an issue where in Safe mode, script would not list drives.
-#                   Fixed hundreds of minor issues to make experience completely refined.
+#              V6.1 Fixes different texts throughout the script.
+#                   Fixes UI text locations throughout the script.
 #
 #
 #                   To see older release notes, go to Github.com
@@ -65,6 +58,13 @@ SCRIPTPATHMAIN="${0%/*}"
 if [[ -e "$SCRIPTPATHMAIN/.homeuser" ]]; then
 	HOMEUSER="YES"
 fi
+
+
+
+
+
+
+
 
 LIGHTMODE()
 {
@@ -321,25 +321,25 @@ WINDOWBAR()
 	if [[ $GRAPHICSSAFE == 'YES' ]]; then
 		clear
 		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                    macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                    macOS Creator ${RESET}${APP}V6.1${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
 		elif [[ $verbose == '1' ]]; then
-			echo -e "${APP}${BOLD}                           macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                           macOS Creator ${RESET}${APP}V6.1${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
 		elif [[ $safe == '1' || $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                         macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                         macOS Creator ${RESET}${APP}V6.1${BOLD} ${WARNING}(Safe Mode)${APP}${BOLD}"
 		else
-			echo -e "${APP}${BOLD}                               macOS Creator ${RESET}${APP}V6.0${BOLD}"
+			echo -e "${APP}${BOLD}                               macOS Creator ${RESET}${APP}V6.1${BOLD}"
 		fi
 		echo -e ""
 	else
 		clear
 		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                    macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                    macOS Creator ${RESET}${APP}V6.1${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
 		elif [[ $verbose == '1' ]]; then
-			echo -e "${APP}${BOLD}                          macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                          macOS Creator ${RESET}${APP}V6.1${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
 		elif [[ $safe == '1' || $safe == '2' ]]; then
-			echo -e "${APP}${BOLD}                         macOS Creator ${RESET}${APP}V6.0${BOLD} ${WARNING}(Safe Mode)${APP}${BOLD}"
+			echo -e "${APP}${BOLD}                         macOS Creator ${RESET}${APP}V6.1${BOLD} ${WARNING}(Safe Mode)${APP}${BOLD}"
 		else
-			echo -e "${APP}${BOLD}                               macOS Creator ${RESET}${APP}V6.0${BOLD}"
+			echo -e "${APP}${BOLD}                               macOS Creator ${RESET}${APP}V6.1${BOLD}"
 		fi
 		echo -e "»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
 	fi
@@ -715,7 +715,7 @@ LICENSEAGREEMENT()
 RELEASENOTES()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}${BOLD}                     macOS Creator Version 6.0 ${RESET}${TITLE}Release Notes"
+	echo -e "${RESET}${TITLE}${BOLD}                     macOS Creator Version 6.1 ${RESET}${TITLE}Release Notes"
 	echo -e ""
 	echo -e "${RESET}${BODY} • Introduces a new UI, refined colors, and simplified texts
  • Allows you to now choose macOS installer with GUI window
@@ -758,13 +758,13 @@ MACINFO()
 	else
 		if [[ $APPLESILICONE == 'YES' ]]; then
 			if [[ "$APP" == '\033["38;5;0m' || "$APP" == '\033["38;5;255m' ]]; then
-				echo -e "${RESET}${TITLE} • Chip Type: Apple Silicone"
+				echo -e "${RESET}${TITLE} • Chip Type: ${BOLD}Apple Silicone"
 			else
 				echo -e "${RESET}${TITLE} • Chip Type: ${BOLD}$APPLECHIPINFO"
 			fi
 		else
 			if [[ "$APP" == '\033["38;5;0m' || "$APP" == '\033["38;5;255m' ]]; then
-				echo -e "${RESET}${TITLE} • Chip Type: Intel Based Mac"
+				echo -e "${RESET}${TITLE} • Chip Type: ${BOLD}Intel Based Mac"
 			else
 				echo -e "${RESET}${TITLE} • Chip Type: ${RESET}${BOLD}\033[38;5;39mIntel Based Mac"
 			fi
@@ -802,11 +802,15 @@ MACINFO()
 	elif [[ $MACOSVERSION == *14* ]]; then
 		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Sonoma ${RESET}${BODY}($MACOSVERSION)"
 	elif [[ $MACOSVERSION == *15* ]]; then
-		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Sequioia ${RESET}${BODY}($MACOSVERSION)"
+		echo -e "${RESET}${TITLE} • macOS Version: ${BODY}${BOLD}macOS Sequoia ${RESET}${BODY}($MACOSVERSION)"
 	else
 		echo -e "${RESET}${TITLE} • macOS Version:"
 	fi
-	echo -e "${RESET}${TITLE} • Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
+	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
+		echo -e "${RESET}${TITLE} • Startup Drive: "
+	else
+		echo -e "${RESET}${TITLE} • Startup Drive: ${BODY}${BOLD}$STARTUPDISK"
+	fi
 	echo -e ""
 	if [[ $APPLESILICONE == 'YES' ]]; then
 		echo -e "${RESET}${WARNING}    You may not be able to install older macOS Versions with Apple Silicone"
@@ -837,7 +841,7 @@ FIRSTTIME()
 		FIRSTTIMEHERE="TRUE"
 		WINDOWBAR
 		echo -e "${RESET}${TITLE}${BOLD}                               Upgrade successful${RESET}"
-		echo -e "${RESET}${BODY}${BOLD}                      Welcome to macOS Creator Version 6.0"
+		echo -e "${RESET}${BODY}${BOLD}                      Welcome to macOS Creator Version 6.1"
 		echo -e ""
 		echo -e -n "${RESET}${BODY}                  Would you like to see the release notes?... "
 		read -n 1 input
@@ -978,7 +982,7 @@ STEP2()
 		echo -e ""
 		echo -e "${RESET}${BODY}${BOLD}              At some point the script may ask you this question:"
 		echo -e ""
-		echo -e "${RESET}${PROMPTSTYLE}                             Do you want to continue?... "
+		echo -e "${RESET}${PROMPTSTYLE}                           Do you wish to continue?... "
 		echo -e ""
 		echo -e "${RESET}${BODY}${BOLD}         In order to continue, press the Y key. Y always refers to Yes."
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
@@ -7817,7 +7821,7 @@ IDMAC()
 ESMWINDOWBAR()
 {
 		clear
-		echo "                            macOS Creator V6.0 (ESM)"
+		echo "                            macOS Creator V6.1 (ESM)"
 		echo "********************************************************************************"
 }
 ESMWINDOWBAREND()
@@ -8174,7 +8178,7 @@ SCRIPTLAYOUT()
 {
 	if [[ "$MACOSVERSION" == 10.6 ]]; then
 		clear
-		echo "                               macOS Creator V6.0"
+		echo "                               macOS Creator V6.1"
 		echo ""
 		echo "                    This Mac is running Mac OS X Snow Leopard"
 		echo "              You can run this script in ESM (Extended Support Mode)"
@@ -8189,7 +8193,7 @@ SCRIPTLAYOUT()
 		fi
 	elif [[ "$MACOSVERSION" == 10.5 ]]; then
 		clear
-		echo "                               macOS Creator V6.0"
+		echo "                               macOS Creator V6.1"
 		echo ""
 		echo "                      This Mac is running Mac OS X Leopard"
 		echo "              You can run this script in ESM (Extended Support Mode)"
