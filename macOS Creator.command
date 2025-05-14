@@ -4570,9 +4570,9 @@ SAVECOLORS()
 }
 CHANGECOLORS()
 {
-	if [[ $MODIFIED == 'YES' ]]; then
+	if [[ ! $MODIFIED == 'YES' ]]; then
 		WINDOWBAR
-		echo -e "${RESET}${ERROR}${BOLD}Script has been modified, you might not be able to change colors.${RESET}"
+		echo -e "${RESET}${ERROR}${BOLD}       Script has been modified, you might not be able to change colors${RESET}"
 		echo -e "${PROMPTSTYLE}${BOLD}"
 		echo -n "Press any key to continue... "
 		read -n 1
@@ -4590,9 +4590,9 @@ CHANGECOLORS()
 				while true; do
 					WINDOWBAR
 					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
-						echo -e "${RESET}${TITLE}${BOLD}                    To begin, choose the color style you like:"
+						echo -e "${RESET}${TITLE}${BOLD}                    To begin, choose the color style you like"
 					else
-						echo -e "${RESET}${TITLE}${BOLD}                         Choose the color style you like:"
+						echo -e "${RESET}${TITLE}${BOLD}                         Choose the color style you like"
 					fi
 					echo -e ""
 					echo -e "${RESET}$APPLECHIP"
@@ -4603,13 +4603,13 @@ CHANGECOLORS()
 					echo -e "${RESET}${CLASSICBLACK}$CLASSICBLACKBW"
 					echo -e ""
 					if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
-						echo -e "${RESET}${TITLE}             You can change these colors at any point from Settings."
+						echo -e "${RESET}${TITLE}             You can change these colors at any point from Settings"
 					else
 						echo -e "${RESET}${TITLE}                    Current color:${APP}${BOLD} $SETTINGCOLOR"
 					fi
 					if [[ ! $ENTERHERE == 'TRUE' ]]; then
 						echo -e ""
-						echo -e "${RESET}${TITLE}${BOLD}                               Press (S) to save."
+						echo -e "${RESET}${TITLE}${BOLD}                               Press (S) to save"
 					fi
 					echo -e "${PROMPTSTYLE}${BOLD}"
 					echo -n "                           Enter your option here: "
