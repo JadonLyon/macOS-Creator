@@ -754,7 +754,7 @@ MACINFO()
 	echo -e "${RESET}${TITLE}${BOLD}                              This Mac Information "
 	echo -e ""
 	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
-		echo -e "${RESET}${TITLE} • Unknown processer type  (Script is in Safe Mode)"
+		echo -e "${RESET}${TITLE} • Chip Type:"
 	else
 		if [[ $APPLESILICONE == 'YES' ]]; then
 			if [[ "$APP" == '\033["38;5;0m' || "$APP" == '\033["38;5;255m' ]]; then
@@ -4570,16 +4570,16 @@ SAVECOLORS()
 }
 CHANGECOLORS()
 {
-	if [[ ! $MODIFIED == 'YES' ]]; then
+	if [[ $MODIFIED == 'YES' ]]; then
 		WINDOWBAR
-		echo -e "${RESET}${ERROR}${BOLD}       Script has been modified, you might not be able to change colors${RESET}"
+		echo -e "${RESET}${ERROR}${BOLD}         Script has been modified, you might not be able to change colors${RESET}"
 		echo -e "${PROMPTSTYLE}${BOLD}"
-		echo -n "Press any key to continue... "
+		echo -n "                         Press any key to continue... "
 		read -n 1
 	fi
 	if [[ $safe == '1' || $safe == '2' ]]; then
 		WINDOWBAR
-		echo -e "${RESET}${ERROR}${BOLD}You cannot change script colors in Safe Mode.${RESET}"
+		echo -e "${RESET}${ERROR}${BOLD}                  You cannot change script colors in Safe Mode${RESET}"
 		echo -e "${PROMPTSTYLE}${BOLD}"
 		echo -n "                          Press any key to go back... "
 		read -n 1
@@ -4688,7 +4688,7 @@ CHANGECOLORS()
 				done
 			else
 				WINDOWBAR
-				echo -e "${RESET}${ERROR}${BOLD}Script name has been modified, you cannot change colors.${RESET}"
+				echo -e "${RESET}${ERROR}${BOLD}             Script name has been modified, you cannot change colors${RESET}"
 				echo -e "${PROMPTSTYLE}${BOLD}"
 				echo -n "                          Press any key to go back... "
 				read -n 1
@@ -4786,9 +4786,9 @@ CHANGECOLORS()
 				done
 			else
 				WINDOWBAR
-				echo -e "${RESET}${ERROR}${BOLD}Script name has been modified, you cannot change colors.${RESET}"
+				echo -e "${RESET}${ERROR}${BOLD}             Script name has been modified, you cannot change colors${RESET}"
 				echo -e "${PROMPTSTYLE}${BOLD}"
-				echo -n "Press any key to return home... "
+				echo -n "                          Press any key to go back... "
 				read -n 1
 			fi
 		fi
@@ -8256,11 +8256,10 @@ if [[ $safe == "1" ]]; then
 	SCRIPTLAYOUT
 elif [[ $safe == "2" ]]; then
 	clear
+	echo -e "                          macOS Creator V6.1 Safe Mode"
+	echo -e "    Press Y if you want to skip the following, press any other key to allow:"
 	echo -e ""
-	echo -e "macOS Creator Safe Mode"
-	echo -e "Press Y if you want to skip the following, press any other key to allow:"
-	echo -e ""
-	echo -n "Skip Mac Verifications... "
+	echo -n "    Skip Mac Verifications... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		MACVERIFY="NO"
@@ -8269,7 +8268,7 @@ elif [[ $safe == "2" ]]; then
 	else
 		echo -e ""
 	fi
-	echo -n "Skip OS Verifications... "
+	echo -n "    Skip OS Verifications... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		PRERUNOS="NO"
@@ -8277,7 +8276,7 @@ elif [[ $safe == "2" ]]; then
 	else
 		echo -e ""
 	fi
-	echo -n "Skip script color set... "
+	echo -n "    Skip script color set... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		PRERUNCOLOR="NO"
@@ -8285,7 +8284,7 @@ elif [[ $safe == "2" ]]; then
 	else
 		echo -e ""
 	fi
-	echo -n "Run with safe graphics... "
+	echo -n "    Run with safe graphics... "
 	read -n 1 input
 	if [[ $input == 'y' || $input == 'Y' ]]; then
 		PRERUNDIS="YES"
