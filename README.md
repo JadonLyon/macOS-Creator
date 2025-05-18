@@ -68,3 +68,6 @@ In V4.1 the ability to change the script colors was first introduced. Now, the s
 
 Selecting macOS Installer in V6.0 and newer.
 In order for this function to work, the script will connect with Apple Script, and open a file picker window. Here you can find the macOS Installer and simply click "Choose" to use it.
+
+Determining version number in V6.1 and newer.
+The script now writes a file into the macOS Creator home folder that determines which version is installed onto your Mac. In order to determine newer versions, the script simply guesses that an older version is installed unless a newer file is installed.

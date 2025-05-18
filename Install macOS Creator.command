@@ -91,13 +91,27 @@ BUILDAPP()
 }
 
 #Build App
-if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command || -d /Applications/macOS\ Creator.app ]]; then
-	if [[ -e /$HOME/macOS\ Creator/.version62 || -e /$HOME/macOS\ Creator/.version63 || -e /$HOME/macOS\ Creator/.version64 || -e /$HOME/macOS\ Creator/.version65 || -e /$HOME/macOS\ Creator/.version66 || -e /$HOME/macOS\ Creator/.version67 || -e /$HOME/macOS\ Creator/.version68 || -e /$HOME/macOS\ Creator/.version69 || -e /$HOME/macOS\ Creator/.version70 ]]; then
-		echo -e ""
-		echo -e "            A newer version of the macOS Creator is already installed"
-		echo -e "                    You cannot downgrade your current version"
-		echo -e ""
-		exit
+UPDATEINSTALL()
+{
+	if [[ $VersionUpdate == 'TRUE' ]]; then
+		if [[ ! -e /$HOME/macOS\ Creator/.version61 ]]; then
+			echo -e ""
+			echo -e "            A newer version of the macOS Creator is already installed"
+			echo -e "                    You cannot downgrade your current version"
+			echo -e ""
+			exit
+		else
+			echo ""
+			echo "               An older version of the macOS Creator already exits"
+			echo -n "                       Press Y to upgade/reinstall it..."
+			read -n 1 input
+			echo -e ""
+			if [[ $input == 'y' || $input == 'Y' ]]; then
+				BUILDAPP
+			else
+				exit
+			fi
+		fi
 	else
 		echo ""
 		echo "               An older version of the macOS Creator already exits"
@@ -105,13 +119,24 @@ if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command || -d /Applications/macOS\
 		read -n 1 input
 		echo -e ""
 		if [[ $input == 'y' || $input == 'Y' ]]; then
-			UPGRADE="YES"
 			BUILDAPP
 		else
 			exit
 		fi
 	fi
+}
+
+for file in /$HOME/macOS\ Creator/.version*; do
+    if [[ -e "$file" ]]; then
+        VersionUpdate=TRUE
+    fi
+done
+
+if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command || -d /Applications/macOS\ Creator.app ]]; then
+	UPGRADE="YES"
+	UPDATEINSTALL
 fi
+
 echo -e ""
 echo -e "             This script will install the macOS Creator onto your Mac"
 echo -n "                             Press Y to install..."
