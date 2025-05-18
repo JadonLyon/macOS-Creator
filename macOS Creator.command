@@ -984,7 +984,7 @@ STEP2()
 		echo -e ""
 		echo -e "${RESET}${PROMPTSTYLE}                           Do you wish to continue?... "
 		echo -e ""
-		echo -e "${RESET}${BODY}${BOLD}         In order to continue, press the Y key. Y always refers to Yes."
+		echo -e "${RESET}${BODY}${BOLD}         In order to continue, press the Y key. Y always refers to Yes"
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "                           Enter your option here: "
 		read -n 1 input
