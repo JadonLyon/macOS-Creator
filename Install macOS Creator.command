@@ -12,8 +12,9 @@ SCRIPTPATHMAIN="${0%/*}"
 MACOSVERSION=$(sw_vers -productVersion | cut -d '.' -f 1,2)
 if [[ "$MACOSVERSION" == '10.5' || "$MACOSVERSION" == '10.6' || "$MACOSVERSION" == '10.7' || "$MACOSVERSION" == '10.8' ]]; then
 	echo -e ""
-	echo -e "The app cannot be built on this Mac."
-	echo -e "You need OS X Mavericks or later."
+	echo -e "                       The app cannot be built on this Mac"
+	echo -e "                         You need OS X Mavericks or later"
+	echo -e "    Scroll to the bottom of the disk image and open the macOS Creator script"
 	echo -e ""
 	exit
 fi
@@ -21,14 +22,14 @@ BUILDAPP()
 {
 	if [[ ! -d "$SCRIPTPATHMAIN/app_files" ]]; then
 		echo -e ""
-		echo -e "Cannot Find Files to build app..."
+		echo -e "                        Cannot find files to build app..."
 		echo -e ""
 		exit
 	fi
 	if [[ $UPGRADE == 'YES' ]]; then
 		touch /private/tmp/.macOSCreatorUpdate
 		sudo rm -R /Applications/macOS\ Creator.app
-		echo -e "Removing previous versions..."
+		echo -e "                          Removing previous versions..."
 		sudo rm -R /$HOME/macOS\ Creator/macOS\ Creator.command
 		sudo rm -R /$HOME/macOS\ Creator/normallaunch
 		sudo rm -R /$HOME/macOS\ Creator/onelaunch
@@ -37,7 +38,7 @@ BUILDAPP()
 		mkdir /$HOME/macOS\ Creator
 	fi
 	sudo mkdir /Applications/macOS\ Creator.app
-	echo -e "Building the app..."
+	echo -e "                               Building the app..."
 	if [[ $UPGRADE == 'YES' ]]; then
 		if [[ -e /$HOME/macOS\ Creator/.launchall ]]; then
 			if [[ -e /$HOME/macOS\ Creator/.verbose ]]; then
@@ -51,25 +52,23 @@ BUILDAPP()
 			else
 				sudo cp -R "$SCRIPTPATHMAIN/app_files/macOS Creator App Files/" /Applications/macOS\ Creator.app/
 			fi
-		elif [[ -e /$HOME/macOS\ Creator/.launchonce ]]; then
-			sudo cp -R "$SCRIPTPATHMAIN/app_files/macOS Creator App Files One/" /Applications/macOS\ Creator.app/
 		else
-			sudo cp -R "$SCRIPTPATHMAIN/app_files/macOS Creator App Files/" /Applications/macOS\ Creator.app/
+			sudo cp -R "$SCRIPTPATHMAIN/app_files/macOS Creator App Files One/" /Applications/macOS\ Creator.app/
 		fi
 	else
-		sudo cp -R "$SCRIPTPATHMAIN/app_files/macOS Creator App Files/" /Applications/macOS\ Creator.app/
+		sudo cp -R "$SCRIPTPATHMAIN/app_files/macOS Creator App Files One/" /Applications/macOS\ Creator.app/
 	fi
-	echo -e "Copying macOS Creator..."
+	echo -e "                            Copying macOS Creator..."
 	sudo cp -R "$SCRIPTPATHMAIN/macOS Creator.command" /$HOME/macOS\ Creator/
 	sudo cp -R "$SCRIPTPATHMAIN/License Agreement.txt" /$HOME/macOS\ Creator/
-	echo -e "Fixing Permissions..."
+	echo -e "                              Fixing Permissions..."
 	sudo chmod -R u+w /Applications/macOS\ Creator.app
 	sudo chmod +x /Applications/macOS\ Creator.app
 	sudo chmod +x /$HOME/macOS\ Creator/macOS\ Creator.command
 	chflags hidden /$HOME/macOS\ Creator
 	touch /$HOME/macOS\ Creator/.homeuser
-	sed -i '' '8208s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
-	sed -i '' '8207s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
+	sed -i '' '8212s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
+	sed -i '' '8211s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
 	if [[ ! $UPGRADE == 'YES' ]]; then
 		if [[ $(uname -m) == "arm64" ]]; then
 			touch /$HOME/macOS\ Creator/.colorm1setting
@@ -77,14 +76,15 @@ BUILDAPP()
 	fi
 	cp -R "$SCRIPTPATHMAIN/app_files/onelaunch" /$HOME/macOS\ Creator/
 	cp -R "$SCRIPTPATHMAIN/app_files/normallaunch" /$HOME/macOS\ Creator/
+	touch /$HOME/macOS\ Creator/.version61
 	if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command && -d /Applications/macOS\ Creator.app ]]; then
 		echo -e ""
-		echo -e "The app has been created sucessfully."
+		echo -e "                     The app has been created sucessfully"
 		echo -e ""
 		exit
 	else
 		echo -e ""
-		echo -e "App creation failed. Please try again..."
+		echo -e "                    App creation failed. Please try again..."
 		echo -e ""
 		exit
 	fi
@@ -92,20 +92,29 @@ BUILDAPP()
 
 #Build App
 if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command || -d /Applications/macOS\ Creator.app ]]; then
-	echo ""
-	echo "An older version of the script already exits."
-	echo -n "Would you like to upgade/reinstall it?..."
-	read -n 1 input
-	echo -e ""
-	if [[ $input == 'y' || $input == 'Y' ]]; then
-		UPGRADE="YES"
-		BUILDAPP
-	else
+	if [[ -e /$HOME/macOS\ Creator/.version62 || -e /$HOME/macOS\ Creator/.version63 || -e /$HOME/macOS\ Creator/.version64 || -e /$HOME/macOS\ Creator/.version65 || -e /$HOME/macOS\ Creator/.version66 || -e /$HOME/macOS\ Creator/.version67 || -e /$HOME/macOS\ Creator/.version68 || -e /$HOME/macOS\ Creator/.version69 || -e /$HOME/macOS\ Creator/.version70 ]]; then
+		echo -e ""
+		echo -e "            A newer version of the macOS Creator is already installed"
+		echo -e "                    You cannot downgrade your current version"
+		echo -e ""
 		exit
+	else
+		echo ""
+		echo "               An older version of the macOS Creator already exits"
+		echo -n "                       Press Y to upgade/reinstall it..."
+		read -n 1 input
+		echo -e ""
+		if [[ $input == 'y' || $input == 'Y' ]]; then
+			UPGRADE="YES"
+			BUILDAPP
+		else
+			exit
+		fi
 	fi
 fi
 echo -e ""
-echo -n "Are you ready to build the macOS Creator application?... "
+echo -e "             This script will install the macOS Creator onto your Mac"
+echo -n "                             Press Y to install..."
 read -n 1 input
 echo -e ""
 if [[ $input == 'y' || $input == 'Y' ]]; then
@@ -114,4 +123,3 @@ if [[ $input == 'y' || $input == 'Y' ]]; then
 else
 	exit
 fi
-	
