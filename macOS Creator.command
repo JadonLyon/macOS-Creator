@@ -8,6 +8,8 @@
 #Version 6.2
 #Release notes:
 #              V6.2 Introduces Safe Install, which allows macOS to install on Macs without verifications
+#                   Identify Mac Model now can identify Model Identifier (i.e. MacBookAir5,1).
+#                   Fixes some issues with providing a macOS Installer using Apple Script.
 #
 #
 #                   To see older release notes, go to Github.com
@@ -3121,6 +3123,9 @@ MANUALCREATE()
 		    	end tell
 EOF
 )
+		if [[ $osascript == *'User'* ]]; then
+			exit
+		fi
 			MANUALCREATEVERIFY
 		elif [[ $input == '2' ]]; then
 			MANUALCREATEPATH
