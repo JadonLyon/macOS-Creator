@@ -5692,7 +5692,7 @@ UPDATEMENU()
 			WINDOWBAR
 			echo -e "${RESET}${TITLE}${BOLD}                             Checking for updates..."
 			echo -e ""
-			CURRENT_VERSION="cvruihrv89453g9hwgurhwliuregh389hg2rwivu8who94g23gh89vpw3g4h3p98gh3p4gwruh9g8h4iurghg"
+			CURRENT_VERSION="cvruihrv89453g9hwgurhwliuregh389hg2rwivu8who94g23gh89vpw3g4h3p98gh3p4gwruh9g8h4iurghg3"
 			VERSION_URL="https://rebuiltmacs.com/pages/mcscv39f9dh9j3-versionnumber"
 			LATEST_VERSION=$(curl -s https://rebuiltmacs.com/pages/mcscv39f9dh9j3-versionnumber | awk '/<div id="version">/,/<\/div>/' | grep -oE 'cv[a-zA-Z0-9]+')
 			if [[ -z "$LATEST_VERSION" ]]; then
@@ -5703,6 +5703,9 @@ UPDATEMENU()
 			else
 				if [[ "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
 					echo -e "${RESET}${TITLE}${BOLD}                          macOS Creator is Up to Date"
+					echo -e "${PROMPTSTYLE}${BOLD}"
+					echo -n "                          Press any key to go back... "
+					read -n 1
 				else
 					echo -e "${RESET}${BODY}${BOLD}                 A new version of the macOS Creator is available"
 					echo -e "${RESET}${BODY}                         Would you like to download it?"
@@ -5710,30 +5713,19 @@ UPDATEMENU()
 					echo -n "                           Enter your option here: "
 					read -n 1 input
 					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADLINK=$(curl -s https://rebuiltmacs.com/pages/mcscdl43f8hv3948hg439g8h49 | awk '/<div id="version">/,/<\/div>/' | grep -oE 'dl?://[^ ]+\ld(\?[^ ]*)?')
-						Output sudo curl "DOWNLOADLINK" -o /private/tmp/macOS\ Creator.command
-						Output sudo rm -R /$HOME/macOS\ Creator/macOS\ Creator.command
-						Output cp -R /private/tmp/macOS\ Creator.command /$HOME/macOS\ Creator/
 						echo -e ""
 						echo -e ""
-						echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                   Update complete, press any key to restart... "
+						DOWNLOADLINK=$(curl -s https://rebuiltmacs.com/pages/mcscdl43f8hv3948hg439g8h49 | tr -d '\n' | sed -n 's/.*dl:\(.*\)\.ld.*/\1/p')
+						Output sudo curl -L -o "/$HOME/Downloads/macOS_Creator-V6.1.dmg" "$DOWNLOADLINK"
+						Output sudo open "/$HOME/Downloads/macOS_Creator-V6.1.dmg"
+						echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                  Archive downloaded, press any key to exit... "
 						read -n 1
-						if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
-							"$SCRIPTPATHMAIN"/macOS\ Creator.command -v -s && exit
-						elif [[ $verbose == "1" ]]; then
-							"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
-						elif [[ $safe == "1" || $safe == "2" ]]; then
-							"$SCRIPTPATHMAIN"/macOS\ Creator.command -S && exit
-						else
-							"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
-						fi
+						echo -e ""
+						exit
 					else
 						SCRIPTLAYOUT
 					fi
 				fi
-				echo -e "${PROMPTSTYLE}${BOLD}"
-				echo -n "                          Press any key to go back... "
-				read -n 1
 			fi
 		elif [[ $input == '2' ]]; then
 			if [[ $RUNUPDATE == 'TRUE' ]]; then
@@ -8615,10 +8607,23 @@ SCRIPTLAYOUT()
 			if [[ ! "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
 				WINDOWBAR
 				echo -e "${RESET}${BODY}${BOLD}                 A new version of the macOS Creator is available"
-				echo -e "${RESET}${BODY}              Please go to GitHub to download the latest version..."
-				echo -e "${PROMPTSTYLE}${BOLD}"
-				echo -n "                          Press any key to continue... "
-				read -n 1
+				echo -e "${RESET}${BODY}                         Would you like to download it?"
+				echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+				echo -n "                           Enter your option here: "
+				read -n 1 input
+				if [[ $input == 'y' || $input == 'Y' ]]; then
+					echo -e ""
+					echo -e ""
+					DOWNLOADLINK=$(curl -s https://rebuiltmacs.com/pages/mcscdl43f8hv3948hg439g8h49 | tr -d '\n' | sed -n 's/.*dl:\(.*\)\.ld.*/\1/p')
+					Output sudo curl -L -o "/$HOME/Downloads/macOS_Creator-V6.1.dmg" "$DOWNLOADLINK"
+					Output sudo open "/$HOME/Downloads/macOS_Creator-V6.1.dmg"
+					echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                  Archive downloaded, press any key to exit... "
+					read -n 1
+					echo -e ""
+					exit
+				else
+					echo -e ""
+				fi
 			fi
 		fi
 		while true; do
