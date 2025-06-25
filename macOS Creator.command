@@ -7,9 +7,12 @@
 
 #Version 6.2
 #Release notes:
-#              V6.2 Introduces Safe Install, which allows macOS to install on Macs without verifications
+#              V6.2 Introduces the Update System, where the script can now check for updates.
+#                   Introduces Safe Install, which allows macOS to install on Macs without verifications.
 #                   Identify Mac Model now can identify Model Identifier (i.e. MacBookAir5,1).
 #                   Fixes some issues with providing a macOS Installer using Apple Script.
+#                   Fixes a rare issue where script would not detect certain macOS Installers.
+#                   Updates the links for macOS Download.
 #
 #
 #                   To see older release notes, go to Github.com
@@ -94,6 +97,14 @@ DARKMODE()
 	RESET='\033[0m'
 }
 
+PreRunUpdate()
+{
+	if [[ $RUNUPDATE == 'TRUE' ]]; then
+		CURRENT_VERSION="cvruihrv89453g9hwgurhwliuregh389hg2rwivu8who94g23gh89vpw3g4h3p98gh3p4gwruh9g8h4iurghg3"
+		VERSION_URL="https://rebuiltmacs.com/pages/mcscv39f9dh9j3-versionnumber"
+		LATEST_VERSION=$(curl -s https://rebuiltmacs.com/pages/mcscv39f9dh9j3-versionnumber | awk '/<div id="version">/,/<\/div>/' | grep -oE 'cv[a-zA-Z0-9]+')
+	fi
+}
 PreRun()
 {
 	UIAPPEARANCE=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
@@ -718,7 +729,12 @@ RELEASENOTES()
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}${BOLD}                     macOS Creator Version 6.2 ${RESET}${TITLE}Release Notes"
 	echo -e ""
-	echo -e "${RESET}${BODY} • Introduces Safe Install"
+	echo -e "${RESET}${BODY} • Introduces the Update System, Script can now check for updates
+ • Introduces Safe Install
+ • Identify Mac Model now can identify Model Identifier (i.e. MacBookAir5,1)
+ • Fixes some issues with providing a macOS Installer using Apple Script
+ • Fixes a rare issue where script would not detect certain macOS Installers.
+ • Updates the links for macOS Download"
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "                        Press any key to get started... "
@@ -766,7 +782,7 @@ MACINFO()
 	if [[ $safe == '1' || $MACVERIFY == 'NO' ]]; then
 		echo -e "${RESET}${TITLE} • Mac model:"
 	else
-		echo -e "${RESET}${TITLE} • Mac model: ${BODY}${BOLD}$MACVERSION ${RESET}${BODY}(Press I for details)"
+		echo -e "${RESET}${TITLE} • Mac model: ${BODY}${BOLD}$MACVERSIONINPUT ${RESET}${BODY}(Press I for details)"
 	fi
 	if [[ $MACOSVERSION == '10.7' ]]; then
 		echo -e "${RESET}${TITLE} • Mac OS X Version: ${BODY}${BOLD}Mac OS X Lion ${RESET}${BODY}($MACOSVERSION)"
@@ -1169,6 +1185,7 @@ HELPID()
 	WINDOWBAR
 	echo -e "${RESET}${TITLE}If you wish to install macOS on this Mac, press (1)."
 	echo -e "If you wish to install macOS on another Mac, press (2)."
+	echo -e "If you wish to enter the Mac Model Identifier, press (3)."
 	echo -e ""
 	echo -e "Press (Q) to return to the Home Menu"
 	echo -e "Press the return key to cancel"
@@ -1261,7 +1278,8 @@ HELPDOWNLOAD()
 HELPSETTINGS()
 {
 	WINDOWBAR
-	echo -e "${RESET}${TITLE}Change Colors lets you change the script colors."
+	echo -e "${RESET}${TITLE}Updates allows you to check for updates."
+	echo -e "Change Colors lets you change the script colors."
 	echo -e "Advanced Mode lets you start the script in Verbose or Safe Mode."
 	echo -e "Clean up lets you clean any extra files that were made during the operation."
 	if [[ $HOMEUSER == 'YES' ]]; then
@@ -2299,55 +2317,109 @@ MAVERICKSDRIVECREATION()
 	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
 	echo -e "\033[1A\033[0K${BODY}"
-	if [[ ! $verbose == '1' ]]; then
-		ANIMATION &
-		anim_pid=$!
-	fi
-	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
-	if [[ ! $verbose == '1' ]]; then
-		kill "$anim_pid" >/dev/null 2>&1
-		wait "$anim_pid" 2>/dev/null
-	fi
-	if [[ $verbose == "1" ]]; then
-		echo -e "$error"
-	fi
-	if [[ "$error" == *"Done"* ]]; then
-		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
-		echo -n "       The drive has been created successfully. Press any key to quit... "
-		read -n 1 input
-		if [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			SUCCESSRETURN
+	if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                         Installing With Safe Install...${RESET}${BODY}"
+		echo -e ""
+		if [[ -d /Volumes/OS\ X\ Install\ ESD/ ]]; then
+			Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
+		fi
+		echo -e ""
+		echo -e "                                 Step 1 of 7..."
+		Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg" -noverify
+		echo -e "\033[1A\033[0K                                 Step 2 of 7..."
+		Output sudo asr restore -source "/Volumes/OS X Install ESD/BaseSystem.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
+		echo -e "\033[1A\033[0KS                                 tep 3 of 7..."
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/Packages
+		echo -e "\033[1A\033[0K                                 Step 4 of 7..."
+		Output cp -R "/Volumes/OS X Install ESD/Packages" /Volumes/OS\ X\ Base\ System/System/Installation/
+		echo -e "\033[1A\033[0K                                 Step 5 of 7..."
+		Output cp "/Volumes/OS X Install ESD/BaseSystem.dmg" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 6 of 7..."
+		Output cp "/Volumes/OS X Install ESD/BaseSystem.chunklist" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 7 of 7..."
+		Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
+		echo -e "\033[1A\033[0K                                    Finished"
+		if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
+			Output diskutil rename /Volumes/OS\ X\ Base\ System Install\ OS\ X\ Mavericks\ Safe\ Install
+			echo -e "${RESET}${TITLE}"
+			echo -n "       The drive has been created successfully. Press any key to quit... "
+			read -n 1 input
+			if [[ $input == 'q' || $input == 'Q' ]]; then
+				SCRIPTLAYOUT
+			elif [[ $input == 'w' || $input == 'W' ]]; then
+				break
+			elif [[ $input == '' ]]; then
+				SUCCESSRETURN
+			else
+				SUCCESS
+			fi
 		else
-			SUCCESS
+			echo -e "${RESET}${ERROR}${BOLD}\033[1A\033[0K\033[1A\033[0K"
+			echo -e "                                Operation Failed   "
+			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+			echo -e "           Press S to try again, or Y to review troubleshooting steps"
+			echo -n "                     (Press any other key to go home)... "
+			read -n 1 input
+			if [[ $input == 'y' || $input == 'Y' ]]; then
+				TROUBLESHOOTGUIDE
+			elif [[ $input == 's' || $input == 'S' ]]; then
+				OSDRIVECREATION
+			else
+				SCRIPTLAYOUT
+			fi
 		fi
 	else
-		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed   "
-		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
-		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
-		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
-		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
-		else
-			echo -e "${RESET}${ERROR}                         An unknown error has occured"
+		if [[ ! $verbose == '1' ]]; then
+			ANIMATION &
+			anim_pid=$!
 		fi
-		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "           Press S to try again, or Y to review troubleshooting steps"
-		echo -n "                     (Press any other key to go home)... "
-		read -n 1 input
-		if [[ $input == 'y' || $input == 'Y' ]]; then
-			TROUBLESHOOTGUIDE
-		elif [[ $input == 's' || $input == 'S' ]]; then
-			OSDRIVECREATION
+		error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
+		if [[ ! $verbose == '1' ]]; then
+			kill "$anim_pid" >/dev/null 2>&1
+			wait "$anim_pid" 2>/dev/null
+		fi
+		if [[ $verbose == "1" ]]; then
+			echo -e "$error"
+		fi
+		if [[ "$error" == *"Done"* ]]; then
+			echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+			echo -n "       The drive has been created successfully. Press any key to quit... "
+			read -n 1 input
+			if [[ $input == 'q' || $input == 'Q' ]]; then
+				SCRIPTLAYOUT
+			elif [[ $input == 'w' || $input == 'W' ]]; then
+				break
+			elif [[ $input == '' ]]; then
+				SUCCESSRETURN
+			else
+			SUCCESS
+			fi
 		else
-			SCRIPTLAYOUT
+			echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+			echo -e "                                Operation Failed   "
+			if [[ "$error" == *"command not found"* ]]; then
+				echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
+			elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+				echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
+			elif [[ "$error" == *"large enough"* ]]; then
+				echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
+			elif [[ "$error" == *"installer"* ]]; then
+				echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
+			else
+				echo -e "${RESET}${ERROR}                         An unknown error has occured"
+			fi
+			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+			echo -e "           Press S to try again, or Y to review troubleshooting steps"
+			echo -n "                     (Press any other key to go home)... "
+			read -n 1 input
+			if [[ $input == 'y' || $input == 'Y' ]]; then
+				TROUBLESHOOTGUIDE
+			elif [[ $input == 's' || $input == 'S' ]]; then
+				OSDRIVECREATION
+			else
+				SCRIPTLAYOUT
+			fi
 		fi
 	fi
 }
@@ -2359,55 +2431,109 @@ YOSEMITEDRIVECREATION()
 	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
 	echo -e "\033[1A\033[0K${BODY}"
-	if [[ ! $verbose == '1' ]]; then
-		ANIMATION &
-		anim_pid=$!
-	fi
-	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
-	if [[ ! $verbose == '1' ]]; then
-		kill "$anim_pid" >/dev/null 2>&1
-		wait "$anim_pid" 2>/dev/null
-	fi
-	if [[ $verbose == "1" ]]; then
-		echo -e "$error"
-	fi
-	if [[ "$error" == *"Done"* ]]; then
-		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
-		echo -n "       The drive has been created successfully. Press any key to quit... "
-		read -n 1 input
-		if [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			SUCCESSRETURN
+	if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                         Installing With Safe Install...${RESET}${BODY}"
+		echo -e ""
+		if [[ -d /Volumes/OS\ X\ Install\ ESD/ ]]; then
+			Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
+		fi
+		echo -e ""
+		echo -e "                                 Step 1 of 7..."
+		Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg" -noverify
+		echo -e "\033[1A\033[0K                                 Step 2 of 7..."
+		Output sudo asr restore -source "/Volumes/OS X Install ESD/BaseSystem.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
+		echo -e "\033[1A\033[0KS                                 tep 3 of 7..."
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/Packages
+		echo -e "\033[1A\033[0K                                 Step 4 of 7..."
+		Output cp -R "/Volumes/OS X Install ESD/Packages" /Volumes/OS\ X\ Base\ System/System/Installation/
+		echo -e "\033[1A\033[0K                                 Step 5 of 7..."
+		Output cp "/Volumes/OS X Install ESD/BaseSystem.dmg" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 6 of 7..."
+		Output cp "/Volumes/OS X Install ESD/BaseSystem.chunklist" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 7 of 7..."
+		Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
+		echo -e "\033[1A\033[0K                                    Finished"
+		if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
+			Output diskutil rename /Volumes/OS\ X\ Base\ System Install\ OS\ X\ Yosemite\ Safe\ Install
+			echo -e "${RESET}${TITLE}"
+			echo -n "       The drive has been created successfully. Press any key to quit... "
+			read -n 1 input
+			if [[ $input == 'q' || $input == 'Q' ]]; then
+				SCRIPTLAYOUT
+			elif [[ $input == 'w' || $input == 'W' ]]; then
+				break
+			elif [[ $input == '' ]]; then
+				SUCCESSRETURN
+			else
+				SUCCESS
+			fi
 		else
-			SUCCESS
+			echo -e "${RESET}${ERROR}${BOLD}\033[1A\033[0K\033[1A\033[0K"
+			echo -e "                                Operation Failed   "
+			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+			echo -e "           Press S to try again, or Y to review troubleshooting steps"
+			echo -n "                     (Press any other key to go home)... "
+			read -n 1 input
+			if [[ $input == 'y' || $input == 'Y' ]]; then
+				TROUBLESHOOTGUIDE
+			elif [[ $input == 's' || $input == 'S' ]]; then
+				OSDRIVECREATION
+			else
+				SCRIPTLAYOUT
+			fi
 		fi
 	else
-		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed   "
-		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
-		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
-		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
-		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
-		else
-			echo -e "${RESET}${ERROR}                         An unknown error has occured"
+		if [[ ! $verbose == '1' ]]; then
+			ANIMATION &
+			anim_pid=$!
 		fi
-		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "           Press S to try again, or Y to review troubleshooting steps"
-		echo -n "                     (Press any other key to go home)... "
-		read -n 1 input
-		if [[ $input == 'y' || $input == 'Y' ]]; then
-			TROUBLESHOOTGUIDE
-		elif [[ $input == 's' || $input == 'S' ]]; then
-			OSDRIVECREATION
+		error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
+		if [[ ! $verbose == '1' ]]; then
+			kill "$anim_pid" >/dev/null 2>&1
+			wait "$anim_pid" 2>/dev/null
+		fi
+		if [[ $verbose == "1" ]]; then
+			echo -e "$error"
+		fi
+		if [[ "$error" == *"Done"* ]]; then
+			echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+			echo -n "       The drive has been created successfully. Press any key to quit... "
+			read -n 1 input
+			if [[ $input == 'q' || $input == 'Q' ]]; then
+				SCRIPTLAYOUT
+			elif [[ $input == 'w' || $input == 'W' ]]; then
+				break
+			elif [[ $input == '' ]]; then
+				SUCCESSRETURN
+			else
+				SUCCESS
+			fi
 		else
+			echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+			echo -e "                                Operation Failed   "
+			if [[ "$error" == *"command not found"* ]]; then
+				echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
+			elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+				echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
+			elif [[ "$error" == *"large enough"* ]]; then
+				echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
+			elif [[ "$error" == *"installer"* ]]; then
+				echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
+			else
+				echo -e "${RESET}${ERROR}                         An unknown error has occured"
+			fi
+			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+			echo -e "           Press S to try again, or Y to review troubleshooting steps"
+			echo -n "                     (Press any other key to go home)... "
+			read -n 1 input
+			if [[ $input == 'y' || $input == 'Y' ]]; then
+				TROUBLESHOOTGUIDE
+			elif [[ $input == 's' || $input == 'S' ]]; then
+				OSDRIVECREATION
+			else
 			SCRIPTLAYOUT
+			fi
 		fi
 	fi
 }
@@ -2419,55 +2545,109 @@ ELCAPITANDRIVECREATION()
 	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
 	echo -e "\033[1A\033[0K${BODY}"
-	if [[ ! $verbose == '1' ]]; then
-		ANIMATION &
-		anim_pid=$!
-	fi
-	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
-	if [[ ! $verbose == '1' ]]; then
-		kill "$anim_pid" >/dev/null 2>&1
-		wait "$anim_pid" 2>/dev/null
-	fi
-	if [[ $verbose == "1" ]]; then
-		echo -e "$error"
-	fi
-	if [[ "$error" == *"Done"* ]]; then
-		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
-		echo -n "       The drive has been created successfully. Press any key to quit... "
-		read -n 1 input
-		if [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			SUCCESSRETURN
+	if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                         Installing With Safe Install...${RESET}${BODY}"
+		echo -e ""
+		if [[ -d /Volumes/OS\ X\ Install\ ESD/ ]]; then
+			Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
+		fi
+		echo -e ""
+		echo -e "                                 Step 1 of 7..."
+		Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg" -noverify
+		echo -e "\033[1A\033[0K                                 Step 2 of 7..."
+		Output sudo asr restore -source "/Volumes/OS X Install ESD/BaseSystem.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
+		echo -e "\033[1A\033[0KS                                 tep 3 of 7..."
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/Packages
+		echo -e "\033[1A\033[0K                                 Step 4 of 7..."
+		Output cp -R "/Volumes/OS X Install ESD/Packages" /Volumes/OS\ X\ Base\ System/System/Installation/
+		echo -e "\033[1A\033[0K                                 Step 5 of 7..."
+		Output cp "/Volumes/OS X Install ESD/BaseSystem.dmg" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 6 of 7..."
+		Output cp "/Volumes/OS X Install ESD/BaseSystem.chunklist" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 7 of 7..."
+		Output diskutil unmount /Volumes/OS\ X\ Install\ ESD
+		echo -e "\033[1A\033[0K                                    Finished"
+		if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
+			Output diskutil rename /Volumes/OS\ X\ Base\ System Install\ OS\ X\ El\ Capitan\ Safe\ Install
+			echo -e "${RESET}${TITLE}"
+			echo -n "       The drive has been created successfully. Press any key to quit... "
+			read -n 1 input
+			if [[ $input == 'q' || $input == 'Q' ]]; then
+				SCRIPTLAYOUT
+			elif [[ $input == 'w' || $input == 'W' ]]; then
+				break
+			elif [[ $input == '' ]]; then
+				SUCCESSRETURN
+			else
+				SUCCESS
+			fi
 		else
-			SUCCESS
+			echo -e "${RESET}${ERROR}${BOLD}\033[1A\033[0K\033[1A\033[0K"
+			echo -e "                                Operation Failed   "
+			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+			echo -e "           Press S to try again, or Y to review troubleshooting steps"
+			echo -n "                     (Press any other key to go home)... "
+			read -n 1 input
+			if [[ $input == 'y' || $input == 'Y' ]]; then
+				TROUBLESHOOTGUIDE
+			elif [[ $input == 's' || $input == 'S' ]]; then
+				OSDRIVECREATION
+			else
+				SCRIPTLAYOUT
+			fi
 		fi
 	else
-		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed   "
-		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
-		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
-		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
-		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
-		else
-			echo -e "${RESET}${ERROR}                         An unknown error has occured"
+		if [[ ! $verbose == '1' ]]; then
+			ANIMATION &
+			anim_pid=$!
 		fi
-		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "           Press S to try again, or Y to review troubleshooting steps"
-		echo -n "                     (Press any other key to go home)... "
-		read -n 1 input
-		if [[ $input == 'y' || $input == 'Y' ]]; then
-			TROUBLESHOOTGUIDE
-		elif [[ $input == 's' || $input == 'S' ]]; then
-			OSDRIVECREATION
+		error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --applicationpath "$installpath" --nointeraction 2>&1)
+		if [[ ! $verbose == '1' ]]; then
+			kill "$anim_pid" >/dev/null 2>&1
+			wait "$anim_pid" 2>/dev/null
+		fi
+		if [[ $verbose == "1" ]]; then
+			echo -e "$error"
+		fi
+		if [[ "$error" == *"Done"* ]]; then
+			echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+			echo -n "       The drive has been created successfully. Press any key to quit... "
+			read -n 1 input
+			if [[ $input == 'q' || $input == 'Q' ]]; then
+				SCRIPTLAYOUT
+			elif [[ $input == 'w' || $input == 'W' ]]; then
+				break
+			elif [[ $input == '' ]]; then
+				SUCCESSRETURN
+			else
+				SUCCESS
+			fi
 		else
-			SCRIPTLAYOUT
+			echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+			echo -e "                                Operation Failed   "
+			if [[ "$error" == *"command not found"* ]]; then
+				echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
+			elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+				echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
+			elif [[ "$error" == *"large enough"* ]]; then
+				echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
+			elif [[ "$error" == *"installer"* ]]; then
+				echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
+			else
+				echo -e "${RESET}${ERROR}                         An unknown error has occured"
+			fi
+			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+			echo -e "           Press S to try again, or Y to review troubleshooting steps"
+			echo -n "                     (Press any other key to go home)... "
+			read -n 1 input
+			if [[ $input == 'y' || $input == 'Y' ]]; then
+				TROUBLESHOOTGUIDE
+			elif [[ $input == 's' || $input == 'S' ]]; then
+				OSDRIVECREATION
+			else
+				SCRIPTLAYOUT
+			fi
 		fi
 	fi
 }
@@ -2484,7 +2664,7 @@ SIERRADRIVECREATION()
 	fi
 	echo -e ""
 	echo -e "                                 Step 1 of 7..."
-	Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg"
+	Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg" -noverify
 	echo -e "\033[1A\033[0K                                 Step 2 of 7..."
 	Output sudo asr restore -source "/Volumes/OS X Install ESD/BaseSystem.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
 	echo -e "\033[1A\033[0KS                                 tep 3 of 7..."
@@ -3118,14 +3298,11 @@ MANUALCREATE()
 			installpath=$(osascript <<EOF
 		  	  tell application "System Events"
 		    	    activate
-		    	    set theFile to choose file with prompt "Select a file:"
+		    	    set theFile to choose file with prompt "Select a macOS Installer:"
 		    	    return POSIX path of theFile
 		    	end tell
 EOF
 )
-		if [[ $osascript == *'User'* ]]; then
-			exit
-		fi
 			MANUALCREATEVERIFY
 		elif [[ $input == '2' ]]; then
 			MANUALCREATEPATH
@@ -3152,36 +3329,39 @@ MANUALCREATEPATH()
 		echo -e "     Please drag the installer into this window and press the return key... "
 		echo -e "${RESET}${BODY}"
 		read -p " Installer path: " installpath
+		if [[ $installpath == '' ]]; then
+			WINDOWBAREND
+		fi
 		MANUALCREATEVERIFY
 	done
 }
 MANUALCREATEVERIFY()
 {
-		if [[ "$installpath" == *'Mavericks.app'* ]]; then
+		if [[ "$installpath" == *'Install OS X Mavericks.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                                 OS X Mavericks"
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
-		elif [[ "$installpath" == *'Yosemite.app'* ]]; then
+		elif [[ "$installpath" == *'Install OS X Yosemite.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                                 OS X Yosemite"
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
-		elif [[ "$installpath" == *'Capitan.app'* ]]; then
+		elif [[ "$installpath" == *'Install OS X El Capitan.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                                OS X El Capitan"
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
-		elif [[ "$installpath" == *'macOS Sierra.app'* ]]; then
+		elif [[ "$installpath" == *'Install macOS Sierra.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                                  macOS Sierra"
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
-		elif [[ "$installpath" == *'High Sierra.app'* ]]; then
+		elif [[ "$installpath" == *'Install macOS High Sierra.app'* ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
@@ -3206,7 +3386,7 @@ MANUALCREATEVERIFY()
 				read -n 1
 				FINDDRIVE
 			fi
-		elif [[ "$installpath" == *'Mojave.app'* ]]; then
+		elif [[ "$installpath" == *'Install macOS Mojave.app'* ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
@@ -3231,7 +3411,7 @@ MANUALCREATEVERIFY()
 				read -n 1
 				FINDDRIVE
 			fi
-		elif [[ "$installpath" == *'Catalina.app'* ]]; then
+		elif [[ "$installpath" == *'Install macOS Catalina.app'* ]]; then
 			if [[ $APPLESILICONE == 'YES' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                      This Mac has the Apple Silicone chip${RESET}"
@@ -3264,7 +3444,7 @@ MANUALCREATEVERIFY()
 				read -n 1
 				FINDDRIVE
 			fi
-		elif [[ "$installpath" == *'Sur.app'* ]]; then
+		elif [[ "$installpath" == *'Install macOS Big Sur.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3288,7 +3468,7 @@ MANUALCREATEVERIFY()
 				read -n 1
 				FINDDRIVE
 			fi
-		elif [[ "$installpath" == *'Monterey.app'* ]]; then
+		elif [[ "$installpath" == *'Install macOS Monterey.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3312,7 +3492,7 @@ MANUALCREATEVERIFY()
 				read -n 1
 				FINDDRIVE
 			fi
-		elif [[ "$installpath" == *'Ventura.app'* ]]; then
+		elif [[ "$installpath" == *'Install macOS Ventura.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3360,7 +3540,7 @@ MANUALCREATEVERIFY()
 				read -n 1
 				FINDDRIVE
 			fi
-		elif [[ "$installpath" == *'Sonoma.app'* ]]; then
+		elif [[ "$installpath" == *'Install macOS Sonoma.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3416,7 +3596,7 @@ MANUALCREATEVERIFY()
 				read -n 1
 				FINDDRIVE
 			fi
-		elif [[ "$installpath" == *'Sequoia.app'* ]]; then
+		elif [[ "$installpath" == *'Install macOS Sequoia.app'* ]]; then
 			if [[ $MACOSVERSION == '10.7' ]]; then
 				echo -e "${RESET}${ERROR}${BOLD}"
 				echo -e "                       This Mac is running Mac OS X Lion${RESET}"
@@ -3472,13 +3652,13 @@ MANUALCREATEVERIFY()
 				read -n 1
 				FINDDRIVE
 			fi
-		elif [[ "$installpath" == *'Mountain Lion.app'* ]]; then
+		elif [[ "$installpath" == *'Install OS X Mountain Lion.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                               OS X Mountain Lion"
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
-		elif [[ "$installpath" == *'Mac OS X Lion.app'* ]]; then
+		elif [[ "$installpath" == *'Install Mac OS X Lion.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                                 Mac OS X Lion"
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
@@ -3491,7 +3671,7 @@ MANUALCREATEVERIFY()
 		elif [[ $installpath == '?' ||  $installpath == '/' ]]; then
 			HELPMANUAL
 		elif [[ $installpath == '' ]]; then
-			WINDOWBAREND
+			echo -e ""
 		else
 			echo -e "${RESET}${ERROR}${BOLD}"
 			echo -e -n "     This is not a valid macOS Installer. Press any key to try again... "
@@ -4418,7 +4598,7 @@ DOWNLOADVENTURA()
 		if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
-		Output sudo curl https://swcdn.apple.com/content/downloads/61/08/082-11327-A_JKF2NNDDY8/aaxgevztdm1i5v6q6xousfc44xa90ykmk0/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		Output sudo curl https://swcdn.apple.com/content/downloads/62/04/082-42293-A_BLBGWQXWM6/yxa6zwy8dit7wkvu39onjf7u60t235z0k0/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
 		if [ $? -eq 0 ]; then
 			DOWNLOAD="YES"
 		else
@@ -4467,7 +4647,7 @@ DOWNLOADSONOMA()
 		if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
-		Output sudo curl https://swcdn.apple.com/content/downloads/43/40/072-61299-A_Y6TZ03D5E8/dpzudbub2uj7lqy3cko50k4moqsu2lq5ui/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		Output sudo curl https://swcdn.apple.com/content/downloads/53/29/082-42388-A_LTM5K4K83B/kzw5ogsws338dbive3ft03rmu1ynfouspf/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
 		if [ $? -eq 0 ]; then
 			DOWNLOAD="YES"
 		else
@@ -4516,7 +4696,7 @@ DOWNLOADSEQUOIA()
 		if [[ -e /private/tmp/InstallAssistant.pkg ]]; then
 			sudo rm -R /private/tmp/InstallAssistant.pkg
 		fi
-		Output sudo curl https://swcdn.apple.com/content/downloads/09/16/082-33200-A_9FRARUF9NM/jnf31ewnvxlmf5ld7l7n7hzv6lkd6fiuz9/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
+		Output sudo curl https://swcdn.apple.com/content/downloads/51/28/082-44432-A_4NJSZXK8G5/v10fo5dlwd50fja3qbnhj7z9tp1dx41vq2/InstallAssistant.pkg -o /private/tmp/InstallAssistant.pkg
 		if [ $? -eq 0 ]; then
 			DOWNLOAD="YES"
 		else
@@ -5491,35 +5671,135 @@ SAFEINSTALL()
 		fi
 	done
 }
-SETTINGSMENU()
+UPDATEMENU()
 {
 	while true; do
 		WINDOWBAR
-		echo -e "${RESET}${TITLE}${BOLD}                                    Settings"
-		echo -e "${RESET}${BODY}                    Change Colors........................(1)"
-		echo -e "${RESET}${BODY}                    Advanced Mode........................(2)"
-		echo -e "${RESET}${BODY}                    Clean up.............................(3)"
-		if [[ $HOMEUSER = 'YES' ]]; then
-			echo -e "${RESET}${BODY}                    App configuration....................(4)"
-			echo -e "${RESET}${BODY}                    Reset................................(5)"
+		echo -e "${RESET}${TITLE}${BOLD}                                    Updates"
+		echo -e "${RESET}${BODY}                    Check For Updates....................(1)"
+		echo -e "${RESET}${BODY}                    Check On Startup.....................(2)"
+		if [[ $RUNUPDATE == 'TRUE' ]]; then
+			echo -e ""
+			echo -e "${RESET}${TITLE}${BOLD}                          Script will check on startup"
+		else
+			echo -e ""
+			echo -e "${RESET}${WARNING}                        Script will not check on startup"
 		fi
 		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 		echo -n "                           Enter your option here: "
 		read -n 1 input
 		if [[ $input == '1' ]]; then
-			CHANGECOLORS
+			WINDOWBAR
+			echo -e "${RESET}${TITLE}${BOLD}                             Checking for updates..."
+			echo -e ""
+			CURRENT_VERSION="cvruihrv89453g9hwgurhwliuregh389hg2rwivu8who94g23gh89vpw3g4h3p98gh3p4gwruh9g8h4iurghg"
+			VERSION_URL="https://rebuiltmacs.com/pages/mcscv39f9dh9j3-versionnumber"
+			LATEST_VERSION=$(curl -s https://rebuiltmacs.com/pages/mcscv39f9dh9j3-versionnumber | awk '/<div id="version">/,/<\/div>/' | grep -oE 'cv[a-zA-Z0-9]+')
+			if [[ -z "$LATEST_VERSION" ]]; then
+				echo -e "${RESET}${ERROR}${BOLD}       Unable to check for updates. Please check your internet connection"
+				echo -e "${PROMPTSTYLE}${BOLD}"
+				echo -n "                          Press any key to go back... "
+				read -n 1
+			else
+				if [[ "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
+					echo -e "${RESET}${TITLE}${BOLD}                          macOS Creator is Up to Date"
+				else
+					echo -e "${RESET}${BODY}${BOLD}                 A new version of the macOS Creator is available"
+					echo -e "${RESET}${BODY}                         Would you like to download it?"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "                           Enter your option here: "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADLINK=$(curl -s https://rebuiltmacs.com/pages/mcscdl43f8hv3948hg439g8h49 | awk '/<div id="version">/,/<\/div>/' | grep -oE 'dl?://[^ ]+\ld(\?[^ ]*)?')
+						Output sudo curl "DOWNLOADLINK" -o /private/tmp/macOS\ Creator.command
+						Output sudo rm -R /$HOME/macOS\ Creator/macOS\ Creator.command
+						Output cp -R /private/tmp/macOS\ Creator.command /$HOME/macOS\ Creator/
+						echo -e ""
+						echo -e ""
+						echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                   Update complete, press any key to restart... "
+						read -n 1
+						if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
+							"$SCRIPTPATHMAIN"/macOS\ Creator.command -v -s && exit
+						elif [[ $verbose == "1" ]]; then
+							"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
+						elif [[ $safe == "1" || $safe == "2" ]]; then
+							"$SCRIPTPATHMAIN"/macOS\ Creator.command -S && exit
+						else
+							"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
+						fi
+					else
+						SCRIPTLAYOUT
+					fi
+				fi
+				echo -e "${PROMPTSTYLE}${BOLD}"
+				echo -n "                          Press any key to go back... "
+				read -n 1
+			fi
 		elif [[ $input == '2' ]]; then
-			ADVANCEDMODE
+			if [[ $RUNUPDATE == 'TRUE' ]]; then
+				sed -i '' '8708s/TRUE/FALSE/' macOS\ Creator.command
+				echo -e ""
+				echo -e ""
+				echo -e "${RESET}${WARNING}               Script will no longer check for updates on startup"
+				echo -e "${PROMPTSTYLE}${BOLD}"
+				echo -n "                          Press any key to go back... "
+				read -n 1
+				SCRIPTLAYOUT
+			else
+				sed -i '' '8708s/FALSE/TRUE/' macOS\ Creator.command
+				echo -e ""
+				echo -e ""
+				echo -e "${RESET}${BODY}${BOLD}                  Script will now check for updates on startup"
+				echo -e "${PROMPTSTYLE}${BOLD}"
+				echo -n "                          Press any key to go back... "
+				read -n 1
+				SCRIPTLAYOUT
+			fi
+		elif [[ $input == 'w' || $input == 'W' ]]; then
+			break
+		elif [[ $input == 'q' || $input == 'Q' ]]; then
+			SCRIPTLAYOUT
+		elif [[ $input == '?' || $input == '/' ]]; then
+			HELPUPDATE
+		elif [[ $input == '' ]]; then
+			WINDOWBAREND
+		else
+			WINDOWERROR
+		fi
+	done
+}
+SETTINGSMENU()
+{
+	while true; do
+		WINDOWBAR
+		echo -e "${RESET}${TITLE}${BOLD}                                    Settings"
+		echo -e "${RESET}${BODY}                    Updates..............................(1)"
+		echo -e "${RESET}${BODY}                    Change Colors........................(2)"
+		echo -e "${RESET}${BODY}                    Advanced Mode........................(3)"
+		echo -e "${RESET}${BODY}                    Clean up.............................(4)"
+		if [[ $HOMEUSER = 'YES' ]]; then
+			echo -e "${RESET}${BODY}                    App configuration....................(5)"
+			echo -e "${RESET}${BODY}                    Reset................................(6)"
+		fi
+		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+		echo -n "                           Enter your option here: "
+		read -n 1 input
+		if [[ $input == '1' ]]; then
+			UPDATEMENU
+		elif [[ $input == '2' ]]; then
+			CHANGECOLORS
 		elif [[ $input == '3' ]]; then
-			CLEANUP
+			ADVANCEDMODE
 		elif [[ $input == '4' ]]; then
+			CLEANUP
+		elif [[ $input == '5' ]]; then
 			if [[ $HOMEUSER = 'YES' ]]; then
 				APPLY="YES"
 				APPCONFIG
 			else
 				WINDOWERROR
 			fi
-		elif [[ $input == '5' ]]; then
+		elif [[ $input == '6' ]]; then
 			if [[ $HOMEUSER = 'YES' ]]; then
 				RESETSCRIPT
 			else
@@ -5557,1398 +5837,15 @@ IDMAC()
 			WINDOWBAR
 			echo -e "${RESET}${TITLE}What would you like to do?"
 			echo -e "${BODY}Identify this Mac........................................................(1)"
-			echo -e "${BODY}Identify another Mac.....................................................(2)"
+			echo -e "Identify another Mac.....................................................(2)"
+			echo -e "Enter Model Identifier Number............................................(3)"
 			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
 			echo -n "Enter your option here: "
 			read -n 1 input
 			if [[ "$input" == '1' ]]; then
-				if [[ $MACVERSION == 'MacBook5,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Aluminum, Late 2008)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBook5,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Early 2009) + (13-inch, Mid 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBook6,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Late 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBook7,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Mid 2010)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBook8,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (Retina, 12-inch, Early 2015)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADBIGSUR
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBook9,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (Retina, 12-inch, Early 2016)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBook10,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (Retina, 12-inch, 2017)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADVENTURA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir1,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Original)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}Mac OS X Lion ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "                  Press any key to return to the Home Menu... "
-					read -n 1 
-					SCRIPTLAYOUT
-				elif [[ $MACVERSION == 'MacBookAir2,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Mid 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir3,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Late 2010)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir3,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Late 2010)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir4,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Mid 2011)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir4,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Mid 2011)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir5,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Mid 2012)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir5,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Mid 2012)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir6,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Mid 2013) + (11-inch, Early 2014)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADBIGSUR
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir6,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Mid 2013) + (13-inch, Early 2014)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADBIGSUR
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir7,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Early 2015)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir7,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Early 2015) + MacBook Air (13-inch, 2017)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir8,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Retina, 13-inch, 2018)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sonoma ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSONOMA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir8,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Retina, 13-inch, 2019)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sonoma ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSONOMA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir9,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Retina, 13-inch, 2020)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookAir10,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (M1, 2020)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac14,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (M2, 2020)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac14,15' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (15-inch, M2, 2023)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac15,12' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, M3, 2024)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac15,13' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (15-inch, M3, 2024)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac16,12' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, M4, 2025)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac16,13' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (15-inch, M4, 2025)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro4,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch/17-inch, Early 2008)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro5,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Late 2008)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro5,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (17-inch, Early/Mid 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro5,5' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Mid 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro5,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Mid 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro7,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Mid 2010)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro6,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Mid 2010)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro6,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (17-inch, Mid 2010)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro8,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Early/Late 2011)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro8,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Early/Late 2011)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro8,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (17-inch, Early/Late 2011)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro9,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Mid 2012)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro9,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Mid 2012)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro10,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 15-inch, Mid 2012/Early 2013)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro10,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 13-inch, Late 2012/Early 2013)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro11,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 13-inch, Late 2013/Mid 2014)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADBIGSUR
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro11,2' || $MACVERSION == 'MacBookPro11,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 15-inch, Late 2013/Mid 2014)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADBIGSUR
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro12,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 13-inch, Early 2015)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro11,4' || $MACVERSION == 'MacBookPro11,5' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 15-inch, Mid 2015)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro13,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2016, Two Thunderbolt 3 ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro13,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2016, Four Thunderbolt 3 ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro13,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2016)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro14,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2017, Two Thunderbolt 3 ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADVENTURA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro14,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2017, Four Thunderbolt 3 ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADVENTURA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro14,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2017)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADVENTURA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro15,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2018/2019, Four Thunderbolt 3 ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro15,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2018)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro15,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2019)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro15,4' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2019, Two Thunderbolt 3 ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro16,1' || $MACVERSION == 'MacBookPro16,4' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2019)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro16,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2020, Four Thunderbolt 3 ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro16,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2020, Two Thunderbolt 3 ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro17,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, M1, 2020)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro18,1' || $MACVERSION == 'MacBookPro18,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2021)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacBookPro18,3' || $MACVERSION == 'MacBookPro18,4' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, 2021)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac14,7' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, M2, 2022)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac14,6' || $MACVERSION == 'Mac14,10' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2023)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac14,5' || $MACVERSION == 'Mac14,9' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, 2023)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac15,7' || $MACVERSION == 'Mac15,9' || $MACVERSION == 'Mac15,11' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, Nov 2023)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac15,6' || $MACVERSION == 'Mac15,8' || $MACVERSION == 'Mac15,10' || $MACVERSION == 'Mac15,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, Nov 2023)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac16,7' || $MACVERSION == 'Mac16,5' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2024)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac16,6' || $MACVERSION == 'Mac16,8' || $MACVERSION == 'Mac16,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, 2024)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac9,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Early 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac10,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Late 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac11,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Mid 2010)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac11,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Mid 2010)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac12,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Mid 2011)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac12,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Mid 2011)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac13,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Late 2012)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac13,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Late 2012)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac14,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Late 2013)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac14,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Late 2013)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac14,4' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Mid 2014)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADBIGSUR
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac15,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, Late 2014/Mid 2015)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADBIGSUR
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac16,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Late 2015)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac16,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 4K, 21.5-inch, Late 2015)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac17,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, Late 2015)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac18,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, 2017)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADVENTURA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac18,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 4K, 21.5-inch, 2017)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADVENTURA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac18,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, 2017)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADVENTURA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMacPro1,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac Pro (2017)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac19,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 4K, 21.5-inch, 2019)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac19,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, 2019)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac20,1' || $MACVERSION == 'iMac20,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, 2020)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'iMac21,2' || $MACVERSION == 'iMac21,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, M1, 2021)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac15,4' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2023, Two ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac15,5' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2023, Four ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac16,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2024, Two ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac16,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2024, Four ports)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Macmini3,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Early/Late 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Macmini4,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Mid 2010)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Macmini5,1' || $MACVERSION == 'Macmini5,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Mid 2011)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADHIGHSIERRA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Macmini6,1' || $MACVERSION == 'Macmini6,2' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Late 2012)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADCATALINA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Macmini7,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Late 2014)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Macmini8,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (2018)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Macmini9,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (M1, 2020)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac14,12' || $MACVERSION == 'Mac14,3' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (2023)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac16,15' || $MACVERSION == 'Mac16,10' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (2024)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				
-				elif [[ $MACVERSION == 'MacPro4,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (Early 2009)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADELCAPITAN
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacPro5,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (Server) (Mid 2010/Mid 2012)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
-					echo -e "${RESET}${TITLE}If you have a Metal Graphics card: ${BOLD}macOS Mojave ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "                  Press any key to return to the Home Menu... "
-					read -n 1 
-					SCRIPTLAYOUT
-				elif [[ $MACVERSION == 'MacPro6,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (Late 2013)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADMONTEREY
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'MacPro7,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (2019)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac14,8' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (2023)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac13,2' || $MACVERSION == 'Mac13,1' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Studio (2022)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac14,13' || $MACVERSION == 'Mac14,14' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Studio (2023)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				elif [[ $MACVERSION == 'Mac15,14' || $MACVERSION == 'Mac16,9' ]]; then
-					WINDOWBAR
-					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Studio (2023)"
-					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "Would you like to download it? (Press any other key to cancel)... "
-					read -n 1 input
-					if [[ $input == 'y' || $input == 'Y' ]]; then
-						DOWNLOADSEQUOIA
-					else
-						SCRIPTLAYOUT
-					fi
-				else 
-					WINDOWBAR
-					echo -e "${RESET}${ERROR}Cannot detect Mac model."
-					if [[ $safe == '1' || $safe == '2' ]]; then
-						echo -e "You are running in Safe Mode"
-					else
-						echo -e "You may have a model that is not compatible with this script... "
-					fi
-					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-					echo -n "                  Press any key to return to the Home Menu... "
-					read -n 1 
-					SCRIPTLAYOUT
-				fi
+				PROVIDEMODEL="FALSE"
+				MACVERSIONINPUT="$MACVERSION"
+				MODELID
 			elif [[ "$input" == '2' ]]; then
 				while true; do
 				WINDOWBAR
@@ -7887,6 +6784,18 @@ IDMAC()
 					WINDOWERROR
 				fi
 				done
+			elif [[ $input == '3' ]]; then
+				while true; do
+					WINDOWBAR
+					echo -e "${RESET}${TITLE}${BOLD}                          Provide the model identifier"
+					echo -e ""
+					echo -e "       Please enter the entire number with no spaces (i.e. MacBookAir5,1)"
+					echo -e "                     When finished, press the return key..."
+					echo -e "${RESET}${BODY}"
+					read -p " Model Identifier: " MACVERSIONINPUT
+					PROVIDEMODEL="TRUE"
+					MODELID
+				done
 			elif [[ "$input" == 'q' || "$input" == 'Q' ]]; then
 				SCRIPTLAYOUT
 			elif [[ "$input" == 'w' || "$input" == 'W' ]]; then
@@ -7911,6 +6820,1405 @@ IDMAC()
 			WINDOWERROR
 		fi
 		done
+}
+MODELID ()
+{
+				if [[ $MACVERSIONINPUT == 'MacBook5,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Aluminum, Late 2008)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBook5,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Early 2009) + (13-inch, Mid 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBook6,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Late 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBook7,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (13-inch, Mid 2010)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBook8,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (Retina, 12-inch, Early 2015)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADBIGSUR
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBook9,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (Retina, 12-inch, Early 2016)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBook10,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook (Retina, 12-inch, 2017)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADVENTURA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir1,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Original)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}Mac OS X Lion ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "                  Press any key to return to the Home Menu... "
+					read -n 1 
+					SCRIPTLAYOUT
+				elif [[ $MACVERSIONINPUT == 'MacBookAir2,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Mid 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir3,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Late 2010)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir3,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Late 2010)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir4,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Mid 2011)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir4,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Mid 2011)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir5,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Mid 2012)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir5,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Mid 2012)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir6,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Mid 2013) + (11-inch, Early 2014)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADBIGSUR
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir6,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Mid 2013) + (13-inch, Early 2014)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADBIGSUR
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir7,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (11-inch, Early 2015)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir7,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, Early 2015) + MacBook Air (13-inch, 2017)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir8,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Retina, 13-inch, 2018)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sonoma ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSONOMA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir8,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Retina, 13-inch, 2019)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sonoma ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSONOMA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir9,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (Retina, 13-inch, 2020)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookAir10,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (M1, 2020)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac14,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (M2, 2020)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac14,15' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (15-inch, M2, 2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac15,12' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, M3, 2024)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac15,13' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (15-inch, M3, 2024)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac16,12' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (13-inch, M4, 2025)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac16,13' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Air (15-inch, M4, 2025)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro4,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch/17-inch, Early 2008)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro5,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Late 2008)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro5,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (17-inch, Early/Mid 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro5,5' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Mid 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro5,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Mid 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro7,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Mid 2010)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro6,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Mid 2010)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro6,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (17-inch, Mid 2010)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro8,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Early/Late 2011)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro8,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Early/Late 2011)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro8,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (17-inch, Early/Late 2011)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro9,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, Mid 2012)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro9,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, Mid 2012)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro10,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 15-inch, Mid 2012/Early 2013)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro10,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 13-inch, Late 2012/Early 2013)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro11,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 13-inch, Late 2013/Mid 2014)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADBIGSUR
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro11,2' || $MACVERSIONINPUT == 'MacBookPro11,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 15-inch, Late 2013/Mid 2014)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADBIGSUR
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro12,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 13-inch, Early 2015)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro11,4' || $MACVERSIONINPUT == 'MacBookPro11,5' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (Retina, 15-inch, Mid 2015)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro13,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2016, Two Thunderbolt 3 ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro13,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2016, Four Thunderbolt 3 ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro13,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2016)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro14,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2017, Two Thunderbolt 3 ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADVENTURA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro14,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2017, Four Thunderbolt 3 ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADVENTURA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro14,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2017)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADVENTURA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro15,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2018/2019, Four Thunderbolt 3 ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro15,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2018)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro15,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (15-inch, 2019)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro15,4' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2019, Two Thunderbolt 3 ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro16,1' || $MACVERSIONINPUT == 'MacBookPro16,4' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2019)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro16,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2020, Four Thunderbolt 3 ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro16,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, 2020, Two Thunderbolt 3 ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro17,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, M1, 2020)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro18,1' || $MACVERSIONINPUT == 'MacBookPro18,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2021)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacBookPro18,3' || $MACVERSIONINPUT == 'MacBookPro18,4' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, 2021)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac14,7' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (13-inch, M2, 2022)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac14,6' || $MACVERSIONINPUT == 'Mac14,10' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac14,5' || $MACVERSIONINPUT == 'Mac14,9' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, 2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac15,7' || $MACVERSIONINPUT == 'Mac15,9' || $MACVERSIONINPUT == 'Mac15,11' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, Nov 2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac15,6' || $MACVERSIONINPUT == 'Mac15,8' || $MACVERSIONINPUT == 'Mac15,10' || $MACVERSIONINPUT == 'Mac15,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, Nov 2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac16,7' || $MACVERSIONINPUT == 'Mac16,5' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (16-inch, 2024)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac16,6' || $MACVERSIONINPUT == 'Mac16,8' || $MACVERSIONINPUT == 'Mac16,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a MacBook Pro (14-inch, 2024)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac9,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Early 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac10,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Late 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac11,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Mid 2010)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac11,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Mid 2010)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac12,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Mid 2011)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac12,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Mid 2011)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac13,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Late 2012)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac13,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Late 2012)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac14,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Late 2013)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac14,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (27-inch, Late 2013)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac14,4' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Mid 2014)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADBIGSUR
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac15,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, Late 2014/Mid 2015)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Big Sur ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADBIGSUR
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac16,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, Late 2015)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac16,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 4K, 21.5-inch, Late 2015)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac17,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, Late 2015)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac18,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (21.5-inch, 2017)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADVENTURA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac18,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 4K, 21.5-inch, 2017)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADVENTURA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac18,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, 2017)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Ventura ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADVENTURA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMacPro1,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac Pro (2017)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac19,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 4K, 21.5-inch, 2019)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac19,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, 2019)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac20,1' || $MACVERSIONINPUT == 'iMac20,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (Retina 5K, 27-inch, 2020)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'iMac21,2' || $MACVERSIONINPUT == 'iMac21,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, M1, 2021)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac15,4' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2023, Two ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac15,5' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2023, Four ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac16,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2024, Two ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac16,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a iMac (24-inch, 2024, Four ports)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Macmini3,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Early/Late 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Macmini4,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Mid 2010)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Macmini5,1' || $MACVERSIONINPUT == 'Macmini5,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Mid 2011)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADHIGHSIERRA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Macmini6,1' || $MACVERSIONINPUT == 'Macmini6,2' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Late 2012)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Catalina ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADCATALINA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Macmini7,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (Late 2014)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Macmini8,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (2018)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Macmini9,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (M1, 2020)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac14,12' || $MACVERSIONINPUT == 'Mac14,3' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac16,15' || $MACVERSIONINPUT == 'Mac16,10' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac mini (2024)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				
+				elif [[ $MACVERSIONINPUT == 'MacPro4,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (Early 2009)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}OS X El Capitan ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADELCAPITAN
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacPro5,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (Server) (Mid 2010/Mid 2012)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS High Sierra ${RESET}"
+					echo -e "${RESET}${TITLE}If you have a Metal Graphics card: ${BOLD}macOS Mojave ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "                  Press any key to return to the Home Menu... "
+					read -n 1 
+					SCRIPTLAYOUT
+				elif [[ $MACVERSIONINPUT == 'MacPro6,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (Late 2013)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Monterey ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADMONTEREY
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'MacPro7,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (2019)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac14,8' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Pro (2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac13,2' || $MACVERSIONINPUT == 'Mac13,1' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Studio (2022)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac14,13' || $MACVERSIONINPUT == 'Mac14,14' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Studio (2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				elif [[ $MACVERSIONINPUT == 'Mac15,14' || $MACVERSIONINPUT == 'Mac16,9' ]]; then
+					WINDOWBAR
+					echo -e "${RESET}${OSFOUND}${BOLD}You have a Mac Studio (2023)"
+					echo -e "${RESET}${TITLE}The latest compatible macOS version is ${BOLD}macOS Sequoia ${RESET}"
+					echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+					echo -n "Would you like to download it? (Press any other key to cancel)... "
+					read -n 1 input
+					if [[ $input == 'y' || $input == 'Y' ]]; then
+						DOWNLOADSEQUOIA
+					else
+						SCRIPTLAYOUT
+					fi
+				else 
+					if [[ $PROVIDEMODEL == 'TRUE' ]]; then
+						WINDOWBAR
+						echo -e "${RESET}${ERROR}${BOLD}              Invalid Model Identifier Number (i.e. MacBookAir5,1)${RESET}"
+						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+						echo -n "                         Press any key to try again... "
+						read -n 1
+						break
+					else
+						WINDOWBAR
+						echo -e "${RESET}${ERROR}Cannot detect Mac model."
+						if [[ $safe == '1' || $safe == '2' ]]; then
+							echo -e "You are running in Safe Mode"
+						else
+							echo -e "You may have a model that is not compatible with this script... "
+						fi
+						echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+						echo -n "                  Press any key to return to the Home Menu... "
+						read -n 1 
+						SCRIPTLAYOUT
+					fi
+				fi
 }
 
 #Extended Support Mode
@@ -8303,6 +8611,16 @@ SCRIPTLAYOUT()
 			exit
 		fi
 	else
+		if [[ ! -z "$LATEST_VERSION" ]]; then
+			if [[ ! "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
+				WINDOWBAR
+				echo -e "${RESET}${BODY}${BOLD}                 A new version of the macOS Creator is available"
+				echo -e "${RESET}${BODY}              Please go to GitHub to download the latest version..."
+				echo -e "${PROMPTSTYLE}${BOLD}"
+				echo -n "                          Press any key to continue... "
+				read -n 1
+			fi
+		fi
 		while true; do
 			FIRSTTIMEHERE="FALSE"
 			MAINMENU
@@ -8411,7 +8729,9 @@ elif [[ $safe == "2" ]]; then
 	fi
 	SCRIPTLAYOUT
 else
+	RUNUPDATE="TRUE"
 	PreRunOS
+	PreRunUpdate
 	PreRun
 	PreRunMac
 	SCRIPTLAYOUT
