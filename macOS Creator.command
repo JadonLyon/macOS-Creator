@@ -2727,6 +2727,7 @@ HIGHSIERRADRIVECREATION()
 		fi
 		echo -e ""
 		echo -e "                            Downloading Resources..."
+		Output sudo curl -L -o "/private/tmp/mcscmcshsinstall3824924.zip" "https://objects.githubusercontent.com/github-production-release-asset-2e65be/1009072279/a09ae1dd-9c33-467d-8bf7-bc372cbf281f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250626%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250626T152008Z&X-Amz-Expires=1800&X-Amz-Signature=1b8275696c53869c22ed0ea109e9755922d7e5b69ea3f0f1633889bdf3abdb7d&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmcscmcshsinstall3824924.zip&response-content-type=application%2Foctet-stream"
 		ZIP_FILE="/private/tmp/mcscmcshsinstall3824924.zip"
 		TMP_DIR=$(mktemp -d /tmp/tmpmcsc)
 		Output unzip "$ZIP_FILE" -d "$TMP_DIR"
