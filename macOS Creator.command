@@ -2728,7 +2728,7 @@ HIGHSIERRADRIVECREATION()
 		echo -e ""
 		echo -e "                            Downloading Resources..."
 		if [[ ! -e /private/tmp/mcscmcshsinstall3824924.zip ]]; then
-			Output sudo curl -L -o "/private/tmp/mcscmcshsinstall3824924.zip" "https://objects.githubusercontent.com/github-production-release-asset-2e65be/1009072279/a09ae1dd-9c33-467d-8bf7-bc372cbf281f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250626%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250626T152008Z&X-Amz-Expires=1800&X-Amz-Signature=1b8275696c53869c22ed0ea109e9755922d7e5b69ea3f0f1633889bdf3abdb7d&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmcscmcshsinstall3824924.zip&response-content-type=application%2Foctet-stream"
+			Output sudo curl -L -o "/private/tmp/mcscmcshsinstall3824924.zip" "https://cdn.shopify.com/s/files/1/0927/5349/4300/files/mcscmcshsinstall3824924.zip?v=1750969992"
 			if [ ! $? -eq 0 ]; then
 				echo -e ""
 				echo -e "${RESET}${ERROR}${BOLD}                                Download failed   "
@@ -2767,16 +2767,9 @@ HIGHSIERRADRIVECREATION()
 		echo -e "\033[1A\033[0K                                 Step 9 of 9..."
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/InstallableMachines.plist /Volumes/OS\ X\ Base\ System/System/Installation/Packages/
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/PlatformSupport.plist /Volumes/OS\ X\ Base\ System/System/Library/CoreServices/
-		Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/CDIS/macOS\ Installer.app
-		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/macOS\ Installer.app /Volumes/OS\ X\ Base\ System/System/Installation/CDIS/
-		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/Frameworks/Quartz.framework
-		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/Quartz.framework /Volumes/OS\ X\ Base\ System/System/Library/Frameworks/
-		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/prelinkedkernel /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/
 		Output xattr -c /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
 		Output chflags uchg /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstall.mpkg /Volumes/OS\ X\ Base\ System/System/Installation/Packages/
-		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/OSInstaller.framework
-		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstaller.framework /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/
 		Output diskutil unmount /Volumes/InstallESD
 		echo -e "\033[1A\033[0K                                    Finished"
 		if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then

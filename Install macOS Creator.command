@@ -26,12 +26,6 @@ if [[ "$MACOSVERSION" == '10.5' || "$MACOSVERSION" == '10.6' || "$MACOSVERSION" 
 fi
 BUILDAPP()
 {
-	if [[ ! -d "$SCRIPTPATHMAIN/app_files" ]]; then
-		echo -e ""
-		echo -e "                        Cannot find files to build app..."
-		echo -e ""
-		exit
-	fi
 	if [[ $update == '1' ]]; then
 		touch /private/tmp/.macOSCreatorUpdate
 		sudo rm -R /$HOME/macOS\ Creator/macOS\ Creator.command
@@ -52,6 +46,12 @@ BUILDAPP()
 			echo -e ""
 			exit
 		fi
+	fi
+	if [[ ! -d "$SCRIPTPATHMAIN/app_files" ]]; then
+		echo -e ""
+		echo -e "                        Cannot find files to build app..."
+		echo -e ""
+		exit
 	fi
 	if [[ $UPGRADE == 'YES' ]]; then
 		touch /private/tmp/.macOSCreatorUpdate
