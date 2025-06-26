@@ -2726,20 +2726,42 @@ HIGHSIERRADRIVECREATION()
 			Output diskutil unmount /Volumes/OS\ X\ Base\ System
 		fi
 		echo -e ""
-		echo -e "                                 Step 1 of 7..."
+		echo -e "                            Downloading Resources..."
+		ZIP_FILE="/private/tmp/mcscmcshsinstall3824924.zip"
+		TMP_DIR=$(mktemp -d /tmp/tmpmcsc)
+		Output unzip "$ZIP_FILE" -d "$TMP_DIR"
+		echo -e "\033[1A\033[0K                                 Step 1 of 9..."
 		Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg" -noverify
-		echo -e "\033[1A\033[0K                                 Step 2 of 7..."
+		echo -e "\033[1A\033[0K                                 Step 2 of 9..."
 		Output sudo asr restore -source "$installpath/Contents/SharedSupport/BaseSystem.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
-		echo -e "\033[1A\033[0KS                                 tep 3 of 7..."
+		echo -e "\033[1A\033[0KS                                 tep 3 of 9..."
 		Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/Packages
-		echo -e "\033[1A\033[0K                                 Step 4 of 7..."
-		Output cp -R "/Volumes/InstallESD/Packages" /Volumes/OS\ X\ Base\ System/System/Installation/
-		echo -e "\033[1A\033[0K                                 Step 5 of 7..."
-		Output cp "/Volumes/InstallESD/BaseSystem.dmg" /Volumes/OS\ X\ Base\ System/
-		echo -e "\033[1A\033[0K                                 Step 6 of 7..."
-		Output cp "/Volumes/InstallESD/BaseSystem.chunklist" /Volumes/OS\ X\ Base\ System/
-		echo -e "\033[1A\033[0K                                 Step 7 of 7..."
+		echo -e "\033[1A\033[0K                                 Step 4 of 9..."
+		Output cp -R /Volumes/InstallESD/Packages /Volumes/OS\ X\ Base\ System/System/Installation/
+		echo -e "\033[1A\033[0K                                 Step 5 of 9..."
+		Output cp "$installpath/Contents/SharedSupport/BaseSystem.dmg" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 6 of 9..."
+		Output cp "$installpath/Contents/SharedSupport/BaseSystem.chunklist" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 7 of 9..."
+		Output cp "$installpath/Contents/SharedSupport/AppleDiagnostics.dmg" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 8 of 9..."
+		Output cp "$installpath/Contents/SharedSupport/AppleDiagnostics.chunklist" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 9 of 9..."
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/InstallableMachines.plist /Volumes/OS\ X\ Base\ System/System/Installation/Packages/
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/PlatformSupport.plist /Volumes/OS\ X\ Base\ System/System/Library/CoreServices/
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/CDIS/macOS\ Installer.app
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/macOS\ Installer.app /Volumes/OS\ X\ Base\ System/System/Installation/CDIS/
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/Frameworks/Quartz.framework
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/Quartz.framework /Volumes/OS\ X\ Base\ System/System/Library/Frameworks/
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/prelinkedkernel /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/
+		Output xattr -c /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
+		Output chflags uchg /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstall.mpkg /Volumes/OS\ X\ Base\ System/System/Installation/Packages/
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/OSInstaller.framework
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstaller.framework /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/
 		Output diskutil unmount /Volumes/InstallESD
+		Output rm -R /private/tmp/tmpmcsc
+		Output rm -R /private/tmp/mcscmcshsinstall3824924.zip
 		echo -e "\033[1A\033[0K                                    Finished"
 		if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
 			Output diskutil rename /Volumes/OS\ X\ Base\ System Install\ macOS\ High\ Sierra\ Safe\ Install
