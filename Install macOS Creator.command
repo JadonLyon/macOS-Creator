@@ -4,6 +4,11 @@
 #This is where the script code is located
 #Caution: Modifying the script may cause it to break!
 
+PARAMETERS="${1}${2}${3}${4}${5}${6}${7}${8}${9}"
+
+if [[ $PARAMETERS == *"-34g89hrp394ghedhgfp93uhgrowdihv93uhgu4ho9e7vhlisdkjvbrp938"* ]]; then
+	update="1"
+fi
 #Determines Script Path
 SCRIPTPATH="${0}"
 SCRIPTPATHMAIN="${0%/*}"
@@ -26,13 +31,34 @@ BUILDAPP()
 		echo -e ""
 		exit
 	fi
+	if [[ update == '1' ]]; then
+		touch /private/tmp/.macOSCreatorUpdate
+		sudo rm -R /$HOME/macOS\ Creator/macOS\ Creator.command
+		sudo cp -R "$SCRIPTPATHMAIN/macOS Creator.command" /$HOME/macOS\ Creator/
+		sudo chmod +x /$HOME/macOS\ Creator/macOS\ Creator.command
+		sed -i '' '8755s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
+		sed -i '' '8754s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
+		if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command && -d /Applications/macOS\ Creator.app ]]; then
+			echo -e ""
+			echo -e "                     The app has been created sucessfully"
+			echo -e ""
+			echo -n "                           Press any key to continue... "
+			read -n 1
+			$HOME/macOS\ Creator/macOS\ Creator.command
+		else
+			echo -e ""
+			echo -e "                    App creation failed. Please try again..."
+			echo -e ""
+			exit
+		fi
+	fi
 	if [[ $UPGRADE == 'YES' ]]; then
 		touch /private/tmp/.macOSCreatorUpdate
 		sudo rm -R /Applications/macOS\ Creator.app
 		echo -e "                          Removing previous versions..."
 		sudo rm -R /$HOME/macOS\ Creator/macOS\ Creator.command
-		sudo rm -R /$HOME/macOS\ Creator/normallaunch
-		sudo rm -R /$HOME/macOS\ Creator/onelaunch
+		rm -R /$HOME/macOS\ Creator/.version*
+		touch /$HOME/macOS\ Creator/.version62
 	fi
 	if [[ ! $UPGRADE == 'YES' ]]; then
 		mkdir /$HOME/macOS\ Creator
@@ -67,8 +93,8 @@ BUILDAPP()
 	sudo chmod +x /$HOME/macOS\ Creator/macOS\ Creator.command
 	chflags hidden /$HOME/macOS\ Creator
 	touch /$HOME/macOS\ Creator/.homeuser
-	sed -i '' '8212s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
-	sed -i '' '8211s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
+	sed -i '' '8755s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
+	sed -i '' '8754s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
 	if [[ ! $UPGRADE == 'YES' ]]; then
 		if [[ $(uname -m) == "arm64" ]]; then
 			touch /$HOME/macOS\ Creator/.colorm1setting
@@ -76,7 +102,8 @@ BUILDAPP()
 	fi
 	cp -R "$SCRIPTPATHMAIN/app_files/onelaunch" /$HOME/macOS\ Creator/
 	cp -R "$SCRIPTPATHMAIN/app_files/normallaunch" /$HOME/macOS\ Creator/
-	touch /$HOME/macOS\ Creator/.version61
+	rm -R /$HOME/macOS\ Creator/.version*
+	touch /$HOME/macOS\ Creator/.version62
 	if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command && -d /Applications/macOS\ Creator.app ]]; then
 		echo -e ""
 		echo -e "                     The app has been created sucessfully"
@@ -93,8 +120,19 @@ BUILDAPP()
 #Build App
 UPDATEINSTALL()
 {
+	if [[ update == '1' ]]; then
+		echo ""
+		echo -n "                      Press Y to update the macOS Creator... "
+		read -n 1 input
+		echo -e ""
+		if [[ $input == 'y' || $input == 'Y' ]]; then
+			BUILDAPP
+		else
+			exit
+		fi
+	fi
 	if [[ $VersionUpdate == 'TRUE' ]]; then
-		if [[ ! -e /$HOME/macOS\ Creator/.version61 ]]; then
+		if [[ ! -e /$HOME/macOS\ Creator/.version61 || ! -e /$HOME/macOS\ Creator/.version62 ]]; then
 			echo -e ""
 			echo -e "            A newer version of the macOS Creator is already installed"
 			echo -e "                    You cannot downgrade your current version"

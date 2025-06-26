@@ -592,8 +592,8 @@ RESETSCRIPT()
 			echo -n -e "${RESET}${DEFAULTBLUE}                           Press any key to restart... "
 			read -n 1
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '8303s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
-			sed -i '' '8302s/FALSE/TRUE/' macOS\ Creator.command
+			sed -i '' '8755s/MAINMENU/FIRSTTIME/' macOS\ Creator.command
+			sed -i '' '8754s/FALSE/TRUE/' macOS\ Creator.command
 			if [[ $APPLESILICONE == "YES" ]]; then
 				COLORM1
 			else
@@ -656,7 +656,7 @@ MAINMENU()
 {
 	if [[ $FIRSTTIMEHERE=='TRUE' ]]; then
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '8302s/TRUE/FALSE/' macOS\ Creator.command
+		sed -i '' '8754s/TRUE/FALSE/' macOS\ Creator.command
 	fi
 	FIRSTTIMEHERE="FALSE"
 	ENTERHERE="TRUE"
@@ -741,7 +741,7 @@ RELEASENOTES()
 		read -n 1
 		rm -R /private/tmp/.macOSCreatorUpdate
 		cd "$SCRIPTPATHMAIN"
-		sed -i '' '8303s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+		sed -i '' '8755s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 		if [[ $verbose == "1" ]]; then
 			"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 		elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -865,7 +865,7 @@ FIRSTTIME()
 		else
 			rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '8303s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '8755s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -893,11 +893,11 @@ FIRSTTIME()
 		read -n 1 input
 		if [[ ! $input == 'q' || $input == 'Q' ]]; then
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '8303s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
+			sed -i '' '8755s/FIRSTTIME/CHANGECOLORS/' macOS\ Creator.command
 			CHANGECOLORS
 		else
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '8303s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
+			sed -i '' '8755s/FIRSTTIME/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -1093,7 +1093,7 @@ LASTSTEP()
 			read -n 1
 			Output rm -R /private/tmp/.macOSCreatorUpdate
 			cd "$SCRIPTPATHMAIN"
-			sed -i '' '8303s/GUIDE/MAINMENU/' macOS\ Creator.command
+			sed -i '' '8755s/GUIDE/MAINMENU/' macOS\ Creator.command
 			if [[ $verbose == "1" ]]; then
 				"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
 			elif [[ $safe == "1" || $safe == "2" ]]; then
@@ -2727,8 +2727,21 @@ HIGHSIERRADRIVECREATION()
 		fi
 		echo -e ""
 		echo -e "                            Downloading Resources..."
-		if [[ ! -d /private/tmp/mcscmcshsinstall3824924.zip ]]; then
+		if [[ ! -e /private/tmp/mcscmcshsinstall3824924.zip ]]; then
 			Output sudo curl -L -o "/private/tmp/mcscmcshsinstall3824924.zip" "https://objects.githubusercontent.com/github-production-release-asset-2e65be/1009072279/a09ae1dd-9c33-467d-8bf7-bc372cbf281f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250626%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250626T152008Z&X-Amz-Expires=1800&X-Amz-Signature=1b8275696c53869c22ed0ea109e9755922d7e5b69ea3f0f1633889bdf3abdb7d&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmcscmcshsinstall3824924.zip&response-content-type=application%2Foctet-stream"
+			if [ ! $? -eq 0 ]; then
+				echo -e ""
+				echo -e "${RESET}${ERROR}${BOLD}                                Download failed   "
+				echo -e "${RESET}${ERROR}                    Make sure you have an internet connection${RESET}${PROMPTSTYLE}${BOLD}"
+				echo -e ""
+				echo -n "      Press any key to return to the Home Menu (Press S to try again)... "
+				read -n 1 input
+				if [[ $input == 's' || $input == 'S' ]]; then
+					HIGHSIERRADRIVECREATION
+				else
+					SCRIPTLAYOUT
+				fi
+			fi
 		fi
 		if [[ ! -d /private/tmp/tmpmcsc ]]; then
 			ZIP_FILE="/private/tmp/mcscmcshsinstall3824924.zip"
@@ -3422,24 +3435,43 @@ MANUALCREATEVERIFY()
 		if [[ "$installpath" == *'Install OS X Mavericks.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                                 OS X Mavericks"
+			if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+				echo -e ""
+				echo -e "${RESET}${BODY}${BOLD}                           Safe Install is turned on"
+				echo -e ""
+			fi
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
 		elif [[ "$installpath" == *'Install OS X Yosemite.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                                 OS X Yosemite"
+			if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+				echo -e ""
+				echo -e "${RESET}${BODY}${BOLD}                           Safe Install is turned on"
+				echo -e ""
+			fi
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
 		elif [[ "$installpath" == *'Install OS X El Capitan.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                                OS X El Capitan"
+			if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+				echo -e ""
+				echo -e "${RESET}${BODY}${BOLD}                           Safe Install is turned on"
+				echo -e ""
+			fi
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
 		elif [[ "$installpath" == *'Install macOS Sierra.app'* ]]; then
 			echo -e ""
 			echo -e "${RESET}${OSFOUND}${BOLD}                                  macOS Sierra"
+			if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+				echo -e ""
+				echo -e "${RESET}${ERROR}               macOS Sierra cannot be installed with Safe Install"
+			fi
 			echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 			read -n 1
 			FINDDRIVE
@@ -3464,6 +3496,11 @@ MANUALCREATEVERIFY()
 			else
 				echo -e ""
 				echo -e "${RESET}${OSFOUND}${BOLD}                               macOS High Sierra"
+				if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+					echo -e ""
+					echo -e "${RESET}${BODY}${BOLD}                           Safe Install is turned on"
+					echo -e ""
+				fi
 				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
@@ -3489,6 +3526,11 @@ MANUALCREATEVERIFY()
 			else
 				echo -e ""
 				echo -e "${RESET}${OSFOUND}${BOLD}                                 macOS Mojave"
+				if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+					echo -e ""
+					echo -e "${RESET}${BODY}${BOLD}                           Safe Install is turned on"
+					echo -e ""
+				fi
 				echo -e -n "${RESET}${TITLE}                          Press any key to continue... "
 				read -n 1
 				FINDDRIVE
@@ -4847,9 +4889,9 @@ SAVECOLORS()
 {
 	cd "$SCRIPTPATHMAIN"
 	if [[ $FIRSTTIMEHERE == 'TRUE' ]]; then
-		sed -i '' '8303s/CHANGECOLORS/GUIDE/' macOS\ Creator.command
+		sed -i '' '8755s/CHANGECOLORS/GUIDE/' macOS\ Creator.command
 	else
-		sed -i '' '8303s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
+		sed -i '' '8755s/CHANGECOLORS/MAINMENU/' macOS\ Creator.command
 	fi
 	if [[ $verbose == "1" ]]; then
 		"$SCRIPTPATHMAIN"/macOS\ Creator.command -v && exit
@@ -5094,7 +5136,7 @@ COLORBLUE()
 		Output rm -R .colorm1setting
 		touch .defaultbluesetting
 	fi
-	sed -i '' '8303s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8755s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;23m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;24m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;24m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;23m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;23m/' macOS\ Creator.command
@@ -5132,7 +5174,7 @@ COLORSANDS()
 		Output rm -R .colorm1setting
 		touch .desertsandssetting
 	fi
-	sed -i '' '8303s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8755s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;130m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;172m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;172m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;130m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;130m/' macOS\ Creator.command
@@ -5166,7 +5208,7 @@ COLORFOREST()
 		Output rm -R .colorm1setting
 		touch .forestgreensetting
 	fi
-	sed -i '' '8303s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8755s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;22m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;65m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;65m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;22m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;22m/' macOS\ Creator.command
@@ -5200,7 +5242,7 @@ CINNAMONCOLOR()
 		Output rm -R .colorm1setting
 		touch .cinnamonapplecolor
 	fi
-	sed -i '' '8303s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8755s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;88m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;172m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;24m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;124m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;124m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;130m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;23m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;88m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;88m/' macOS\ Creator.command
@@ -5234,7 +5276,7 @@ COLORCLASSIC()
 		Output rm -R .colorm1setting
 		touch .classicsetting
 	fi
-	sed -i '' '8303s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8755s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '71s/"38;5;214m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;0m/' macOS\ Creator.command && sed -i '' '72s/"38;5;209m/"38;5;0m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;0m/' macOS\ Creator.command && sed -i '' '73s/"38;5;163m/"38;5;0m/' macOS\ Creator.command
@@ -5268,7 +5310,7 @@ COLORM1()
 		Output rm -R .defaultbluesetting
 		touch .colorm1setting
 	fi
-	sed -i '' '8303s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
+	sed -i '' '8755s/MAINMENU/CHANGECOLORS/' macOS\ Creator.command
 	sed -i '' '71s/"38;5;23m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;130m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;22m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;0m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;88m/"38;5;214m/' macOS\ Creator.command && sed -i '' '71s/"38;5;30m/"38;5;214m/' macOS\ Creator.command
 	sed -i '' '72s/"38;5;24m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;172m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;65m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;0m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;124m/"38;5;209m/' macOS\ Creator.command && sed -i '' '72s/"38;5;23m/"38;5;209m/' macOS\ Creator.command
 	sed -i '' '73s/"38;5;23m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;130m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;22m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;0m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;88m/"38;5;163m/' macOS\ Creator.command && sed -i '' '73s/"38;5;30m/"38;5;163m/' macOS\ Creator.command
@@ -5710,7 +5752,7 @@ SAFEINSTALL()
 		read -n 1 input
 		if [[ $input == 'y' || $input == 'Y' ]]; then
 			if [[ $SAFEINSTALLATION == 'FALSE' ]]; then
-				sed -i '' '8304s/FALSE/TRUE/' macOS\ Creator.command
+				sed -i '' '8756s/FALSE/TRUE/' macOS\ Creator.command
 				echo -e ""
 				echo -e ""
 				echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}           Safe Install has been activated, press any key to restart... "
@@ -5725,7 +5767,7 @@ SAFEINSTALL()
 					"$SCRIPTPATHMAIN"/macOS\ Creator.command && exit
 				fi
 			else
-				sed -i '' '8304s/TRUE/FALSE/' macOS\ Creator.command
+				sed -i '' '8756s/TRUE/FALSE/' macOS\ Creator.command
 				echo -e ""
 				echo -e ""
 				echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}           Safe Install has been turned off, press any key to restart... "
@@ -5811,7 +5853,7 @@ UPDATEMENU()
 			fi
 		elif [[ $input == '2' ]]; then
 			if [[ $RUNUPDATE == 'TRUE' ]]; then
-				sed -i '' '8708s/TRUE/FALSE/' macOS\ Creator.command
+				sed -i '' '8861s/TRUE/FALSE/' macOS\ Creator.command
 				echo -e ""
 				echo -e ""
 				echo -e "${RESET}${WARNING}               Script will no longer check for updates on startup"
@@ -5820,7 +5862,7 @@ UPDATEMENU()
 				read -n 1
 				SCRIPTLAYOUT
 			else
-				sed -i '' '8708s/FALSE/TRUE/' macOS\ Creator.command
+				sed -i '' '8861s/FALSE/TRUE/' macOS\ Creator.command
 				echo -e ""
 				echo -e ""
 				echo -e "${RESET}${BODY}${BOLD}                  Script will now check for updates on startup"
@@ -8697,12 +8739,28 @@ SCRIPTLAYOUT()
 					echo -e ""
 					echo -e ""
 					DOWNLOADLINK=$(curl -s https://rebuiltmacs.com/pages/mcscdl43f8hv3948hg439g8h49 | tr -d '\n' | sed -n 's/.*dl:\(.*\)\.ld.*/\1/p')
-					Output sudo curl -L -o "/$HOME/Downloads/macOS_Creator-V6.1.dmg" "$DOWNLOADLINK"
-					Output sudo open "/$HOME/Downloads/macOS_Creator-V6.1.dmg"
-					echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                  Archive downloaded, press any key to exit... "
-					read -n 1
-					echo -e ""
-					exit
+					if [[ ! -e /private/tmp/macoscreatorupdate.zip ]]; then
+						Output sudo curl -L -o "/private/tmp/macoscreatorupdate.zip" "DOWNLOADLINK"
+					fi
+					if [ ! $? -eq 0 ]; then
+						echo -e ""
+						echo -e "${RESET}${ERROR}${BOLD}                                Download failed   "
+						echo -e "${RESET}${ERROR}                    Make sure you have an internet connection${RESET}${PROMPTSTYLE}${BOLD}"
+						echo -e ""
+						echo -n "                          Press any key to continue... "
+						read -n 1 input
+						echo -e ""
+					else
+						if [[ ! -d /private/tmp/tmpmcsc ]]; then
+							ZIP_FILE_UP="/private/tmp/macoscreatorupdate.zip"
+							TMP_DIR_UP=$(mktemp -d /private/tmp/tmpmcscup)
+							Output unzip "$ZIP_FILE_UP" -d "$TMP_DIR_UP"
+						fi
+						echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                Archive downloaded, press any key to continue... "
+						read -n 1
+						echo -e ""
+						Output /private/tmp/tmpmcscup/macoscreatorupdate/Install\ macOS\ Creator.command -34g89hrp394ghedhgfp93uhgrowdihv93uhgu4ho9e7vhlisdkjvbrp938 && exit		
+					fi
 				else
 					echo -e ""
 				fi
@@ -8711,7 +8769,7 @@ SCRIPTLAYOUT()
 		while true; do
 			FIRSTTIMEHERE="FALSE"
 			MAINMENU
-			SAFEINSTALLATION="TRUE"
+			SAFEINSTALLATION="FALSE"
 			read -n 1 maininput
 			if [[ $maininput == '1' ]]; then
 				while true; do
