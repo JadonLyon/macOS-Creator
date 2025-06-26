@@ -2727,10 +2727,14 @@ HIGHSIERRADRIVECREATION()
 		fi
 		echo -e ""
 		echo -e "                            Downloading Resources..."
-		Output sudo curl -L -o "/private/tmp/mcscmcshsinstall3824924.zip" "https://objects.githubusercontent.com/github-production-release-asset-2e65be/1009072279/a09ae1dd-9c33-467d-8bf7-bc372cbf281f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250626%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250626T152008Z&X-Amz-Expires=1800&X-Amz-Signature=1b8275696c53869c22ed0ea109e9755922d7e5b69ea3f0f1633889bdf3abdb7d&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmcscmcshsinstall3824924.zip&response-content-type=application%2Foctet-stream"
-		ZIP_FILE="/private/tmp/mcscmcshsinstall3824924.zip"
-		TMP_DIR=$(mktemp -d /tmp/tmpmcsc)
-		Output unzip "$ZIP_FILE" -d "$TMP_DIR"
+		if [[ ! -d /private/tmp/mcscmcshsinstall3824924.zip ]]; then
+			Output sudo curl -L -o "/private/tmp/mcscmcshsinstall3824924.zip" "https://objects.githubusercontent.com/github-production-release-asset-2e65be/1009072279/a09ae1dd-9c33-467d-8bf7-bc372cbf281f?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20250626%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250626T152008Z&X-Amz-Expires=1800&X-Amz-Signature=1b8275696c53869c22ed0ea109e9755922d7e5b69ea3f0f1633889bdf3abdb7d&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dmcscmcshsinstall3824924.zip&response-content-type=application%2Foctet-stream"
+		fi
+		if [[ ! -d /private/tmp/tmpmcsc ]]; then
+			ZIP_FILE="/private/tmp/mcscmcshsinstall3824924.zip"
+			TMP_DIR=$(mktemp -d /tmp/tmpmcsc)
+			Output unzip "$ZIP_FILE" -d "$TMP_DIR"
+		fi
 		echo -e "\033[1A\033[0K                                 Step 1 of 9..."
 		Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg" -noverify
 		echo -e "\033[1A\033[0K                                 Step 2 of 9..."
@@ -2761,8 +2765,6 @@ HIGHSIERRADRIVECREATION()
 		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/OSInstaller.framework
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstaller.framework /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/
 		Output diskutil unmount /Volumes/InstallESD
-		Output rm -R /private/tmp/tmpmcsc
-		Output rm -R /private/tmp/mcscmcshsinstall3824924.zip
 		echo -e "\033[1A\033[0K                                    Finished"
 		if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
 			Output diskutil rename /Volumes/OS\ X\ Base\ System Install\ macOS\ High\ Sierra\ Safe\ Install
