@@ -8759,6 +8759,7 @@ SCRIPTLAYOUT()
 						echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                Archive downloaded, press any key to continue... "
 						read -n 1
 						echo -e ""
+						WINDOWBAR
 						/private/tmp/tmpmcscup/macoscreatorupdate/Install\ macOS\ Creator.command -udfms && exit		
 					fi
 				else
@@ -8769,7 +8770,7 @@ SCRIPTLAYOUT()
 		while true; do
 			FIRSTTIMEHERE="FALSE"
 			MAINMENU
-			SAFEINSTALLATION="FALSE"
+			SAFEINSTALLATION="TRUE"
 			read -n 1 maininput
 			if [[ $maininput == '1' ]]; then
 				while true; do

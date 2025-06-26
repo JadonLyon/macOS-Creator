@@ -41,11 +41,11 @@ BUILDAPP()
 		sed -i '' '8754s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
 		if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command && -d /Applications/macOS\ Creator.app ]]; then
 			echo -e ""
-			echo -e "                     The app has been created sucessfully"
+			echo -e "                    The script has been updated sucessfully"
 			echo -e ""
-			echo -n "                           Press any key to continue... "
+			echo -n "                         Press any key to continue... "
 			read -n 1
-			$HOME/macOS\ Creator/macOS\ Creator.command
+			$HOME/macOS\ Creator/macOS\ Creator.command && exit
 		else
 			echo -e ""
 			echo -e "                    App creation failed. Please try again..."
@@ -122,7 +122,6 @@ BUILDAPP()
 UPDATEINSTALL()
 {
 	if [[ $update == '1' ]]; then
-		echo ""
 		echo -n "                     Press Y to update the macOS Creator... "
 		read -n 1 input
 		echo -e ""
@@ -133,21 +132,7 @@ UPDATEINSTALL()
 		fi
 	fi
 	if [[ $VersionUpdate == 'TRUE' ]]; then
-		if [[ ! -e /$HOME/macOS\ Creator/.version61 ]]; then
-			if [[ ! -e /$HOME/macOS\ Creator/.version62 ]]; then
-				echo -e ""
-				echo -e "            A newer version of the macOS Creator is already installed"
-				echo -e "                    You cannot downgrade your current version"
-				echo -e ""
-				exit
-			else
-				echo -e ""
-				echo -e "            A newer version of the macOS Creator is already installed"
-				echo -e "                    You cannot downgrade your current version"
-				echo -e ""
-				exit
-			fi
-		else
+		if [[ -e /$HOME/macOS\ Creator/.version62 || -e /$HOME/macOS\ Creator/.version61 ]]; then
 			echo ""
 			echo "               An older version of the macOS Creator already exits"
 			echo -n "                       Press Y to upgade/reinstall it..."
@@ -158,6 +143,12 @@ UPDATEINSTALL()
 			else
 				exit
 			fi
+		else
+			echo -e ""
+			echo -e "            A newer version of the macOS Creator is already installed"
+			echo -e "                    You cannot downgrade your current version"
+			echo -e ""
+			exit
 		fi
 	else
 		echo ""
