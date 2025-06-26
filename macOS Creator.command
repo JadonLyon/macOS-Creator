@@ -2715,55 +2715,112 @@ HIGHSIERRADRIVECREATION()
 	echo -e -n "${RESET}${TITLE}                          Please Enter Your "
 	sudo echo ""
 	echo -e "\033[1A\033[0K${BODY}"
-	if [[ ! $verbose == '1' ]]; then
-		ANIMATION &
-		anim_pid=$!
-	fi
-	error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
-	if [[ ! $verbose == '1' ]]; then
-		kill "$anim_pid" >/dev/null 2>&1
-		wait "$anim_pid" 2>/dev/null
-	fi
-	if [[ $verbose == "1" ]]; then
-		echo -e "$error"
-	fi
-	if [[ "$error" == *"Done"* ]]; then
-		echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
-		echo -n "       The drive has been created successfully. Press any key to quit... "
-		read -n 1 input
-		if [[ $input == 'q' || $input == 'Q' ]]; then
-			SCRIPTLAYOUT
-		elif [[ $input == 'w' || $input == 'W' ]]; then
-			break
-		elif [[ $input == '' ]]; then
-			SUCCESSRETURN
+	if [[ $SAFEINSTALLATION == 'TRUE' ]]; then
+		echo -e ""
+		echo -e "${RESET}${TITLE}${BOLD}                         Installing With Safe Install...${RESET}${BODY}"
+		echo -e ""
+		if [[ -d /Volumes/InstallESD/ ]]; then
+			Output diskutil unmount /Volumes/InstallESD
+		fi
+		if [[ -d /Volumes/OS\ X\ Base\ System/ ]]; then
+			Output diskutil unmount /Volumes/OS\ X\ Base\ System
+		fi
+		echo -e ""
+		echo -e "                                 Step 1 of 7..."
+		Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg" -noverify
+		echo -e "\033[1A\033[0K                                 Step 2 of 7..."
+		Output sudo asr restore -source "$installpath/Contents/SharedSupport/BaseSystem.dmg" -target "$installer_volume_path" -noprompt -noverify -erase
+		echo -e "\033[1A\033[0KS                                 tep 3 of 7..."
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/Packages
+		echo -e "\033[1A\033[0K                                 Step 4 of 7..."
+		Output cp -R "/Volumes/InstallESD/Packages" /Volumes/OS\ X\ Base\ System/System/Installation/
+		echo -e "\033[1A\033[0K                                 Step 5 of 7..."
+		Output cp "/Volumes/InstallESD/BaseSystem.dmg" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 6 of 7..."
+		Output cp "/Volumes/InstallESD/BaseSystem.chunklist" /Volumes/OS\ X\ Base\ System/
+		echo -e "\033[1A\033[0K                                 Step 7 of 7..."
+		Output diskutil unmount /Volumes/InstallESD
+		echo -e "\033[1A\033[0K                                    Finished"
+		if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
+			Output diskutil rename /Volumes/OS\ X\ Base\ System Install\ macOS\ High\ Sierra\ Safe\ Install
+			echo -e "${RESET}${TITLE}"
+			echo -n "       The drive has been created successfully. Press any key to quit... "
+			read -n 1 input
+			if [[ $input == 'q' || $input == 'Q' ]]; then
+				SCRIPTLAYOUT
+			elif [[ $input == 'w' || $input == 'W' ]]; then
+				break
+			elif [[ $input == '' ]]; then
+				SUCCESSRETURN
+			else
+				SUCCESS
+			fi
 		else
-			SUCCESS
+			echo -e "${RESET}${ERROR}${BOLD}\033[1A\033[0K\033[1A\033[0K"
+			echo -e "                                Operation Failed   "
+			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+			echo -e "           Press S to try again, or Y to review troubleshooting steps"
+			echo -n "                     (Press any other key to go home)... "
+			read -n 1 input
+			if [[ $input == 'y' || $input == 'Y' ]]; then
+				TROUBLESHOOTGUIDE
+			elif [[ $input == 's' || $input == 'S' ]]; then
+				OSDRIVECREATION
+			else
+				SCRIPTLAYOUT
+			fi
 		fi
 	else
-		echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
-		echo -e "                                Operation Failed   "
-		if [[ "$error" == *"command not found"* ]]; then
-			echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
-		elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
-			echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
-		elif [[ "$error" == *"large enough"* ]]; then
-			echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
-		elif [[ "$error" == *"installer"* ]]; then
-			echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
-		else
-			echo -e "${RESET}${ERROR}                         An unknown error has occured"
+		if [[ ! $verbose == '1' ]]; then
+			ANIMATION &
+			anim_pid=$!
 		fi
-		echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
-		echo -e "           Press S to try again, or Y to review troubleshooting steps"
-		echo -n "                     (Press any other key to go home)... "
-		read -n 1 input
-		if [[ $input == 'y' || $input == 'Y' ]]; then
-			TROUBLESHOOTGUIDE
-		elif [[ $input == 's' || $input == 'S' ]]; then
-			OSDRIVECREATION
+		error=$(sudo "$installpath"/Contents/Resources/createinstallmedia --volume "$installer_volume_path" --nointeraction 2>&1)
+		if [[ ! $verbose == '1' ]]; then
+			kill "$anim_pid" >/dev/null 2>&1
+			wait "$anim_pid" 2>/dev/null
+		fi
+		if [[ $verbose == "1" ]]; then
+			echo -e "$error"
+		fi
+		if [[ "$error" == *"Done"* ]]; then
+			echo -e "\033[1A\033[0K${RESET}${TITLE}${BOLD}"
+			echo -n "       The drive has been created successfully. Press any key to quit... "
+			read -n 1 input
+			if [[ $input == 'q' || $input == 'Q' ]]; then
+				SCRIPTLAYOUT
+			elif [[ $input == 'w' || $input == 'W' ]]; then
+				break
+			elif [[ $input == '' ]]; then
+				SUCCESSRETURN
+			else
+				SUCCESS
+			fi
 		else
-			SCRIPTLAYOUT
+			echo -e "\033[1A\033[0K${RESET}${ERROR}${BOLD}"
+			echo -e "                                Operation Failed   "
+			if [[ "$error" == *"command not found"* ]]; then
+				echo -e "${RESET}${ERROR}                 The Installer cannot be found Please try again"
+			elif [[ "$error" == *"erasing"* || "$error" == *"mount"* ]]; then
+				echo -e "${RESET}${ERROR}         The drive cannot be erased, try formating it with Disk Utility"
+			elif [[ "$error" == *"large enough"* ]]; then
+				echo -e "${RESET}${ERROR}        This drive is too small. Try using a drive with a larger capacity"
+			elif [[ "$error" == *"installer"* ]]; then
+				echo -e "${RESET}${ERROR}          The Installer has been damaged. Try redownloading a new copy"
+			else
+				echo -e "${RESET}${ERROR}                         An unknown error has occured"
+			fi
+			echo -e "${RESET}${PROMPTSTYLE}${BOLD}"
+			echo -e "           Press S to try again, or Y to review troubleshooting steps"
+			echo -n "                     (Press any other key to go home)... "
+			read -n 1 input
+			if [[ $input == 'y' || $input == 'Y' ]]; then
+				TROUBLESHOOTGUIDE
+			elif [[ $input == 's' || $input == 'S' ]]; then
+				OSDRIVECREATION
+			else
+				SCRIPTLAYOUT
+			fi
 		fi
 	fi
 }
