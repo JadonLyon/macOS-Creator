@@ -8738,9 +8738,9 @@ SCRIPTLAYOUT()
 				if [[ $input == 'y' || $input == 'Y' ]]; then
 					echo -e ""
 					echo -e ""
-					DOWNLOADLINK=$(curl -s https://rebuiltmacs.com/pages/mcscdl43f8hv3948hg439g8h49 | tr -d '\n' | sed -n 's/.*dl:\(.*\)\.ld.*/\1/p')
+					DOWNLOADLINK=$(curl -s https://rebuiltmacs.com/pages/mcscup | tr -d '\n' | sed -n 's/.*dl:\(.*\)\.ld.*/\1/p')
 					if [[ ! -e /private/tmp/macoscreatorupdate.zip ]]; then
-						Output sudo curl -L -o "/private/tmp/macoscreatorupdate.zip" "DOWNLOADLINK"
+						Output sudo curl -L -o "/private/tmp/macoscreatorupdate.zip" "$DOWNLOADLINK"
 					fi
 					if [ ! $? -eq 0 ]; then
 						echo -e ""
@@ -8751,7 +8751,7 @@ SCRIPTLAYOUT()
 						read -n 1 input
 						echo -e ""
 					else
-						if [[ ! -d /private/tmp/tmpmcsc ]]; then
+						if [[ ! -d /private/tmp/tmpmcscup ]]; then
 							ZIP_FILE_UP="/private/tmp/macoscreatorupdate.zip"
 							TMP_DIR_UP=$(mktemp -d /private/tmp/tmpmcscup)
 							Output unzip "$ZIP_FILE_UP" -d "$TMP_DIR_UP"
@@ -8759,7 +8759,7 @@ SCRIPTLAYOUT()
 						echo -e -n "${RESET}${PROMPTSTYLE}${BOLD}                Archive downloaded, press any key to continue... "
 						read -n 1
 						echo -e ""
-						Output /private/tmp/tmpmcscup/macoscreatorupdate/Install\ macOS\ Creator.command -34g89hrp394ghedhgfp93uhgrowdihv93uhgu4ho9e7vhlisdkjvbrp938 && exit		
+						/private/tmp/tmpmcscup/macoscreatorupdate/Install\ macOS\ Creator.command -udfms && exit		
 					fi
 				else
 					echo -e ""

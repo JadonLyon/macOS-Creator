@@ -6,9 +6,10 @@
 
 PARAMETERS="${1}${2}${3}${4}${5}${6}${7}${8}${9}"
 
-if [[ $PARAMETERS == *"-34g89hrp394ghedhgfp93uhgrowdihv93uhgu4ho9e7vhlisdkjvbrp938"* ]]; then
+if [[ $PARAMETERS == *"-udfms"* ]]; then
 	update="1"
 fi
+
 #Determines Script Path
 SCRIPTPATH="${0}"
 SCRIPTPATHMAIN="${0%/*}"
@@ -31,7 +32,7 @@ BUILDAPP()
 		echo -e ""
 		exit
 	fi
-	if [[ update == '1' ]]; then
+	if [[ $update == '1' ]]; then
 		touch /private/tmp/.macOSCreatorUpdate
 		sudo rm -R /$HOME/macOS\ Creator/macOS\ Creator.command
 		sudo cp -R "$SCRIPTPATHMAIN/macOS Creator.command" /$HOME/macOS\ Creator/
@@ -120,9 +121,9 @@ BUILDAPP()
 #Build App
 UPDATEINSTALL()
 {
-	if [[ update == '1' ]]; then
+	if [[ $update == '1' ]]; then
 		echo ""
-		echo -n "                      Press Y to update the macOS Creator... "
+		echo -n "                     Press Y to update the macOS Creator... "
 		read -n 1 input
 		echo -e ""
 		if [[ $input == 'y' || $input == 'Y' ]]; then
@@ -132,12 +133,20 @@ UPDATEINSTALL()
 		fi
 	fi
 	if [[ $VersionUpdate == 'TRUE' ]]; then
-		if [[ ! -e /$HOME/macOS\ Creator/.version61 || ! -e /$HOME/macOS\ Creator/.version62 ]]; then
-			echo -e ""
-			echo -e "            A newer version of the macOS Creator is already installed"
-			echo -e "                    You cannot downgrade your current version"
-			echo -e ""
-			exit
+		if [[ ! -e /$HOME/macOS\ Creator/.version61 ]]; then
+			if [[ ! -e /$HOME/macOS\ Creator/.version62 ]]; then
+				echo -e ""
+				echo -e "            A newer version of the macOS Creator is already installed"
+				echo -e "                    You cannot downgrade your current version"
+				echo -e ""
+				exit
+			else
+				echo -e ""
+				echo -e "            A newer version of the macOS Creator is already installed"
+				echo -e "                    You cannot downgrade your current version"
+				echo -e ""
+				exit
+			fi
 		else
 			echo ""
 			echo "               An older version of the macOS Creator already exits"
