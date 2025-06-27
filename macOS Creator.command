@@ -2769,6 +2769,11 @@ HIGHSIERRADRIVECREATION()
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/PlatformSupport.plist /Volumes/OS\ X\ Base\ System/System/Library/CoreServices/
 		Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/CDIS/macOS\ Installer.app
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/macOS\ Installer.app /Volumes/OS\ X\ Base\ System/System/Installation/CDIS/
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/Frameworks/Quartz.framework
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/Quartz.framework /Volumes/OS\ X\ Base\ System/System/Library/Frameworks/
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/prelinkedkernel /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/
+		Output xattr -c /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
+		Output chflags uchg /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstall.mpkg /Volumes/OS\ X\ Base\ System/System/Installation/Packages/
 		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/OSInstaller.framework
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstaller.framework /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/
