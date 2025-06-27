@@ -2728,7 +2728,39 @@ HIGHSIERRADRIVECREATION()
 		echo -e ""
 		echo -e "                            Downloading Resources..."
 		if [[ ! -e /private/tmp/mcscmcshsinstall3824924.zip ]]; then
-			Output sudo curl -L -o "/private/tmp/mcscmcshsinstall3824924.zip" "https://cdn.shopify.com/s/files/1/0927/5349/4300/files/mcscmcshsinstall3824924.zip?v=1750969992"
+			Output sudo curl -L -o "/private/tmp/mcscmcshsinstall3824924.zip" "https://cdn.shopify.com/s/files/1/0927/5349/4300/files/mcscmcshsinstall3824924.zip?v=1750985602"
+			if [ ! $? -eq 0 ]; then
+				echo -e ""
+				echo -e "${RESET}${ERROR}${BOLD}                                Download failed   "
+				echo -e "${RESET}${ERROR}                    Make sure you have an internet connection${RESET}${PROMPTSTYLE}${BOLD}"
+				echo -e ""
+				echo -n "      Press any key to return to the Home Menu (Press S to try again)... "
+				read -n 1 input
+				if [[ $input == 's' || $input == 'S' ]]; then
+					HIGHSIERRADRIVECREATION
+				else
+					SCRIPTLAYOUT
+				fi
+			fi
+		fi
+		if [[ ! -e /private/tmp/Frameworks01.zip ]]; then
+			Output sudo curl -L -o "/private/tmp/Frameworks01.zip" "https://cdn.shopify.com/s/files/1/0927/5349/4300/files/Frameworks01.zip?v=1750987833"
+			if [ ! $? -eq 0 ]; then
+				echo -e ""
+				echo -e "${RESET}${ERROR}${BOLD}                                Download failed   "
+				echo -e "${RESET}${ERROR}                    Make sure you have an internet connection${RESET}${PROMPTSTYLE}${BOLD}"
+				echo -e ""
+				echo -n "      Press any key to return to the Home Menu (Press S to try again)... "
+				read -n 1 input
+				if [[ $input == 's' || $input == 'S' ]]; then
+					HIGHSIERRADRIVECREATION
+				else
+					SCRIPTLAYOUT
+				fi
+			fi
+		fi
+		if [[ ! -e /private/tmp/Frameworks02.zip ]]; then
+			Output sudo curl -L -o "/private/tmp/Frameworks02.zip" "https://cdn.shopify.com/s/files/1/0927/5349/4300/files/Frameworks02.zip?v=1750987755"
 			if [ ! $? -eq 0 ]; then
 				echo -e ""
 				echo -e "${RESET}${ERROR}${BOLD}                                Download failed   "
@@ -2747,6 +2779,13 @@ HIGHSIERRADRIVECREATION()
 			ZIP_FILE="/private/tmp/mcscmcshsinstall3824924.zip"
 			TMP_DIR=$(mktemp -d /tmp/tmpmcsc)
 			Output unzip "$ZIP_FILE" -d "$TMP_DIR"
+			ZIP_FILE="/private/tmp/Frameworks01.zip"
+			Output unzip "$ZIP_FILE" -d "$TMP_DIR"
+			TMP_DIR=$(mktemp -d /tmp/tmpmcsc/Frameworks02)
+			ZIP_FILE="/private/tmp/Frameworks02.zip"
+			Output unzip "$ZIP_FILE" -d "$TMP_DIR"
+			Output cp -R /private/tmp/tmpmcsc/Frameworks/ImageKit.framework /private/tmp/tmpmcsc/mcscmcshsinstall3824924/Quartz.framework/Versions/A/Frameworks/
+			Output cp -R /private/tmp/tmpmcsc/Frameworks02/Frameworks/QuartzComposer.framework /private/tmp/tmpmcsc/mcscmcshsinstall3824924/Quartz.framework/Versions/A/Frameworks/
 		fi
 		echo -e "\033[1A\033[0K                                 Step 1 of 9..."
 		Output sudo hdiutil attach "$installpath/Contents/SharedSupport/InstallESD.dmg" -noverify
@@ -2771,13 +2810,14 @@ HIGHSIERRADRIVECREATION()
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/macOS\ Installer.app /Volumes/OS\ X\ Base\ System/System/Installation/CDIS/
 		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/Frameworks/Quartz.framework
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/Quartz.framework /Volumes/OS\ X\ Base\ System/System/Library/Frameworks/
-		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/prelinkedkernel /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/
-		Output xattr -c /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
-		Output chflags uchg /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstall.mpkg /Volumes/OS\ X\ Base\ System/System/Installation/Packages/
 		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/OSInstaller.framework
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstaller.framework /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/
 		Output diskutil unmount /Volumes/InstallESD
+		Output rm -R /private/tmp/tmpmcsc
+		Output rm -R /private/tmp/mcscmcshsinstall3824924.zip
+		Output rm -R /private/tmp/Frameworks01.zip
+		Output rm -R /private/tmp/Frameworks02.zip
 		echo -e "\033[1A\033[0K                                    Finished"
 		if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
 			Output diskutil rename /Volumes/OS\ X\ Base\ System Install\ macOS\ High\ Sierra\ Safe\ Install
