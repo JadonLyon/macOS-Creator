@@ -31,8 +31,8 @@ BUILDAPP()
 		sudo rm -R /$HOME/macOS\ Creator/macOS\ Creator.command
 		sudo cp -R "$SCRIPTPATHMAIN/macOS Creator.command" /$HOME/macOS\ Creator/
 		sudo chmod +x /$HOME/macOS\ Creator/macOS\ Creator.command
-		sed -i '' '8755s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
-		sed -i '' '8754s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
+		sed -i '' '8857s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
+		sed -i '' '8856s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
 		if [[ -e /$HOME/macOS\ Creator/macOS\ Creator.command && -d /Applications/macOS\ Creator.app ]]; then
 			echo -e ""
 			echo -e "                    The script has been updated sucessfully"
@@ -94,8 +94,8 @@ BUILDAPP()
 	sudo chmod +x /$HOME/macOS\ Creator/macOS\ Creator.command
 	chflags hidden /$HOME/macOS\ Creator
 	touch /$HOME/macOS\ Creator/.homeuser
-	sed -i '' '8755s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
-	sed -i '' '8754s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
+	sed -i '' '8857s/MAINMENU/FIRSTTIME/' $HOME/macOS\ Creator/macOS\ Creator.command
+	sed -i '' '8856s/FALSE/TRUE/' $HOME/macOS\ Creator/macOS\ Creator.command
 	if [[ ! $UPGRADE == 'YES' ]]; then
 		if [[ $(uname -m) == "arm64" ]]; then
 			touch /$HOME/macOS\ Creator/.colorm1setting
