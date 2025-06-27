@@ -2767,9 +2767,11 @@ HIGHSIERRADRIVECREATION()
 		echo -e "\033[1A\033[0K                                 Step 9 of 9..."
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/InstallableMachines.plist /Volumes/OS\ X\ Base\ System/System/Installation/Packages/
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/PlatformSupport.plist /Volumes/OS\ X\ Base\ System/System/Library/CoreServices/
-		Output xattr -c /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
-		Output chflags uchg /Volumes/OS\ X\ Base\ System/System/Library/PrelinkedKernels/prelinkedkernel
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Installation/CDIS/macOS\ Installer.app
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/macOS\ Installer.app /Volumes/OS\ X\ Base\ System/System/Installation/CDIS/
 		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstall.mpkg /Volumes/OS\ X\ Base\ System/System/Installation/Packages/
+		Output rm -R /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/OSInstaller.framework
+		Output cp -R /private/tmp/tmpmcsc/mcscmcshsinstall3824924/OSInstaller.framework /Volumes/OS\ X\ Base\ System/System/Library/PrivateFrameworks/
 		Output diskutil unmount /Volumes/InstallESD
 		echo -e "\033[1A\033[0K                                    Finished"
 		if [[ -d /Volumes/OS\ X\ Base\ System/System/Installation/Packages ]]; then
