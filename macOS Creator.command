@@ -143,6 +143,131 @@ UIColors()
 			fi
 		fi
 	fi
+	if [[ "$APP" == '\033["38;5;23m' || "$APP" == '\033["38;5;158m' ]]; then
+		SETTINGCOLOR="Default Blue"
+		if [[ -e "$SCRIPTPATHMAIN/.desertsandssetting" ]]; then
+			COLORSANDS
+		elif [[ -e "$SCRIPTPATHMAIN/.forestgreensetting" ]]; then
+			COLORFOREST
+		elif [[ -e "$SCRIPTPATHMAIN/.cinnamonapplecolor" ]]; then
+			CINNAMONCOLOR
+		elif [[ -e "$SCRIPTPATHMAIN/.classicsetting" ]]; then
+			COLORCLASSIC
+		elif [[ -e "$SCRIPTPATHMAIN/.colorm1setting" ]]; then
+			COLORM1
+		fi
+	elif [[ "$APP" == '\033["38;5;130m' || "$APP" == '\033["38;5;180m' ]]; then
+		SETTINGCOLOR="Desert Sands"
+		if [[ -e "$SCRIPTPATHMAIN/.defaultbluesetting" ]]; then
+			COLORBLUE
+		elif [[ -e "$SCRIPTPATHMAIN/.forestgreensetting" ]]; then
+			COLORFOREST
+		elif [[ -e "$SCRIPTPATHMAIN/.cinnamonapplecolor" ]]; then
+			CINNAMONCOLOR
+		elif [[ -e "$SCRIPTPATHMAIN/.classicsetting" ]]; then
+			COLORCLASSIC
+		elif [[ -e "$SCRIPTPATHMAIN/.colorm1setting" ]]; then
+			COLORM1
+		fi
+	elif [[ "$APP" == '\033["38;5;22m' || "$APP" == '\033["38;5;108m' ]]; then
+		SETTINGCOLOR="Forest Green"
+		if [[ -e "$SCRIPTPATHMAIN/.desertsandssetting" ]]; then
+			COLORSANDS
+		elif [[ -e "$SCRIPTPATHMAIN/.defaultbluesetting" ]]; then
+			COLORBLUE
+		elif [[ -e "$SCRIPTPATHMAIN/.cinnamonapplecolor" ]]; then
+			CINNAMONCOLOR
+		elif [[ -e "$SCRIPTPATHMAIN/.classicsetting" ]]; then
+			COLORCLASSIC
+		elif [[ -e "$SCRIPTPATHMAIN/.colorm1setting" ]]; then
+			COLORM1
+		fi
+	elif [[ "$APP" == '\033["38;5;88m' || "$APP" == '\033["38;5;124m' ]]; then
+		SETTINGCOLOR="Cinnamon Apple"
+		if [[ -e "$SCRIPTPATHMAIN/.desertsandssetting" ]]; then
+			COLORSANDS
+		elif [[ -e "$SCRIPTPATHMAIN/.defaultbluesetting" ]]; then
+			COLORBLUE
+		elif [[ -e "$SCRIPTPATHMAIN/.forestgreensetting" ]]; then
+			COLORFOREST
+		elif [[ -e "$SCRIPTPATHMAIN/.classicsetting" ]]; then
+			COLORCLASSIC
+		elif [[ -e "$SCRIPTPATHMAIN/.colorm1setting" ]]; then
+			COLORM1
+		fi
+	elif [[ "$APP" == '\033["38;5;0m' || "$APP" == '\033["38;5;255m' ]]; then
+		if [[ "$MACOSVERSION" == 10.5 || "$MACOSVERSION" == 10.6 || "$MACOSVERSION" == 10.7 || "$MACOSVERSION" == 10.8 || "$MACOSVERSION" == 10.9 || "$MACOSVERSION" == 10.10 || "$MACOSVERSION" == 10.11 || "$MACOSVERSION" == 10.12 || "$MACOSVERSION" == 10.13 ]]; then
+			SETTINGCOLOR="Classic Black"
+			if [[ -e "$SCRIPTPATHMAIN/.desertsandssetting" ]]; then
+				COLORSANDS
+			elif [[ -e "$SCRIPTPATHMAIN/.forestgreensetting" ]]; then
+				COLORFOREST
+			elif [[ -e "$SCRIPTPATHMAIN/.cinnamonapplecolor" ]]; then
+				CINNAMONCOLOR
+			elif [[ -e "$SCRIPTPATHMAIN/.defaultbluesetting" ]]; then
+				COLORBLUE
+			elif [[ -e "$SCRIPTPATHMAIN/.colorm1setting" ]]; then
+				COLORM1
+			fi
+		else
+			if [[ "$UIAPPEARANCE" == "Dark" ]]; then
+				SETTINGCOLOR="Classic White"
+				if [[ -e "$SCRIPTPATHMAIN/.desertsandssetting" ]]; then
+					COLORSANDS
+				elif [[ -e "$SCRIPTPATHMAIN/.forestgreensetting" ]]; then
+					COLORFOREST
+				elif [[ -e "$SCRIPTPATHMAIN/.cinnamonapplecolor" ]]; then
+					CINNAMONCOLOR
+				elif [[ -e "$SCRIPTPATHMAIN/.defaultbluesetting" ]]; then
+					COLORBLUE
+				elif [[ -e "$SCRIPTPATHMAIN/.colorm1setting" ]]; then
+					COLORM1
+				fi
+			else
+				SETTINGCOLOR="Classic Black"
+				if [[ -e "$SCRIPTPATHMAIN/.desertsandssetting" ]]; then
+					COLORSANDS
+				elif [[ -e "$SCRIPTPATHMAIN/.forestgreensetting" ]]; then
+					COLORFOREST
+				elif [[ -e "$SCRIPTPATHMAIN/.cinnamonapplecolor" ]]; then
+					CINNAMONCOLOR
+				elif [[ -e "$SCRIPTPATHMAIN/.defaultbluesetting" ]]; then
+					COLORBLUE
+				elif [[ -e "$SCRIPTPATHMAIN/.colorm1setting" ]]; then
+					COLORM1
+				fi
+			fi
+		fi
+	elif [[ "$APP" == '\033["38;5;214m' || "$APP" == '\033["38;5;185m' ]]; then
+		if [[ $(uname -m) == "arm64" ]]; then
+			SETTINGCOLOR="Apple Silicone"
+			if [[ -e "$SCRIPTPATHMAIN/.desertsandssetting" ]]; then
+				COLORSANDS
+			elif [[ -e "$SCRIPTPATHMAIN/.forestgreensetting" ]]; then
+				COLORFOREST
+			elif [[ -e "$SCRIPTPATHMAIN/.cinnamonapplecolor" ]]; then
+				CINNAMONCOLOR
+			elif [[ -e "$SCRIPTPATHMAIN/.classicsetting" ]]; then
+				COLORCLASSIC
+			elif [[ -e "$SCRIPTPATHMAIN/.defaultbluesetting" ]]; then
+				COLORBLUE
+			fi
+		else
+			if [[ $HOMEUSER == 'YES' ]]; then
+				cd "$SCRIPTPATHMAIN"
+				Output rm -R .colorm1setting
+			fi
+			COLORCLASSIC
+		fi
+	else
+		MODIFIEDCOLORS="YES"
+		SETTINGCOLOR="Unknown"
+	fi
+	if [[ $UIAPPEARANCE == 'Dark' ]]; then
+		APPLECHIPINFO="\033[38;5;117mApp\033[38;5;111mle \033[38;5;135mSili\033[38;5;207mcone"
+	else
+		APPLECHIPINFO="\033[38;5;33mApp\033[38;5;63mle \033[38;5;129mSili\033[38;5;163mcone"
+	fi
 }
 VERSION_URL="https://raw.githubusercontent.com/JadonLyon/macOS-Creator-Resources/refs/heads/main/macOS%20Creator%20Version.txt"
 CURRENT_VERSION="7.0"
@@ -153,3 +278,185 @@ PreUpdate()
 		UPDATEAVAILABLE="YES"
 	fi
 }
+
+# - Text and Animations -
+ANIMATIONDRIVE()
+{
+	local frames=("..." "   " ".  " ".. ")
+		while true; do
+			for frame in "${frames[@]}"; do
+				echo -ne "\r                              Creating the drive$frame   "
+				sleep 0.7
+			done
+		done
+}
+ANIMATIONDOWNLOAD()
+{
+	local frames=("..." "   " ".  " ".. ")
+		while true; do
+			for frame in "${frames[@]}"; do
+				echo -ne "\r                                Downloading$frame   "
+				sleep 0.7
+			done
+		done
+}
+WINDOWBAR()
+{
+	if [[ $GRAPHICSSAFE == 'YES' ]]; then
+		clear
+		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
+			echo -e "${APP}${BOLD}                    macOS Creator ${RESET}${APP}V7.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+		elif [[ $verbose == '1' ]]; then
+			echo -e "${APP}${BOLD}                           macOS Creator ${RESET}${APP}V7.0${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
+		elif [[ $safe == '1' || $safe == '2' ]]; then
+			echo -e "${APP}${BOLD}                         macOS Creator ${RESET}${APP}V7.0${BOLD} ${WARNING}(Safe Mode)${APP}${BOLD}"
+		else
+			echo -e "${APP}${BOLD}                               macOS Creator ${RESET}${APP}V7.0${BOLD}"
+		fi
+		echo -e ""
+	else
+		clear
+		if [[ $verbose == '1' && $safe == '1' || $verbose == '1' && $safe == '2' ]]; then
+			echo -e "${APP}${BOLD}                    macOS Creator ${RESET}${APP}V7.0${BOLD} ${WARNING}(Verbose & Safe Mode)${APP}${BOLD}"
+		elif [[ $verbose == '1' ]]; then
+			echo -e "${APP}${BOLD}                          macOS Creator ${RESET}${APP}V7.0${BOLD} ${WARNING}(Verbose)${APP}${BOLD}"
+		elif [[ $safe == '1' || $safe == '2' ]]; then
+			echo -e "${APP}${BOLD}                         macOS Creator ${RESET}${APP}V7.0${BOLD} ${WARNING}(Safe Mode)${APP}${BOLD}"
+		else
+			echo -e "${APP}${BOLD}                               macOS Creator ${RESET}${APP}V7.0${BOLD}"
+		fi
+		echo -e "»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
+	fi
+}
+WINDOWBAREND()
+{
+	echo -e ""
+	echo -n -e "${RESET}${CANCEL}${BOLD}                              Press Q to quit... "
+	read -n 1 input
+	if [[ $input == 'q' || $input == 'Q' ]]; then
+		echo -e ""
+		echo -e "\033[1A\033[0K                                Script Canceled"
+		if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
+			echo -e "${RESET}${APP}${BOLD}"
+			echo -e "»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
+			echo -e "${RESET}"
+		fi
+		exit
+	else
+		echo -e "${RESET}"
+	fi
+}
+WINDOWERROR()
+{
+	echo -e ""
+	echo -e "${RESET}${ERROR}${BOLD}"
+	echo -n "                 Invalid command. Press any key to try again... "
+	read -n 1
+	echo -e "${RESET}"
+}
+SUCCESS()
+{
+	echo -e ""
+	echo -e ""
+	echo -e "${RESET}${CANCEL}${BOLD}                     Thank you for using the macOS Creator"
+	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
+		echo -e "${RESET}${APP}${BOLD}"
+		echo -e "»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
+		echo -e "${RESET}"
+	fi
+	exit
+}
+SUCCESSRETURN()
+{
+	echo -e ""
+	echo -e "${RESET}${CANCEL}${BOLD}                     Thank you for using the macOS Creator"
+	if [[ ! $GRAPHICSSAFE == 'YES' ]]; then
+		echo -e "${RESET}${APP}${BOLD}"
+		echo -e "»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
+		echo -e "${RESET}"
+	fi
+	exit
+}
+UIColors
+MENU_SELECTOR()
+{
+    local options=("$@")
+    local selected=0
+    local key
+    local num_options=${#options[@]}
+    echo
+    for i in "${!options[@]}"; do
+        if [[ $i -eq $selected ]]; then
+            printf "  > \033[1;32m%s\033[0m\n" "${options[$i]}"
+        else
+            printf "    %s\n" "${options[$i]}"
+        fi
+    done
+    while true; do
+        tput cuu $num_options
+        for i in "${!options[@]}"; do
+            if [[ $i -eq $selected ]]; then
+                printf "  > \033[1;32m%s\033[0m\n" "${options[$i]}"
+            else
+                printf "    %s\n" "${options[$i]}"
+            fi
+        done
+        IFS= read -rsn1 key
+        case "$key" in
+            $'\x1b')
+                IFS= read -rsn2 -t 1 rest || continue
+                case "$rest" in
+                    "[A")
+                        ((selected--))
+                        ((selected < 0)) && selected=$((num_options - 1))
+                        ;;
+                    "[B")
+                        ((selected++))
+                        ((selected >= num_options)) && selected=0
+                        ;;
+                esac
+                ;;
+            "")
+                return $selected
+                ;;
+            [Qq])
+                return 001
+                ;;
+            [Cc])
+                return 002
+                ;;
+            *)
+                ;;
+        esac
+    done
+}
+MAINMENU()
+{
+	if [[ $FIRSTTIMEHERE=='TRUE' ]]; then
+		cd "$SCRIPTPATHMAIN"
+		sed -i '' '8856s/TRUE/FALSE/' macOS\ Creator.command
+	fi
+	FIRSTTIMEHERE="FALSE"
+	ENTERHERE="TRUE"
+	WINDOWBAR
+	echo -e "${RESET}${TITLE}${BOLD}                            macOS Creator Home menu${RESET}"
+	echo -e "${RESET}${BODY}                        Press ${BOLD}W${RESET}${BODY} to see list of controls${RESET}"
+	echo -e "${CANCEL}                     To show the help menu, press the ${BOLD}? ${RESET}${CANCEL}key${RESET}"
+	echo -e ""
+	echo -e "${TITLE}${BOLD}                            Please choose an option:${RESET}${BODY}"
+	menuoptions=("Search for macOS installer in your Applications folder" \
+             	"Manually provide macOS Installer" \
+             	"Download macOS Installer" \
+             	"Identify Mac model" \
+             	"Settings")
+	MENU_SELECTOR "${menuoptions[@]}"
+	selection=$?
+	if [[ $selection -eq 001 ]]; then
+    	echo "User pressed ESC (going back)"
+    elif [[ $selection -eq 002 ]]; then
+    	echo "Credits"
+	else
+    	echo "User selected: ${menuoptions[$selection]}"
+	fi
+}
+MAINMENU
