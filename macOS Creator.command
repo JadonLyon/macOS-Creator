@@ -48,3 +48,19 @@ PreRunOS()
 }
 SCRIPTPATH="${0}"
 SCRIPTPATHMAIN="${0%/*}"
+VERSION_URL="https://raw.githubusercontent.com/JadonLyon/macOS-Creator-Resources/refs/heads/main/macOS%20Creator%20Version.txt"
+CURRENT_VERSION="7.0"
+LATEST_VERSION=$(curl -s https://raw.githubusercontent.com/JadonLyon/macOS-Creator-Resources/refs/heads/main/macOS%20Creator%20Version.txt)
+PreRunUpdate()
+{
+	if [[ $RUNUPDATE == 'TRUE' ]]; then
+		if [[ ! "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
+			echo "New Version Available: $LATEST_VERSION"
+			exit
+		else
+			echo "Updated"
+			exit
+		fi
+	fi
+}
+PreRunUpdate
